@@ -20,6 +20,9 @@ mongodb().then(() => {
     });
     app.use('/api',require('./Routes/CreateUser'));
     app.use('/api',require('./Routes/LoginUser'));
+    app.use('/api',require('./Routes/OtpGeneration'));
+    app.use('/api',require('./Routes/OtpMatching'));
+    app.use('/api',require('./Routes/NewPassword'));
     app.listen(port, () => {
         console.log(`Virtual dtock market Platform listening on port ${port}`);
     });

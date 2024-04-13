@@ -25,6 +25,10 @@ const userschema = new Schema({
         type:String,
         required:true
     },
+    otp:{
+        type:String,
+        default:null
+    },
     date: { 
         type: Date, 
         default: Date.now 

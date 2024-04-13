@@ -11,6 +11,7 @@ router.post('/createuser',
         .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
         .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character').trim(),
+    body('confirmpassword').notEmpty().withMessage('Confirm Password must not be empty.'),
     body('name').notEmpty().withMessage('Name is required').trim(),
     body('username').notEmpty().withMessage('username is required').isLength({ min: 3 }).withMessage('username must be atleast 3 characters long').trim(),
     body('phone').notEmpty().withMessage('phone is required').isMobilePhone().withMessage('Not a valid phone number')
