@@ -11,7 +11,6 @@ router.use(
     })
 );
 
-router.get('/', test)
 router.post('/register', registerUser)
 router.post('/login', (req, res) => {
     loginUser
