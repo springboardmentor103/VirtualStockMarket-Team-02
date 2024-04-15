@@ -1,26 +1,23 @@
-const express = require("express");
+const express = require('express');
+const dotenv = require('dotenv').config()
+const cors = require('cors');
+const {mongoose} = require('mongoose');
+const cookieParser = require('cookie-parser');
 const app = express();
-const PORT = 8008;
 
+
+//Database connection
+mongoose.connect(process.env.MONGO_URL)
+.then(() => console.log('Database Connected'))
+.catch((err) => console.log('Database Not Connected', err))
+
+// Middleware
 app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({extended: false}))
 
-app.get('/Login', (req, res) => {
-    res.status(200).send({
-        Login: "is working"
-    });
-});
 
-app.post('/Login/:id', (req, res) => {
-    const { id } = req.params;
-    const { Login } = req.body;
+app.use('/' , require('./routes/authRoutes'));
 
-    if (!Login) {
-        res.status(418).send({ message: "you need to login" });
-    } else {
-        res.send({ Login: `Login with ${id}` });
-    }
-});
-
-app.listen(PORT, () => {
-    console.log(`API is live at port ${PORT}`);
-});
+const port = 8000;
+app.listen(port, () => console.log(`server is running on port ${port}`));
