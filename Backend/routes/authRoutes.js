@@ -5,7 +5,7 @@ const {test,registerUser,loginUser}=require("../controllers/authController")
 
 
 //middleWare
-
+// add as per hosting port
 router.use(
     cors({
         credentials:true,

@@ -8,7 +8,9 @@ const {mongoose}=require("mongoose");
 dotenv.config();
 //mongoose connection
 mongoose.connect(process.env.MONGO_URL).then(()=>
-    console.log("Database connected")
+    console.log(
+        // ("Database connected")
+    )
 )
 .catch((err)=>console.log("database not connected",err));
 
@@ -18,4 +20,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({extended:false}))
 app.use('/',require("./routes/authRoutes"))
 
-app.listen(port,()=>{console.log(`server is running on ${port}`)})
+app.listen(port,()=>{
+    // console.log(`server is running on ${port}`)
+})
+
