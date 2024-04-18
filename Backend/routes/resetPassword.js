@@ -3,6 +3,11 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
+// To generate a random OTP
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
+};
+
 router.post("/reset", async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
@@ -14,11 +19,17 @@ router.post("/reset", async (req, res) => {
     }
 
     // Verify OTP 
+    if (user.otp !== otp) {
+      return res.status(400).json({ msg: "Invalid OTP" });
+    }
 
     // Hash new password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
 
+    // Clear OTP after password reset
+    user.otp = undefined;
+    
     await user.save();
 
     res.status(200).json({ msg: "Password reset successfully" });
