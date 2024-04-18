@@ -1,26 +1,34 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const dotenv = require("dotenv");
 const app = express();
-const PORT = 8008;
 
-app.use(express.json());
+// Load environment variables from .env file
+dotenv.config();
 
-app.get('/Login', (req, res) => {
-    res.status(200).send({
-        Login: "is working"
-    });
-});
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
 
-app.post('/Login/:id', (req, res) => {
-    const { id } = req.params;
-    const { Login } = req.body;
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log(
+    //"MongoDB connected"
+  ))
+  .catch((err) => console.log(err));
 
-    if (!Login) {
-        res.status(418).send({ message: "you need to login" });
-    } else {
-        res.send({ Login: `Login with ${id}` });
-    }
-});
+// Routes
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/password", require("./routes/forgetPassword"));
+app.use("/api/password", require("./routes/resetPassword"));
 
-app.listen(PORT, () => {
-    console.log(`API is live at port ${PORT}`);
-});
+// Start server
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+    //console.log(`Server running on port ${port}`)
+}
+);
+
