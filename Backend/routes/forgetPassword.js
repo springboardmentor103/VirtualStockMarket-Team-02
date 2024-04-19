@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
 const User = require("../models/User");
 
+// Send verification OTP
 router.post("/forgot", async (req, res) => {
   const { email } = req.body;
 
@@ -15,6 +16,8 @@ router.post("/forgot", async (req, res) => {
     }
 
     const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false, expiresIn: 300 });
+    user.resetPasswordOTP = otp;
+    await user.save();
 
     // Send OTP to user's email
     const transporter = nodemailer.createTransport({
@@ -29,7 +32,7 @@ router.post("/forgot", async (req, res) => {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Password Reset OTP",
-      text: `Your OTP for password reset is ${otp}. This OTP is valid for 5 minutes.`,
+      text: `Your OTP for reset password is ${otp}. This OTP is valid for 5 minutes.`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -41,9 +44,8 @@ router.post("/forgot", async (req, res) => {
         return res.status(200).json({ msg: "OTP sent to your email. Please check your inbox." });
       }
     });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+  } catch (error) {
+    res.status(500).json({ msg: error.message});
   }
 });
 
