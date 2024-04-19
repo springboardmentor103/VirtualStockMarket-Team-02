@@ -3,13 +3,23 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
-// To generate a random OTP
-const generateOTP = () => {
-  return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
-};
+// Verify OTP 
+router.post('/verify-otp', async (req, res) => {
+  const { email, otp } = req.body; 
+  try {
+    const user = await User.findOne({ email });
+    if (!user || user.resetPasswordOTP !== otp) {
+      return res.status(400).json({ msg: "Invalid OTP" });
+    }
+    res.json({ msg: "OTP verified successfully"});
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
 
+// Reset Password
 router.post("/reset", async (req, res) => {
-  const { email, otp, newPassword } = req.body;
+  const { email, newPassword } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -18,24 +28,18 @@ router.post("/reset", async (req, res) => {
       return res.status(400).json({ msg: "User not found" });
     }
 
-    // Verify OTP 
-    if (user.otp !== otp) {
-      return res.status(400).json({ msg: "Invalid OTP" });
-    }
-
     // Hash new password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
 
-    // Clear OTP after password reset
-    user.otp = undefined;
+    // Clear OTP after reset password
+    user.resetPasswordOTP = null;
     
     await user.save();
 
     res.status(200).json({ msg: "Password reset successfully" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+  } catch (error) {
+    res.status(500).json({ msg: error.message});
   }
 });
 
