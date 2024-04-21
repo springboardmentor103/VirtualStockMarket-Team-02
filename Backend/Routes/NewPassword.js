@@ -81,7 +81,6 @@ router.post(
         .status(200)
         .json({ success: true, message: "New Password Created successfully." });
     } catch (error) {
-      console.error("Error:", error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error." });

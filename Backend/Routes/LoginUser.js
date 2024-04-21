@@ -62,7 +62,6 @@ router.post(
         message: "Login successfull.",
       });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ success: false, message: "Server Error" });
     }
   }

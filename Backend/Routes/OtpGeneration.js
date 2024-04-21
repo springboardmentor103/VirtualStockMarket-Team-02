@@ -91,7 +91,6 @@ router.post(
         _id: EmailExists._id,
       });
     } catch (error) {
-      console.error("Error sending OTP:", error);
       res.status(500).json({
         success: false,
         message: { error: ["Failed to send OTP."] },

@@ -77,7 +77,6 @@ router.post(
         });
       }
     } catch (error) {
-      console.error("Error matching OTP:", error);
       res
         .status(500)
         .json({ success: false, message: "Failed to match OTP.", error });

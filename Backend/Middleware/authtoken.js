@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const user = require("../Models/User");
 const verifyauthtoken = (req, res, next) => {
   if (!req.cookies.authToken) {
     if (
@@ -16,7 +15,6 @@ const verifyauthtoken = (req, res, next) => {
     process.env.ACCESS_SECRET,
     (err, payload) => {
       if (err) {
-        console.log(err);
         return res.status(401).json({ success: false, message: err.name });
       }
       if (
@@ -36,10 +34,6 @@ const verifyauthtoken = (req, res, next) => {
 const verifyotptoken = async (req, res, next) => {
   if (!req.cookies.otpToken) {
     if (req.url === `/otpmatching/${req.params._id}`) {
-      /*await user.findByIdAndUpdate(
-        { _id: req.params._id },
-        { otp: { iv: null, encryptedData: null } }
-      );*/
       return res.status(401).json({
         success: false,
         message: "either otp expired or you didn't generate otp try again.",
@@ -49,7 +43,6 @@ const verifyotptoken = async (req, res, next) => {
   }
   jwt.verify(req.cookies.otpToken, process.env.OTP_ACCESS, (err, payload) => {
     if (err) {
-      console.log(err);
       return res.status(401).json({ success: false, message: err.name });
     }
 
@@ -72,7 +65,6 @@ const verifyotpmatching = async (req, res, next) => {
     process.env.OTPMATCH_ACCESS,
     (err, payload) => {
       if (err) {
-        console.log(err);
         return res.status(401).json({ success: false, message: err.name });
       }
 
@@ -93,7 +85,6 @@ const generateauthtoken = (id) => {
       { expiresIn: "7d" },
       (err, token) => {
         if (err) {
-          console.error("Error signing authToken:", err);
           reject(err);
         }
         resolve(token);
@@ -113,7 +104,6 @@ const generateotptoken = (id) => {
       { expiresIn: "10m" },
       (err, token) => {
         if (err) {
-          console.error("Error signing authToken:", err);
           reject(err);
         }
         resolve(token);
@@ -133,7 +123,6 @@ const generateotpmatching = (id) => {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) {
-          console.error("Error signing authToken:", err);
           reject(err);
         }
         resolve(token);
