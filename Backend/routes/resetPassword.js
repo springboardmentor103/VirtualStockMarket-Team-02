@@ -3,10 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
-// To generate a random OTP
-const generateOTP = () => {
-  return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
-};
+// Reset Password Route
 
 router.post("/reset", async (req, res) => {
   const { email, otp, newPassword } = req.body;
