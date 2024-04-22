@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
 const User = require("../models/User");
 
+// Forgot Password Route
 router.post("/forgot", async (req, res) => {
   const { email } = req.body;
 
