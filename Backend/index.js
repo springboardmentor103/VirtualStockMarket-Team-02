@@ -22,8 +22,9 @@ mongoose
 
 // Routes
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/password", require("./routes/forgetPassword"));
-app.use("/api/password", require("./routes/resetPassword"));
+app.use("/api/forgot", require("./routes/forgetPassword"));
+app.use("/api/reset", require("./routes/resetPassword"));
+app.use("/api/dashboard", require("./routes/dashboardRoute"));
 
 // Start server
 const port = process.env.PORT || 5000;
