@@ -1,80 +1,30 @@
-/* Update CSS to match the form structure */
-
-.card {
-  padding: 2em;
+.App {
+  text-align: center;
 }
 
-.read-the-docs {
-  color: #888;
-}
 
-* {
-  box-sizing: border-box;
-}
 
-body {
-  background: url(./assets/stock1.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 100%;
-}
 
-.container {
-  display: flex !important;
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: flex-end;
-  height: 100vh;
-  max-width: 500px;
-  width: 100%;
-  margin: auto;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.container > form {
-  width: 70%;
-  border: 1px solid #dfdfdf;
-  padding: 20px;
-  border-radius: 5px;
-  background: transparent;
-  align-self: flex-end;
+.App-link {
+  color: #61dafb;
 }
 
-input {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  width: calc(100% - 20px); /* Adjusted to accommodate margin */
-  border: 1px solid #ccc;
-}
-
-button {
-  background: #05b462 !important;
-  padding: 10px;
-  border-radius: 5px;
-  width: 100%;
-  margin-top: 10px; /* Added margin for spacing */
-  border: none;
-  color: #fff;
-  cursor: pointer;
-}
-
-p.error {
-  color: #ff0000;
-  margin-top: 5px;
-}
-
-body {
-  background-image: url("./assets/stock1.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 100%;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  color: white; /* Set label color to white */
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
