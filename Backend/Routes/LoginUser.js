@@ -8,11 +8,11 @@ const { validateloginuser } = require("../Middleware/validate");
 router.post(
   "/loginuser",
   [
-    body("username")
+    body("email")
       .notEmpty()
-      .withMessage("username is required.")
-      .isLength({ min: 3 })
-      .withMessage("Username must be at least 3 characters long"),
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Invalid Email format"),
     body("password")
       .notEmpty()
       .withMessage("Password is required.")
@@ -27,14 +27,14 @@ router.post(
   ],
   validateloginuser,
   async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
-      const userData = await user.findOne({ username: username });
+      const userData = await user.findOne({ email: email });
 
       if (!userData) {
         return res.status(400).json({
           success: false,
-          message: { username: ["Username Invalid"] },
+          message: { email: ["Email Invalid"] },
         });
       }
 

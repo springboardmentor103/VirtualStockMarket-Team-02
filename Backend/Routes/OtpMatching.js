@@ -30,19 +30,19 @@ const decryptOTP = (encryptedOTP) => {
 };
 
 router.post(
-  "/otpmatching/:_id",
+  "/otpmatching",
   [body("otp").notEmpty().withMessage("otp is required")],
   validateotpmatching,
   verifyauthtoken,
   verifyotptoken,
   async (req, res) => {
     try {
-      const otpExists = await user.findById({ _id: req.params._id });
+      const otpExists = await user.findById({ _id: req.payload._id });
 
       if (otpExists) {
         const decryptedOTP = decryptOTP(otpExists.otp);
         if (decryptedOTP === req.body.otp) {
-          await user.findByIdAndUpdate(req.params._id, {
+          await user.findByIdAndUpdate(req.payload._id, {
             otp: { iv: null, encryptedData: null, expiry: null },
           });
           res.clearCookie("otpToken");

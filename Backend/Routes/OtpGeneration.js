@@ -18,13 +18,13 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again later",
 });
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: process.env.EMAIL_SERVICE,
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
-    user: process.env.USER,
-    pass: process.env.APP_PASSWORD,
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 const encryptOTP = (otpValue) => {
@@ -71,7 +71,7 @@ router.post(
       }
       const otpValue = otpgenerate();
       const encryptedotp = encryptOTP(otpValue);
-      encryptedotp.expiry = new Date(Date.now() + 60000);
+      encryptedotp.expiry = new Date(Date.now() + 600000);
       await transporter.sendMail({
         from: process.env.USER,
         to: req.body.email,

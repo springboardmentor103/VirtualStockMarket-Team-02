@@ -3,8 +3,8 @@ const verifyauthtoken = (req, res, next) => {
   if (!req.cookies.authToken) {
     if (
       req.url === "/otpgenerate" ||
-      req.url === `/otpmatching/${req.params._id}` ||
-      req.url === `/newpassword/${req.params._id}`
+      req.url === `/otpmatching` ||
+      req.url === `/newpassword`
     ) {
       return next();
     }
@@ -19,8 +19,8 @@ const verifyauthtoken = (req, res, next) => {
       }
       if (
         req.url === "/otpgenerate" ||
-        req.url === `/otpmatching/${req.params._id}` ||
-        req.url === `/newpassword/${req.params._id}`
+        req.url === `/otpmatching` ||
+        req.url === `/newpassword`
       ) {
         return res
           .status(400)
@@ -33,7 +33,7 @@ const verifyauthtoken = (req, res, next) => {
 };
 const verifyotptoken = async (req, res, next) => {
   if (!req.cookies.otpToken) {
-    if (req.url === `/otpmatching/${req.params._id}`) {
+    if (req.url === `/otpmatching`) {
       return res.status(401).json({
         success: false,
         message: "either otp expired or you didn't generate otp try again.",
@@ -52,7 +52,7 @@ const verifyotptoken = async (req, res, next) => {
 };
 const verifyotpmatching = async (req, res, next) => {
   if (!req.cookies.otpmatchToken) {
-    if (req.url === `/newpassword/${req.params._id}`) {
+    if (req.url === `/newpassword`) {
       return res.status(401).json({
         success: false,
         message: "you should verify otp first.",
