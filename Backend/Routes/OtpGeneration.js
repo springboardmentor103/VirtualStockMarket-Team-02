@@ -76,7 +76,7 @@ router.post(
         from: process.env.USER,
         to: req.body.email,
         subject: "Your OTP for Verification",
-        text: `Your OTP is: ${otpValue}`,
+        text: `Your OTP is: ${otpValue}. it will be expire in 10 min.`,
       });
       await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
       const otpToken = await generateotptoken(EmailExists._id);

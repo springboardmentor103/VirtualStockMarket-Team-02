@@ -56,7 +56,7 @@ router.post(
             success: true,
             message: {
               otp: [
-                "OTP matches successfully continue to create new password.",
+                "OTP matches  successfully continue to create new password.",
               ],
             },
           });

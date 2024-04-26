@@ -7,7 +7,7 @@ const scheduleOTPExpirationCheck = () => {
       "otp.expiry": { $exists: true, $ne: null },
     });
     await Promise.all(
-      usersWithIVAndEncryptedData.map(async (value, index) => {
+      usersWithIVAndEncryptedData.map(async (value) => {
         if (value.otp.expiry.getTime() - newDate < 0) {
           await user.updateOne(
             { _id: value._id },

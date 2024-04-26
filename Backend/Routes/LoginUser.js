@@ -59,7 +59,7 @@ router.post(
       res.cookie("authToken", authToken, cookieOptions);
       return res.json({
         success: true,
-        message: "Login successfull.",
+        message: "Login successfull. ",
       });
     } catch (error) {
       res.status(500).json({ success: false, message: "Server Error" });

@@ -26,7 +26,7 @@ router.post(
       .trim(),
     body("name")
       .notEmpty()
-      .withMessage("name is required")
+      .withMessage("name is required .")
       .isLength({ min: 3 })
       .withMessage("name must be atleast 3 characters long")
       .trim(),
