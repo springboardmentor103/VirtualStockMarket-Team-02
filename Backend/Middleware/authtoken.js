@@ -36,7 +36,7 @@ const verifyotptoken = async (req, res, next) => {
     if (req.url === `/otpmatching`) {
       return res.status(401).json({
         success: false,
-        message: "either otp expired or you didn't generate otp try again. ",
+        message: "either otp expired or you didn't generate otp try again.",
       });
     }
     return res.status(401).json({ success: false, message: "Access Denied." });
