@@ -28,7 +28,7 @@ mongodb()
     app.use("/api", require("./Routes/NewPassword"));
     app.use("/api", require("./Routes/LogoutUser"));
     app.listen(port, () => {
-      console.log(`Virtual stock market Platform listening on port ${port}`);
+      console.log(`Virtual stock  market Platform listening on port ${port}`);
     });
   })
   .catch((err) => {

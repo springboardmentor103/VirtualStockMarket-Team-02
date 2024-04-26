@@ -45,7 +45,7 @@ router.post(
         return res.status(400).json({
           success: false,
           message: [
-            { password: ["password and  confirm password are not equal."] },
+            { password: ["password and confirm password are not equal."] },
             {
               confirmpassword: ["password and confirm password are not equal."],
             },

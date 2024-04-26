@@ -8,7 +8,7 @@ router.delete(
       if (req.cookies.authToken) {
         res.clearCookie("authToken");
         return res.status(200).send({
-          message: "User Logged Out Successfully .",
+          message: "User Logged Out Successfully.",
         });
       }
       return res.status(400).send({
