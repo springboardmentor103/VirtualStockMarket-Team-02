@@ -27,6 +27,10 @@ mongodb()
     app.use("/api", require("./Routes/OtpMatching"));
     app.use("/api", require("./Routes/NewPassword"));
     app.use("/api", require("./Routes/LogoutUser"));
+    app.use("/api", require("./Routes/stockPricesRoute"));
+    app.use("/api", require("./Routes/stockPricesRoute2"));
+
+
     app.listen(port, () => {
       console.log(`Virtual dtock market Platform listening on port ${port}`);
     });
