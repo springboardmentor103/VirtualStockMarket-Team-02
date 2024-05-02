@@ -1,10 +1,12 @@
 import React from 'react';
-import bg from 'C:/Users/SHREYA DHADSE/Desktop/Lakshitaa/sample/src/Login/login_page.jpg';
+import bg from '../Images/login_page.png';
 import '../Login/login.css';
+import { Link } from 'react-router-dom';
 
 function login() {
     console.log(bg);
     return (
+        
         <div className="login-container">
             <img src={bg} alt='bg' />
             <div className="overlay-contant">
@@ -15,11 +17,11 @@ function login() {
                         <label>
                             E-mail
                         </label>
-                        <input className="text" type="email" placeholder=' Enter Email' name='email' required />
+                        <div><input className="text" type="email" placeholder=' Enter Email' name='email' required /></div>
                         <label>
                             Password
                         </label>
-                        <input className="text" type="password" placeholder=' Enter password' name='password' required />
+                        <div><input className="text" type="password" placeholder=' Enter password' name='password' required /></div>
 
                        <div class ="for-pass">
 
@@ -30,23 +32,28 @@ function login() {
                             </div>
 
                             <div class = "forgetpassword">
-                                <a href="#" className="forgot-password">Forgot password?</a>
+                                {/* Use Link component instead of anchor tag */}
+                                <Link to="/forgetPassword" className="forgot-password">Forgot password?</Link>
                             </div> 
                             </div> 
+                            {/* <div class = "forgetpassword">
+                                <a href="/forgetPassword" className="forgot-password">Forgot password?</a>
+                            </div> 
+                            </div>  */}
                         
-                    <button class="btn">Login</button>
+                        <button class="btn">Login</button>
 
-                    <div class = "donthaveacc">
+                        <div class = "donthaveacc">
                             <div>
                                 <label for = "donthaveacc"> 
                                 <span id = "account">Dont have an account?  </span> </label>
                             </div>
 
-                            <div class ="divsign">
+                            <span class ="divsign">
                                 <a href="#" class="signup">Signup</a>
-                            </div>
+                            </span>
 
-                    </div>
+                        </div>
                         
                     </form>
                 </div>
