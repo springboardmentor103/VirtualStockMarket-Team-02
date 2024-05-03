@@ -15,7 +15,7 @@ router.post("/forgot", async (req, res) => {
     }
 
     const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false, expiresIn: 300 });
-
+    
     // Send OTP to user's email
     const transporter = nodemailer.createTransport({
       service: process.env.EMAIL_SERVICE,

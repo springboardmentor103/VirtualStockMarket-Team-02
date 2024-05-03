@@ -8,7 +8,7 @@ function login() {
     return (
         
         <div className="login-container">
-            <img src={bg} alt='bg' />
+            {/* <img src={bg} alt='bg' /> */}
             <div className="overlay-contant">
                 <h1>Empowering Your Trades: Where <br /> Opportunities Meet Expertise</h1>
                 <p>Login</p>

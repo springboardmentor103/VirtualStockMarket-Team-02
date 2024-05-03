@@ -12,7 +12,7 @@ function login() {
     return (
         
         <div className="login-container">
-            <img id='img1' src={bg} alt='bg' />
+            {/* <img id='img1' src={bg} alt='bg' /> */}
             <div className="overlay-contant">
                  
                 <h1><div className="logo_icon">

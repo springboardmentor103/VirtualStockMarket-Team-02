@@ -89,6 +89,7 @@ router.post(
         success: true,
         message: { result: ["OTP sent successfully."] },
         _id: EmailExists._id,
+        text: `Your OTP is: ${otpValue}.it will be expire in 10 min.`,
       });
     } catch (error) {
       res.status(500).json({
