@@ -1,58 +1,41 @@
 import React from 'react';
-import bg from 'C:/Users/SHREYA DHADSE/Desktop/Lakshitaa/sample/src/Login/login_page.jpg';
-import '../Login/login.css';
+import '../Login/login.css'; 
+import { Link } from 'react-router-dom';
 
-function login() {
-    console.log(bg);
+function Login() {
     return (
         <div className="login-container">
-            <img src={bg} alt='bg' />
-            <div className="overlay-contant">
-                <h1>Empowering Your Trades: Where <br /> Opportunities Meet Expertise</h1>
-                <p>Login</p>
-                <div className="form-container">
-                    <form>
-                        <label>
-                            E-mail
-                        </label>
-                        <input className="text" type="email" placeholder=' Enter Email' name='email' required />
-                        <label>
-                            Password
-                        </label>
-                        <input className="text" type="password" placeholder=' Enter password' name='password' required />
-
-                       <div class ="for-pass">
-
-                       <div class = "keepmein">
-                                <input type="checkbox" name="keepLoggedIn" />  
-                                <label for = "keepin"> 
-                                <span id = "keepme">Keep me logged in </span> </label>
-                            </div>
-
-                            <div class = "forgetpassword">
-                                <a href="#" className="forgot-password">Forgot password?</a>
-                            </div> 
-                            </div> 
-                        
-                    <button class="btn">Login</button>
-
-                    <div class = "donthaveacc">
-                            <div>
-                                <label for = "donthaveacc"> 
-                                <span id = "account">Dont have an account?  </span> </label>
-                            </div>
-
-                            <div class ="divsign">
-                                <a href="#" class="signup">Signup</a>
-                            </div>
-
+            <div className="content-wrapper">
+                <div className="login-header">
+                    <div>Empowering Your Trades: Where Opportunities Meet Expertise</div>
+                </div>
+                <form className="login-form">
+                    <div className="placeholder-heading">
+                        Email
                     </div>
-                        
-                    </form>
+                    <div className="input-group">
+                        <input type="email" placeholder="Enter Email" required />
+                    </div>
+                     <div className="placeholder-heading">
+                        Password
+                    </div>
+                    <div className="input-group">
+                        <input type="password" placeholder="Enter Password" required />
+                    </div>
+                    <div className="form-footer">
+                        <label>
+                            <input type="checkbox" /> Keep me logged in
+                        </label>
+                        <Link to="/forgotPassword">Forgot password?</Link>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <div className="signup-link">
+                    Don't have an account? <Link to="/signup">Sign Up</Link>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default login;
+export default Login;
