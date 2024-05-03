@@ -112,6 +112,8 @@ const generateotptoken = (id) => {
   });
 };
 const generateotpmatching = (id) => {
+  console.log(id);
+  console.log(process.env.OTPMATCH_ACCESS);
   return new Promise((resolve, reject) => {
     const tokenid = {
       _id: id,
@@ -123,8 +125,10 @@ const generateotpmatching = (id) => {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) {
+          console.log(err);
           reject(err);
         }
+        console.log(token);
         resolve(token);
       }
     );
