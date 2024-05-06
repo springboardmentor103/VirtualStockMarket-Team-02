@@ -1,0 +1,42 @@
+.stock-detail-container {
+  background: #131324; /* Dark background */
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.stock-detail-header {
+  display: flex;
+  align-items: center;
+}
+
+.stock-logo img {
+  width: 50px; /* Adjust based on actual size */
+}
+
+.stock-info {
+  margin-left: 20px;
+}
+
+.stock-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stock-price {
+  font-size: 20px;
+}
+
+.stock-description {
+  margin-top: 15px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.stock-trend.up {
+  color: #00c853; /* Green for up */
+}
+
+.stock-trend.down {
+  color: #dd2c00; /* Red for down */
+}

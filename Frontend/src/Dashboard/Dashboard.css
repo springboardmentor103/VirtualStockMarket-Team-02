@@ -1,7 +1,6 @@
 /* Dashboard.css */
 .dashboard {
   display: flex;
-  width: 100vw;
   height: 100vh;
 }
 
@@ -13,4 +12,21 @@
 
 .logout-section {
   padding: 20px;
+}
+
+.menu-icon {
+  display: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  color: #fff;
+  font-size: 24px;
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
 }

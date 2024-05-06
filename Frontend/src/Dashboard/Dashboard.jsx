@@ -1,32 +1,71 @@
-// Dashboard.js
-import React from "react";
-// import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
-// import TopBar from './TopBar';
-// import StockList from './StockList';
+import Stocks from "./Stocks";
+import Accounts from "./Accounts";
+// import Mailbox from "./Mailbox";
+// import UIElements from "./UIElements";
+// import Charts from "./Charts";
+// import Tables from "./Tables";
+// import LeaderBoard from "./LeaderBoard";
+import { FaBars } from "react-icons/fa";
 import "./Dashboard.css";
 
 function Dashboard() {
-  // const navigate = useNavigate();
+  const [activeItem, setActiveItem] = useState("dashboard");
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  // const handleLogout = () => {
-  //   // Clear the user from local storage or any other state management you are using
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  //   // Redirect to login page
-  //   navigate('/dashboard');
-  // };
+  const renderContent = () => {
+    switch (activeItem) {
+      case "accounts":
+        return <Accounts />;
+      // case "mailbox":
+      //   return <Mailbox />;
+      // case "app":
+      //   return <App />;
+      // case "uiElements":
+      //   return <UIElements />;
+      // case "charts":
+      //   return <Charts />;
+      // case "tables":
+      //   return <Tables />;
+      // case "leaderboard":
+      //   return <LeaderBoard />;
+      case "dashboard":
+      default:
+        return (
+          <div className="stocks-section">
+            <Stocks />
+          </div>
+        );
+    }
+  };
 
   return (
     <div className="dashboard">
-      <Sidebar />
-      {/* <div className="main-content">
-        <TopBar />
-        <StockList />
-        <div className="logout-section">
-          <h1>Welcome to the Dashboard!</h1>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      </div> */}
+      <FaBars
+        className={`menu-icon ${isSidebarOpen ? "hidden" : ""}`}
+        onClick={toggleSidebar}
+      />
+      <Sidebar
+        onActiveItemChange={setActiveItem}
+        isOpen={isSidebarOpen}
+        closeSidebar={() => setSidebarOpen(false)}
+      />
+      <div
+        className="main-content"
+        onClick={() => isSidebarOpen && setSidebarOpen(false)}
+      >
+        {renderContent()}
+      </div>
+
+      {/* <FaBars
+        className="menu-icon"
+        onClick={() => setSidebarOpen(!isSidebarOpen)}
+      />
+      <Sidebar onActiveItemChange={setActiveItem} isOpen={isSidebarOpen} />
+      <div className="main-content">{renderContent()}</div> */}
     </div>
   );
 }

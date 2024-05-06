@@ -10,11 +10,17 @@ import { BiUserCircle, BiBarChartAlt2 } from "react-icons/bi";
 import { RiLayoutMasonryFill } from "react-icons/ri";
 import { MdLeaderboard, MdOutlineTableChart } from "react-icons/md";
 
-function Sidebar() {
-  const [activeItem, setActiveItem] = useState("");
+function Sidebar({ onActiveItemChange, isOpen, closeSidebar }) {
+  const [activeItem, setActiveItem] = useState("dashboard");
+
+  const handleItemClick = (item) => {
+    setActiveItem(item);
+    onActiveItemChange(item); // Notify parent component of the change
+    closeSidebar();
+  };
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <div className="sidebar-header">
         <BiUserCircle className="header-icon" />
         Springboard
@@ -22,56 +28,56 @@ function Sidebar() {
       <ul className="sidebar-menu">
         <li
           className={activeItem === "dashboard" ? "active" : ""}
-          onClick={() => setActiveItem("dashboard")}
+          onClick={() => handleItemClick("dashboard")}
         >
           <AiOutlineDashboard />
           Dashboard
         </li>
         <li
           className={activeItem === "accounts" ? "active" : ""}
-          onClick={() => setActiveItem("accounts")}
+          onClick={() => handleItemClick("accounts")}
         >
           <AiOutlineDashboard />
           Accounts
         </li>
         <li
           className={activeItem === "app" ? "active" : ""}
-          onClick={() => setActiveItem("app")}
+          onClick={() => handleItemClick("app")}
         >
           <AiOutlineAppstore />
           App
         </li>
         <li
           className={activeItem === "mailbox" ? "active" : ""}
-          onClick={() => setActiveItem("mailbox")}
+          onClick={() => handleItemClick("mailbox")}
         >
           <AiOutlineMail />
           Mailbox
         </li>
         <li
           className={activeItem === "uiElements" ? "active" : ""}
-          onClick={() => setActiveItem("uiElements")}
+          onClick={() => handleItemClick("uiElements")}
         >
           <RiLayoutMasonryFill />
           UI Elements
         </li>
         <li
           className={activeItem === "charts" ? "active" : ""}
-          onClick={() => setActiveItem("charts")}
+          onClick={() => handleItemClick("charts")}
         >
           <BiBarChartAlt2 />
           Charts
         </li>
         <li
           className={activeItem === "tables" ? "active" : ""}
-          onClick={() => setActiveItem("tables")}
+          onClick={() => handleItemClick("tables")}
         >
           <MdOutlineTableChart />
           Tables
         </li>
         <li
           className={activeItem === "leaderboard" ? "active" : ""}
-          onClick={() => setActiveItem("leaderboard")}
+          onClick={() => handleItemClick("leaderboard")}
         >
           <MdLeaderboard />
           LeaderBoard

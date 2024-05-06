@@ -1,0 +1,113 @@
+/* Stocks.css */
+.stocks-container {
+  padding: 20px;
+  background: #131324;
+  height: 100vh;
+}
+
+.search-bar {
+  width: 80%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: #252836;
+  color: white;
+  font-size: 16px;
+}
+
+.stocks-list {
+  color: white;
+}
+
+.stocks-title {
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.stock-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #252836;
+  border-radius: 10px;
+}
+
+.stock-logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.stock-details {
+  flex-grow: 1;
+  margin-left: 30px;
+  align-items: center;
+}
+
+.stock-name {
+  display: block;
+  font-size: 16px;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.stock-price {
+  font-size: 18px;
+  color: #fff;
+}
+
+.stock-trend {
+  width: 100px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.stock-trend.up {
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+.stock-trend.down {
+  background: linear-gradient(to right, #fe8c00, #f83600);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stocks-container {
+    padding: 10px;
+    height: auto; /* Allow container to grow with content */
+  }
+
+  .search-bar {
+    width: 80%; /* Use full width for mobile */
+    padding: 8px 10px; /* Slightly smaller padding */
+    margin-left: 40px;
+    margin-top: 5px;
+  }
+
+  .stock-item {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start;
+  }
+
+  .stock-logo img {
+    width: 30px; /* Smaller logo on mobile */
+    height: 30px;
+  }
+
+  .stock-details {
+    margin-left: 0;
+    margin-top: 10px; /* Space between logo and details */
+  }
+
+  .stock-name,
+  .stock-price {
+    font-size: 14px; /* Slightly smaller text */
+  }
+
+  .stock-trend {
+    width: 80px; /* Smaller trend indicator */
+    height: 15px;
+    margin-top: 5px; /* Additional spacing */
+  }
+}

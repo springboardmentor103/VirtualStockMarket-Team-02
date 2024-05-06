@@ -2,11 +2,30 @@
 .sidebar {
   width: 260px;
   height: 100vh;
-  background-color: #1e1e2d; /* Dark background color */
-  color: #ffffff;
+  background-color: #1e1e2d;
+  color: #fff;
   display: flex;
   flex-direction: column;
   padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0);
+    position: relative;
+  }
+  .menu-icon {
+    display: none;
+  }
 }
 
 .sidebar-header {
