@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Stocks from "./Stocks";
 import Accounts from "./Accounts";
@@ -9,12 +9,20 @@ import Accounts from "./Accounts";
 // import LeaderBoard from "./LeaderBoard";
 import { FaBars } from "react-icons/fa";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [activeItem, setActiveItem] = useState("dashboard");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/", { replace: true });
+    }
+  }, []);
 
   const renderContent = () => {
     switch (activeItem) {

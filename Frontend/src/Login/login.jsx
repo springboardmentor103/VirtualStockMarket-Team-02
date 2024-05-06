@@ -29,6 +29,9 @@ function Login() {
         return response.json();
       })
       .then((data) => {
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
         // console.log("Login response:", data);
         if (data.success) {
           //   console.log(data, "111111111");

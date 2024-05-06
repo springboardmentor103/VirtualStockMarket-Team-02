@@ -55,17 +55,17 @@ router.post(
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       };
-      res.cookie("authToken", authToken, cookieOptions);
+      // res.cookie("authToken", authToken, cookieOptions);
       let userPurchase = await purchase.findOne({ UserId: userData._id });
       if (!userPurchase) {
         await purchase.create({
           UserId: userData._id,
         });
       }
-
       return res.status(200).json({
         success: true,
         message: "Login successfull.",
+        token: authToken
       });
     } catch (error) {
       res.status(500).json({ success: false, message: "Server Error" });
