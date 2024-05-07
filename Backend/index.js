@@ -1,8 +1,10 @@
 const mongodb = require("./db");
+const mongodb = require("./db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
 const cookieparser = require("cookie-parser");
+
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
@@ -27,10 +29,10 @@ mongodb()
     app.use("/api", require("./Routes/OtpMatching"));
     app.use("/api", require("./Routes/NewPassword"));
     app.use("/api", require("./Routes/LogoutUser"));
-    app.use("/api", require("./Routes/DashboardRoute"));
-
+    app.use("/api", require("./Routes/Dashboard"));
+    app.use("/api", require("./Routes/stockRoutes"));
     app.listen(port, () => {
-      //console.log(`Virtual stock  market Platform listening on port ${port}`);
+      console.log(`Virtual stock  market Platform listening on port ${port}`);
     });
   })
   .catch((err) => {
