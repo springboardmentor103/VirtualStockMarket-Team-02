@@ -42,7 +42,11 @@ const encryptOTP = (otpValue) => {
   return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
 };
 const otpgenerate = () => {
-  const generatedOTP = otp.generate(6);
+  const generatedOTP = otp.generate(6, {
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
+    specialChars: false,
+  });
   return generatedOTP;
 };
 
@@ -59,6 +63,7 @@ router.post(
   verifyauthtoken,
   limiter,
   async (req, res) => {
+    console.log(req);
     try {
       const EmailExists = await user.findOne({ email: req.body.email });
       if (!EmailExists) {
@@ -82,7 +87,7 @@ router.post(
         await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
         const otpToken = await generateotptoken(EmailExists._id);
         const cookieOptions = {
-          httpOnly: true,
+          // httpOnly: true,
           maxAge: 10 * 60 * 1000,
         };
         res.cookie("otpToken", otpToken, cookieOptions);
@@ -92,12 +97,10 @@ router.post(
           message: { result: ["OTP sent successfully."] },
         });
       } else {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message: { error: ["Failed to send OTP."] },
-          });
+        return res.status(400).json({
+          success: false,
+          message: { error: ["Failed to send OTP."] },
+        });
       }
     } catch (error) {
       res.status(500).json({
