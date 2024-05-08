@@ -19,12 +19,12 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
     const purchaseuser = await purchase.findOne({ UserId: req.payload._id });
     if (!purchaseuser) {
       // Create a new purchase record if not found
-      const newPurchase = new purchase({
+      const purchaseuser = new purchase({
         UserId: req.payload._id,
         cashBalance: 1000, // Set default cash balance
         purchases: [],
       });
-      await newPurchase.save();
+      await purchaseuser.save();
       return res.status(200).json({ success: true, message: "User has no purchase record. Created a new one." });
     }
 
