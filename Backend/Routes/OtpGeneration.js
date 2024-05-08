@@ -14,7 +14,7 @@ const {
 } = require("../Middleware/authtoken");
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 5,
+  max: 15,
   message: "Too many requests from this IP, please try again later",
 });
 const transporter = nodemailer.createTransport({
@@ -63,7 +63,6 @@ router.post(
   verifyauthtoken,
   limiter,
   async (req, res) => {
-    console.log(req);
     try {
       const EmailExists = await user.findOne({ email: req.body.email });
       if (!EmailExists) {
@@ -84,14 +83,22 @@ router.post(
         text: `Your OTP is: ${otpValue} .it will be expire in 10 min.`,
       });
       if (emailinfo.accepted.length === 1) {
-        await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
-        const otpToken = await generateotptoken(EmailExists._id);
-        const cookieOptions = {
-          // httpOnly: true,
-          maxAge: 10 * 60 * 1000,
-        };
-        res.cookie("otpToken", otpToken, cookieOptions);
-        console.log(req.cookies.otpToken);
+        const updatedUser = await user.updateOne(
+          { email: req.body.email },
+          { otp: encryptedotp }
+        );
+        if (!updatedUser) {
+          return res.status(400).json({
+            success: false,
+            message: { error: ["User details updation failed."] },
+          });
+        }
+        // const otpToken = await generateotptoken(EmailExists._id);
+        // const cookieOptions = {
+        //   // httpOnly: true,
+        //   maxAge: 10 * 60 * 1000,
+        // };
+        // res.cookie("otpToken", otpToken, cookieOptions);
         return res.status(200).json({
           success: true,
           message: { result: ["OTP sent successfully."] },

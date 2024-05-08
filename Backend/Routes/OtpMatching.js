@@ -31,32 +31,57 @@ const decryptOTP = (encryptedOTP) => {
 
 router.post(
   "/otpmatching",
-  [body("otp").notEmpty().withMessage("otp is required")],
+  [
+    body("otp").notEmpty().withMessage("otp is required"),
+    body("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Invalid Email format"),
+  ],
   validateotpmatching,
   verifyauthtoken,
-  verifyotptoken,
+  // verifyotptoken,
   async (req, res) => {
     try {
-      const otpExists = await user.findById({ _id: req.payload._id });
+      const { email, otp } = req.body;
+      console.log("Called");
+      const otpExists = await user.findOne({ email });
+      console.log("details", email, otp, otpExists);
       if (otpExists) {
         const decryptedOTP = decryptOTP(otpExists.otp);
-        console.log(decryptedOTP);
-        console.log(req.body.otp);
-        console.log("otpToken", req.cookies.otpToken);
-        if (decryptedOTP === req.body.otp) {
-          await user.findByIdAndUpdate(req.payload._id, {
-            otp: { iv: null, encryptedData: null, expiry: null },
-          });
-          res.clearCookie("otpToken");
-          console.log(req.payload._id);
-          const otpmatchToken = await generateotpmatching(req.payload._id);
-          console.log(otpmatchToken);
-          const cookieOptions = {
-            httpOnly: true,
-            maxAge: 60 * 60 * 1000,
-          };
-          res.cookie("otpmatchToken", otpmatchToken, cookieOptions);
-          console.log("otpmatchToken", req.cookies.otpmatchToken);
+        console.log(
+          "decrypted otp",
+          typeof decryptedOTP,
+          typeof otp,
+          decryptedOTP === otp
+        );
+        if (decryptedOTP === otp) {
+          const updatedUser = await user.findOneAndUpdate(
+            { email },
+            {
+              otp: { iv: null, encryptedData: null, expiry: null },
+            }
+          );
+          console.log("updatedUser", updatedUser);
+          if (!updatedUser) {
+            return res.status(400).json({
+              success: true,
+              message: {
+                error: ["Error while updating user details."],
+              },
+            });
+          }
+          // res.clearCookie("otpToken");
+          // console.log(req.payload._id);
+          // const otpmatchToken = await generateotpmatching(req.payload._id);
+          // console.log(otpmatchToken);
+          // const cookieOptions = {
+          //   httpOnly: true,
+          //   maxAge: 60 * 60 * 1000,
+          // };
+          // res.cookie("otpmatchToken", otpmatchToken, cookieOptions);
+          // console.log("otpmatchToken", req.cookies.otpmatchToken);
           return res.status(200).json({
             success: true,
             message: {
@@ -82,9 +107,11 @@ router.post(
         });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "Failed to match OTP.", error });
+      res.status(500).json({
+        success: false,
+        message: "Failed to match OTP.",
+        error: error,
+      });
     }
   }
 );
