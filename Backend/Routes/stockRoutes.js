@@ -36,7 +36,11 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
     if (purchaseuser.cashBalance < totalamount) {
       return res.status(400).json({ success: false, message: "Not enough balance to buy" });
     }
-
+     // Update the cash balance
+     purchaseuser.cashBalance -= totalamount;
+     await purchaseuser.save();
+ 
+     res.status(200).json({ success: true, message: "Purchase successful" });
 
   } catch (error) {
     console.log(error);
@@ -65,8 +69,12 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid cash balance" });
     }
   
-    // Proceed with selling logic
-    // ...
+    // Update the cash balance
+    purchaseuser.cashBalance += currentprice * quantity;
+    await purchaseuser.save();
+
+    res.status(200).json({ success: true, message: "Sale successful" });
+    
     
   } catch (error) {
     console.log(error);
