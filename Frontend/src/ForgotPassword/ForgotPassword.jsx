@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "../Login/login.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const navigate = useNavigate();
 
   const handleOtpGeneration = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,6 +58,7 @@ function ForgotPassword() {
         .then((data) => {
           if (data.success) {
             console.log(data);
+            navigate("/reset-password");
           } else {
             alert("Unable to send otp, please try again");
           }
