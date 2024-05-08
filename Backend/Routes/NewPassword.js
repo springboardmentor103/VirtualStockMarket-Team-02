@@ -23,47 +23,26 @@ router.post(
         "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
       )
       .trim(),
-    body("confirmpassword")
+    body("email")
       .notEmpty()
-      .withMessage("Confirm Password is required")
-      .isLength({ min: 8 })
-      .withMessage("Confirm Password must be at least 8 characters long")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-      )
-      .withMessage(
-        "Confirm Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-      )
-      .trim(),
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Invalid Email format"),
   ],
   validatenewpassword,
   verifyauthtoken,
-  verifyotpmatching,
   async (req, res) => {
     try {
-      if (req.body.password !== req.body.confirmpassword) {
-        return res.status(400).json({
-          success: false,
-          message: [
-            { password: ["password and confirm password are not equal."] },
-            {
-              confirmpassword: ["password and confirm password are not equal."],
-            },
-          ],
-        });
-      }
+      const { email, password } = req.body;
 
-      const existuser = await user.findById({ _id: req.payload._id });
+      const existuser = await user.findOne({ email });
       if (!existuser) {
         return res.status(400).json({
           success: false,
           message: [{ email: ["User not exist."] }],
         });
       }
-      const passwordMatch = await bcrypt.compare(
-        req.body.password,
-        existuser.password
-      );
+      const passwordMatch = await bcrypt.compare(password, existuser.password);
       if (passwordMatch) {
         return res.status(400).json({
           success: false,
@@ -72,11 +51,7 @@ router.post(
       }
       const salt = await bcrypt.genSalt(10);
       let secpassword = await bcrypt.hash(req.body.password, salt);
-      await user.updateOne(
-        { password: existuser.password },
-        { password: secpassword }
-      );
-      res.clearCookie("otpmatchToken");
+      await user.updateOne({ email }, { password: secpassword });
       res
         .status(200)
         .json({ success: true, message: "New Password Created successfully." });
