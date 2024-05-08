@@ -6,6 +6,7 @@ import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import ResetPassword from "./ResetPassword/resetPassword";
 import Dashboard from "./Dashboard/Dashboard";
 import StockDetail from "./Dashboard/StockDetail";
+import PasswordChanged from "./Passwordchanged/PasswordChanged";
 
 import twitterlogo from "./logos/twitter.png";
 import googlelogo from "./logos/google.png";
@@ -59,6 +60,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/password-changed" element={<PasswordChanged />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route
           path="/stock/:stockId"
