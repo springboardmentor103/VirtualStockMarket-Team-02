@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const getCoinsData = async () => {
-  const url = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=10`;
+  const url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=10";
   const headers = {
     "X-CMC_PRO_API_KEY": process.env.API_KEY,
   };

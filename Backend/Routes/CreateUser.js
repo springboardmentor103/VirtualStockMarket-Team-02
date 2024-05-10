@@ -17,17 +17,28 @@ router.post(
       .withMessage("Password is required")
       .isLength({ min: 8 })
       .withMessage("Password must be at least 8 characters long")
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/)
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      )
       .withMessage(
         "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
       )
       .trim(),
-    body("name")
+    body("confirmpassword")
       .notEmpty()
-      .withMessage("name is required.")
+      .withMessage("Confirm Password must not be empty."),
+    body("name").notEmpty().withMessage("Name is required").trim(),
+    body("username")
+      .notEmpty()
+      .withMessage("username is required")
       .isLength({ min: 3 })
-      .withMessage("name must be atleast 3 characters long")
+      .withMessage("username must be atleast 3 characters long")
       .trim(),
+    body("phone")
+      .notEmpty()
+      .withMessage("phone is required")
+      .isMobilePhone()
+      .withMessage("Not a valid phone number"),
   ],
   validatecreateuser,
   async (req, res) => {
@@ -35,8 +46,8 @@ router.post(
     let secpassword = await bcrypt.hash(req.body.password, salt);
     const userExists = await user.findOne({
       email: req.body.email,
-      password: req.body.password,
-      name: req.body.name,
+      phone: req.body.phone,
+      username: req.body.username,
     });
     if (userExists) {
       return res.status(400).json({
@@ -45,17 +56,42 @@ router.post(
       });
     }
     const emailExists = await user.findOne({ email: req.body.email });
+    const phoneExists = await user.findOne({ phone: req.body.phone });
+    const usernameExists = await user.findOne({ username: req.body.username });
     if (emailExists) {
       return res.status(400).json({
         success: false,
         message: { email: ["Email already exists."] },
       });
     }
+    if (phoneExists) {
+      return res.status(400).json({
+        success: false,
+        message: { phone: ["phone number already exists."] },
+      });
+    }
+    if (usernameExists) {
+      return res.status(400).json({
+        success: false,
+        message: { username: ["username already exists."] },
+      });
+    }
+    if (req.body.password !== req.body.confirmpassword) {
+      return res.status(400).json({
+        success: false,
+        message: {
+          confirmpassword: ["Confirm password and password are not same"],
+        },
+      });
+    }
     await user
       .create({
         name: req.body.name,
+        username: req.body.username,
         email: req.body.email,
+        phone: req.body.phone,
         password: secpassword,
+        confirmpassword: secpassword,
       })
       .then(() => {
         res.status(201).json({

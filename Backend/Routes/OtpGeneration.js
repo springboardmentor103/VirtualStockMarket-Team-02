@@ -18,13 +18,13 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again later",
 });
 const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE,
+  service: "gmail",
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.USER,
+    pass: process.env.APP_PASSWORD,
   },
 });
 const encryptOTP = (otpValue) => {
@@ -71,36 +71,29 @@ router.post(
       }
       const otpValue = otpgenerate();
       const encryptedotp = encryptOTP(otpValue);
-      encryptedotp.expiry = new Date(Date.now() + 600000);
-      const emailinfo = await transporter.sendMail({
+      encryptedotp.expiry = new Date(Date.now() + 60000);
+      await transporter.sendMail({
         from: process.env.USER,
         to: req.body.email,
         subject: "Your OTP for Verification",
-        text: `Your OTP is: ${otpValue} .it will be expire in 10 min.`,
+        text: `Your OTP is: ${otpValue}`,
       });
-      if (emailinfo.accepted.length === 1) {
-        await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
-        const otpToken = await generateotptoken(EmailExists._id);
-        const cookieOptions = {
-          httpOnly: true,
-          maxAge: 10 * 60 * 1000,
-        };
-        res.cookie("otpToken", otpToken, cookieOptions);
-        console.log(req.cookies.otpToken);
-        return res.status(200).json({
-          success: true,
-          message: { result: ["OTP sent successfully."] },
-        });
-      } else {
-        return res.status(400).json({
-          success: false,
-          message: { error: ["Failed to send OTP."] },
-        });
-      }
+      await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
+      const otpToken = await generateotptoken(EmailExists._id);
+      const cookieOptions = {
+        httpOnly: true,
+        maxAge: 10 * 60 * 1000,
+      };
+      res.cookie("otpToken", otpToken, cookieOptions);
+      return res.status(200).json({
+        success: true,
+        message: { result: ["OTP sent successfully."] },
+        _id: EmailExists._id,
+      });
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: { error: ["server error"] },
+        message: { error: ["Failed to send OTP."] },
         error,
       });
     }

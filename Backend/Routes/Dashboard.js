@@ -1,55 +1,49 @@
 const express = require("express");
 const router = express.Router();
-
+const axios = require("axios");
 const { verifyauthtoken } = require("../Middleware/authtoken");
-const { getCoinsData } = require("../Middleware/latestCoins");
 const user = require("../Models/User");
 const purchase = require("../Models/Purchase");
-router.get("/dashboard", verifyauthtoken, async (req, res) => {
+
+// Route to get user purchase details
+router.get("/purchase-details", verifyauthtoken, async (req, res) => {
   try {
-    const userpurchases = await purchase.find({ UserId: req.payload._id });
-    const userinfo = await user.find({ _id: req.payload._id });
-    if (userpurchases[0].purchases.length === 0) {
-      return res.status(200).json({
-        success: true,
-        totalloss: 0,
-        todayprofit: 0,
-        totalamount: userpurchases[0].cashBalance,
-      });
+    const purchaseUser = await purchase.findOne({ UserId: req.payload._id });
+    const userinfo = await user.findOne({ _id: req.payload._id });
+    
+    if (!userinfo) {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
-    const getresult = await getCoinsData();
-    const today = new Date();
-    var todayprofit = 0;
-    var totalloss = 0;
-    userpurchases[0].purchases.map((purchase) => {
-      const timestamp = new Date(purchase.timestamp);
-      const timeDifference = today - timestamp;
-      const hoursDifference = timeDifference / (1000 * 60 * 60);
-      if (hoursDifference <= 24) {
-        todayprofit = todayprofit + purchase.purchasePrice;
-      }
-      totalloss = totalloss + purchase.purchasePrice;
-    });
-    if (totalloss > 0) {
-      totalloss = 0;
-    }
-    if (todayprofit < 0) {
-      todayprofit = 0;
-    }
+
+    const name = userinfo.name;
+    const email = userinfo.email;
+
+    // Extract purchase details including cryptoSymbol, volume, and info
+    const purchases = purchaseUser ? purchaseUser.purchases.map(purchase => {
+      // Calculate transaction volume
+      const volume = purchase.quantity * purchase.purchasePrice;
+
+      return {
+        id: purchase._id, // Assuming '_id' is the ID field of the purchase
+        cryptoSymbol: purchase.cryptoSymbol, // Add crypto symbol
+        status: purchase.status,
+        volume: volume, // Add transaction volume
+        info: purchase.info || "NIL" // Add additional information, if empty, default to "N/A"
+      };
+    }) : [];
 
     res.status(200).json({
       success: true,
-      totalloss,
-      todayprofit,
-      totalamount: userpurchases[0].cashBalance,
-      purchasehistory: userpurchases[0].purchases,
-      getresult,
-      name: userinfo[0].name,
-      email: userinfo[0].email,
+      user: {
+        name,
+        email,
+        purchases
+      }
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 module.exports = router;

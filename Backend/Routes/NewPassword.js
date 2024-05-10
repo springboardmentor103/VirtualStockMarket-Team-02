@@ -9,7 +9,7 @@ const {
   verifyotpmatching,
 } = require("../Middleware/authtoken");
 router.post(
-  "/newpassword",
+  "/newpassword/:_id",
   [
     body("password")
       .notEmpty()
@@ -53,7 +53,7 @@ router.post(
         });
       }
 
-      const existuser = await user.findById({ _id: req.payload._id });
+      const existuser = await user.findById({ _id: req.params._id });
       if (!existuser) {
         return res.status(400).json({
           success: false,
