@@ -5,12 +5,13 @@ const { body } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { generateauthtoken } = require("../Middleware/authtoken");
 const { validateloginuser } = require("../Middleware/validate");
+
 router.post(
   "/loginuser",
   [
     body("username")
       .notEmpty()
-      .withMessage("username is required.")
+      .withMessage("Username is required.")
       .isLength({ min: 3 })
       .withMessage("Username must be at least 3 characters long"),
     body("password")
@@ -43,14 +44,19 @@ router.post(
       if (!isMatch) {
         return res.status(400).json({
           success: false,
-          message: { password: ["password Invalid"] },
+          message: { password: ["Password Invalid"] },
         });
       }
-      if (req.cookies.authToken) {
-        return res
-          .status(400)
-          .json({ success: false, message: "you have already logged in." });
+
+      // Check if the authToken cookie exists
+      if (req.cookies && req.cookies.authToken) {
+        return res.status(400).json({
+          success: false,
+          message: "You are already logged in."
+        });
       }
+
+      // Generate auth token and set cookie
       const authToken = await generateauthtoken(userData._id);
       const cookieOptions = {
         httpOnly: true,
@@ -59,7 +65,7 @@ router.post(
       res.cookie("authToken", authToken, cookieOptions);
       return res.json({
         success: true,
-        message: "Login successfull.",
+        message: "Login successful.",
       });
     } catch (error) {
       res.status(500).json({ success: false, message: "Server Error" });
@@ -68,3 +74,4 @@ router.post(
 );
 
 module.exports = router;
+

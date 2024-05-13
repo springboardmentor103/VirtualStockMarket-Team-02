@@ -42,8 +42,10 @@ const encryptOTP = (otpValue) => {
   return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
 };
 const otpgenerate = () => {
-  const generatedOTP = otp.generate(6);
-  return generatedOTP;
+  const min = 100000; // Minimum 6-digit number
+  const max = 999999; // Maximum 6-digit number
+  const generatedOTP = Math.floor(Math.random() * (max - min + 1)) + min;
+  return generatedOTP.toString(); // Convert the number to a string
 };
 
 router.post(

@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 const { verifyauthtoken } = require("../Middleware/authtoken");
-const user = require("../Models/User");
+const user = require("../Models/User"); // Import the user model
 const purchase = require("../Models/Purchase");
 
-// Route to get user purchase details
 router.get("/purchase-details", verifyauthtoken, async (req, res) => {
   try {
     const purchaseUser = await purchase.findOne({ UserId: req.payload._id });
@@ -18,17 +16,16 @@ router.get("/purchase-details", verifyauthtoken, async (req, res) => {
     const name = userinfo.name;
     const email = userinfo.email;
 
-    // Extract purchase details including cryptoSymbol, volume, and info
     const purchases = purchaseUser ? purchaseUser.purchases.map(purchase => {
-      // Calculate transaction volume
       const volume = purchase.quantity * purchase.purchasePrice;
 
       return {
-        id: purchase._id, // Assuming '_id' is the ID field of the purchase
-        cryptoSymbol: purchase.cryptoSymbol, // Add crypto symbol
+        id: purchase._id,
+        cryptoSymbol: purchase.cryptoSymbol,
+        purchaseType: purchase.purchasetype,
         status: purchase.status,
-        volume: volume, // Add transaction volume
-        info: purchase.info || "NIL" // Add additional information, if empty, default to "N/A"
+        volume: volume,
+        info: purchase.info || "NIL"
       };
     }) : [];
 
