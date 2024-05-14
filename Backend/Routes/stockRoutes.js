@@ -10,6 +10,11 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
     if (!cryptoSymbol || cryptoSymbol.trim() === "") {
       return res.status(400).json({ success: false, message: "Crypto symbol is required" });
     }
+
+    if (!req.payload || !req.payload._id) {
+      return res.status(400).json({ success: false, message: "User ID not found in payload" });
+    }
+
     const getresult = await getCoinData([cryptoSymbol]);
     if (!getresult.data || !getresult.data[cryptoSymbol]) {
       return res.status(400).json({ success: false, message: "Invalid crypto symbol" });
@@ -18,7 +23,6 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
 
     let purchaseUser = await purchase.findOne({ UserId: req.payload._id });
     if (!purchaseUser) {
-      // Create a new purchase record if not found
       purchaseUser = new purchase({
         UserId: req.payload._id,
         cashBalance: 1000, // Set default cash balance
@@ -26,28 +30,25 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
       });
     }
 
-    // Calculate total amount
     const totalAmount = currentPrice * quantity;
     if (purchaseUser.cashBalance < totalAmount) {
       return res.status(400).json({ success: false, message: "Not enough balance to buy" });
     }
 
-    // Update the cash balance
     purchaseUser.cashBalance -= totalAmount;
 
-    // Add purchase details
     purchaseUser.purchases.push({
-      cryptoSymbol, // Add cryptoSymbol
+      cryptoSymbol, 
       quantity,
       purchasePrice: currentPrice,
       timestamp: new Date(),
       purchasetype: "BUY",
-      status: "COMPLETED", // Update status to COMPLETED
-      info: "" // Add any additional information if needed
+      status: "COMPLETED", 
+      info: "" 
     });
 
     await purchaseUser.save();
-    res.status(200).json({ success: true, message: "Purchase successful"});
+    res.status(200).json({ success: true, message: "Purchase successful" });
 
   } catch (error) {
     console.log(error);
@@ -55,12 +56,18 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
   }
 });
 
+
 router.post("/sell", verifyauthtoken, async (req, res) => {
   try {
     const { cryptoSymbol, quantity } = req.body;
     if (!cryptoSymbol || cryptoSymbol.trim() === "") {
       return res.status(400).json({ success: false, message: "Crypto symbol is required" });
     }
+
+    if (!req.payload || !req.payload._id) {
+      return res.status(400).json({ success: false, message: "User ID not found in payload" });
+    }
+
     const getresult = await getCoinData([cryptoSymbol]);
     if (!getresult.data || !getresult.data[cryptoSymbol]) {
       return res.status(400).json({ success: false, message: "Invalid crypto symbol" });
@@ -72,21 +79,18 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
       return res.status(400).json({ success: false, message: "User has no purchase record" });
     }
 
-    // Calculate total amount
     const totalAmount = currentPrice * quantity;
 
-    // Update the cash balance
     purchaseUser.cashBalance += totalAmount;
 
-    // Add sale details
     purchaseUser.purchases.push({
-      cryptoSymbol, // Add cryptoSymbol
+      cryptoSymbol, 
       quantity,
       purchasePrice: currentPrice,
       timestamp: new Date(),
       purchasetype: "SELL",
-      status: "COMPLETED", // Update status to COMPLETED
-      info: "" // Add any additional information if needed
+      status: "COMPLETED", 
+      info: "" 
     });
 
     await purchaseUser.save();

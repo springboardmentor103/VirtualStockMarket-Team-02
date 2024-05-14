@@ -47,7 +47,7 @@ const otpgenerate = () => {
   const generatedOTP = Math.floor(Math.random() * (max - min + 1)) + min;
   return generatedOTP.toString(); // Convert the number to a string
 };
-
+//user need to log out 
 router.post(
   "/otpgenerate",
   [
@@ -58,10 +58,17 @@ router.post(
       .withMessage("Invalid Email format"),
   ],
   validateotpgeneration,
-  verifyauthtoken,
   limiter,
   async (req, res) => {
     try {
+      // Check if the user is logged in by verifying the presence of authToken cookie
+      if (req.cookies && req.cookies.authToken) {
+        return res.status(400).json({
+          success: false,
+          message: "You need to log out before generating an OTP."
+        });
+      }
+
       const EmailExists = await user.findOne({ email: req.body.email });
       if (!EmailExists) {
         return res.status(400).json({
@@ -71,15 +78,18 @@ router.post(
           },
         });
       }
+
       const otpValue = otpgenerate();
       const encryptedotp = encryptOTP(otpValue);
       encryptedotp.expiry = new Date(Date.now() + 60000);
+
       await transporter.sendMail({
         from: process.env.USER,
         to: req.body.email,
         subject: "Your OTP for Verification",
         text: `Your OTP is: ${otpValue}`,
       });
+
       await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
       const otpToken = await generateotptoken(EmailExists._id);
       const cookieOptions = {
@@ -101,4 +111,5 @@ router.post(
     }
   }
 );
+
 module.exports = router;

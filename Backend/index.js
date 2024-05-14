@@ -38,6 +38,7 @@ mongodb()
     app.use("/api", require("./Routes/CryptoDetails"));
     app.use("/api", require("./Routes/stockRoutes"));
     app.use("/api", require("./Routes/TocheckToken")); // Add the TocheckToken route
+    app.use("/api", require("./Routes/leaderboard"));
     app.listen(port, () => {
       console.log(`Virtual stock market Platform listening on port ${port}`);
     });

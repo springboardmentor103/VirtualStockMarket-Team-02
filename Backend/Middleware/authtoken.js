@@ -1,36 +1,35 @@
 const jwt = require("jsonwebtoken");
+
 const verifyauthtoken = (req, res, next) => {
+
   if (!req.cookies.authToken) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
-  }
-
-  jwt.verify(req.cookies.authToken, process.env.ACCESS_SECRET, (err, payload) => {
-    if (err) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
-    req.payload = payload;
-    return next();
-  });
-};
-
-/*
-const verifyauthtoken = (req, res, next) => {
-  if (!req.cookies.authToken) {
-    return next(); // No authToken found, proceed to next middleware
-  }
-
-  jwt.verify(req.cookies.authToken, process.env.ACCESS_SECRET, (err, payload) => {
-    if (err) {
-      return res.status(401).json({ success: false, message: err.name });
-    }
-    if (req.url !== "/loginuser") { // Check if the request URL is not the login route
+    if (req.url !== "/loginuser") {
+      return res.status(401).json({ success: false, message: "Unauthorized: No authToken found" });
+    } else {
       return res.status(400).json({ success: false, message: "You have already logged in." });
     }
+  }
+
+
+  jwt.verify(req.cookies.authToken, process.env.ACCESS_SECRET, (err, payload) => {
+    if (err) {
+      if (req.url === "/loginuser") {
+        return res.status(400).json({ success: false, message: "You have already logged in." });
+      } else {
+        return res.status(401).json({ success: false, message: "Unauthorized: Invalid authToken" });
+      }
+    }
+
+    if (!payload || !payload._id) {
+      return res.status(400).json({ success: false, message: "User ID not found in payload" });
+    }
+
     req.payload = payload;
-    return next();
+
+    next();
   });
 };
-*/
+
 const verifyotptoken = async (req, res, next) => {
   if (!req.cookies.otpToken) {
     if (req.url === `/otpmatching/${req.params._id}`) {
