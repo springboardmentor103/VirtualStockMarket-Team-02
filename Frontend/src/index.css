@@ -1,23 +1,23 @@
-body {
+* {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
-   
-    background: url(./Images/login_page.png) no-repeat;
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-    background-size: cover;
-    background-position: center;
-    height: 100vh; /* Set height to full viewport height */
-  
-  
+  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
-
+#root {
+  width: 100%;
+  height: 100%;
+}
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

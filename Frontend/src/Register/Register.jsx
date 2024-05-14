@@ -1,43 +1,50 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../Login/login.css";
+import "./register.css";
 import bg from "../Images/bg.png";
-import arrow from "../Images/arrow.png";
-import { Link } from "react-router-dom";
+import arrow from "./arrow.png";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 
-function Login() {
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [err, seterr] = useState({ email: "", password: "", check: false });
+function Register() {
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [err, seterr] = useState({ email: "", password: "", name: "" });
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const handleLoginSubmit = async (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      if (!validation(loginData)) {
+      const validate = await validation(signupData);
+      if (!validate) {
         setIsLoading(false);
         return;
       }
-      const response = await fetch("http://localhost:8000/api/loginuser", {
+      const response = await fetch("http://localhost:8000/api/createuser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(loginData),
-        credentials: "include",
+        body: JSON.stringify(signupData),
       });
       const data = await response.json();
       if (response.ok) {
         setIsLoading(false);
-        alert("You have successfully logged in.");
-        navigate("/dashboard");
-        setLoginData({
+        alert(
+          "You have successfully created the account, now proceed to login."
+        );
+        navigate("/login");
+        setSignupData({
           email: "",
           password: "",
+          name: "",
         });
         seterr({
+          name: "",
           email: "",
           password: "",
         });
@@ -45,13 +52,10 @@ function Login() {
         if (data.message.email) {
           setIsLoading(false);
           seterr({
-            email: "Use the Email used to create your account.",
+            name: "",
+            email: data.message.email[0],
             password: "",
           });
-        }
-        if (data.message.password) {
-          setIsLoading(false);
-          seterr({ email: "", password: "Enter correct password." });
         }
       }
     } catch (error) {
@@ -59,9 +63,18 @@ function Login() {
       alert("Server Error.");
     }
   };
-  const validation = (data) => {
+  const validation = async (data) => {
     let isValid = true;
-    const errors = { email: "", password: "" };
+    const errors = { email: "", password: "", name: "" };
+    if (!data.name) {
+      errors.name = "FullName required.";
+      isValid = false;
+    } else {
+      if (data.name.length < 3) {
+        errors.name = "FullName must be atleast 3  characters.";
+        isValid = false;
+      }
+    }
     if (!data.email) {
       errors.email = "Email required.";
       isValid = false;
@@ -69,6 +82,12 @@ function Login() {
       if (!isValidEmail(data.email)) {
         errors.email = "Invalid email format.";
         isValid = false;
+      } else {
+        const res = await isActiveEmail(data.email);
+        if (res.success && !res.valid) {
+          errors.email = "Your Email Address is invalid.";
+          isValid = false;
+        }
       }
     }
     if (!data.password) {
@@ -108,6 +127,28 @@ function Login() {
     return emailRegex.test(email);
   };
 
+  const isActiveEmail = async (email) => {
+    const url = `https://ipqualityscore-ipq-proxy-detection-v1.p.rapidapi.com/json/email/JPvN22bzJRDtHVsameBKGVqN6w0fJhf6/${email}`;
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "ad2b41a87cmsh35c394c0619fefcp115506jsna018fdad8030",
+        "X-RapidAPI-Host":
+          "ipqualityscore-ipq-proxy-detection-v1.p.rapidapi.com",
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      alert("Internal server error.");
+      return;
+    }
+  };
   const isValidPassword = (password) => {
     let errors = [];
     if (!/(?=.*[A-Z])/.test(password)) {
@@ -127,50 +168,58 @@ function Login() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setLoginData((prevData) => ({
+    setSignupData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   return (
-    <div className="login-container">
+    <div className="signup-container">
       {isLoading ? <Loader /> : ""}
       <img src={bg} alt="bg" className="overlay-bg" />
-      <div className="login-form-cover">
+      <div className="signup-form-cover">
         <div className="arrow">
           <img src={arrow} alt="arrow" />
         </div>
-        <div className="login-form-container">
+        <div className="signup-form-container">
           <h1>
             Empowering Your Trades: Where <br /> Opportunities Meet Expertise
           </h1>
-          <h2>Login</h2>
-          <form onSubmit={handleLoginSubmit}>
+          <h2>Signup</h2>
+          <form onSubmit={handleSignupSubmit}>
+            <div className="name">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                className={`${err.name ? "err" : ""}`}
+                placeholder="FullName"
+                value={signupData.name}
+                onChange={handleInputChange}
+              />
+              <span>{err.name}</span>
+            </div>
             <div className="email">
-              <label htmlFor="email">Email</label>
-              <br />
               <input
                 type="text"
                 name="email"
                 id="email"
                 className={`${err.email ? "err" : ""}`}
-                placeholder="Enter Email"
-                value={loginData.email}
+                placeholder="Email Address"
+                value={signupData.email}
                 onChange={handleInputChange}
               />
               <span>{err.email}</span>
             </div>
             <div className="password">
-              <label htmlFor="password">Password</label>
-              <br />
               <input
                 type="password"
                 name="password"
                 id="password"
                 className={`${err.password ? "err" : ""}`}
-                placeholder="Enter password"
-                value={loginData.password}
+                placeholder="Password"
+                value={signupData.password}
                 onChange={handleInputChange}
               />
               <span>{err.password}</span>
@@ -178,23 +227,20 @@ function Login() {
             <div className="check-link-container">
               <div className="checkbox">
                 <input type="checkbox" name="checkbox" id="checkbox" required />
-                <label htmlFor="checkbox">Keep me logged in</label>
-              </div>
-              <div>
-                <Link to="/forgetPassword" className="link">
-                  Forgot Password?
-                </Link>
+                <label htmlFor="checkbox">
+                  I agree to the Terms of Services and Privacy Policy
+                </label>
               </div>
             </div>
             <div className="submit">
-              <button type="submit">Login</button>
+              <button type="submit">Create an account</button>
             </div>
           </form>
-          <div className="signup-link-container">
+          <div className="login-link-container">
             <span>
-              Don’t have an account?
-              <Link to="/register" className="sign-link">
-                Signup
+              Already a member?
+              <Link to="/login" className="sign-link">
+                Log in
               </Link>
             </span>
           </div>
@@ -204,4 +250,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
