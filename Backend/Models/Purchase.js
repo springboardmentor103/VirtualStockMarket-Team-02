@@ -1,49 +1,39 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
-const purchaseschema = new Schema({
+const mongoose = require('mongoose');
+
+const purchaseSchema = new mongoose.Schema({
   UserId: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
-  cashBalance: {
-    type: Number,
-    required: true,
-    default: 10000,
-  },
-  purchases: {
-    type: [
-      {
-        assetId: {
-          type: Number,
-        },
-        assetName: {
-          type: String,
-        },
-        quantity: {
-          type: Number,
-        },
-        purchasePrice: {
-          type: Number,
-        },
-        timestamp: {
-          type: Date,
-        },
-        purchasetype: {
-          type: String,
-        },
-        status: {
-          type: String,
-        },
-        Info: {
-          type: String,
-        },
-      },
-    ],
-    default: [],
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
+  purchases: [{
+    assetId: {
+      type: Number,
+      required: true
+    },
+    assetName: {
+      type: String,
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
+    },
+    purchasePrice: {
+      type: Number,
+      required: true
+    },
+    sellPrice: {
+      type: Number
+    },
+    type: {
+      type: String,
+      enum: ['BUY', 'SELL'], // Ensure type is either 'BUY' or 'SELL'
+      required: true
+    }
+  }]
 });
-module.exports = mongoose.model("purchase", purchaseschema);
+
+const Purchase = mongoose.model('Purchase', purchaseSchema);
+
+module.exports = Purchase;
