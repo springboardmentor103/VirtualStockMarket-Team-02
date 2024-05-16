@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+
 const userschema = new Schema({
   name: {
     type: String,
@@ -38,9 +39,22 @@ const userschema = new Schema({
       type: Date,
     },
   },
+  accountLocked: {
+    type: Boolean,
+    default: false, // Initially, the account is not locked
+  },
+  failedLoginAttempts: {
+    type: Number,
+    default: 0, // Number of failed login attempts
+  },
+  lastFailedLoginAttempt: {
+    type: Date,
+    default: null, // Timestamp of the last failed login attempt
+  },
   date: {
     type: Date,
     default: Date.now,
   },
 });
+
 module.exports = mongoose.model("user", userschema);
