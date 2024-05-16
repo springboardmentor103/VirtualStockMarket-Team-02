@@ -18,13 +18,13 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again later",
 });
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: process.env.EMAIL_SERVICE,
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
-    user: process.env.USER,
-    pass: process.env.APP_PASSWORD,
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 const encryptOTP = (otpValue) => {
@@ -41,13 +41,13 @@ const encryptOTP = (otpValue) => {
   encrypted = Buffer.concat([encrypted, cipher.final()]);
   return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
 };
+
 const otpgenerate = () => {
   const min = 100000; // Minimum 6-digit number
   const max = 999999; // Maximum 6-digit number
   const generatedOTP = Math.floor(Math.random() * (max - min + 1)) + min;
   return generatedOTP.toString(); // Convert the number to a string
 };
-//user need to log out 
 router.post(
   "/otpgenerate",
   [
@@ -58,17 +58,10 @@ router.post(
       .withMessage("Invalid Email format"),
   ],
   validateotpgeneration,
+  verifyauthtoken,
   limiter,
   async (req, res) => {
     try {
-      // Check if the user is logged in by verifying the presence of authToken cookie
-      if (req.cookies && req.cookies.authToken) {
-        return res.status(400).json({
-          success: false,
-          message: "You need to log out before generating an OTP."
-        });
-      }
-
       const EmailExists = await user.findOne({ email: req.body.email });
       if (!EmailExists) {
         return res.status(400).json({
@@ -78,38 +71,46 @@ router.post(
           },
         });
       }
-
-      const otpValue = otpgenerate();
+      // const otpValue = otpgenerate();
+      // const encryptedotp = encryptOTP(otpValue);
+      const otpValue = otpgenerate().toString(); 
       const encryptedotp = encryptOTP(otpValue);
-      encryptedotp.expiry = new Date(Date.now() + 60000);
 
-      await transporter.sendMail({
+      encryptedotp.expiry = new Date(Date.now() + 600000);
+      const emailinfo = await transporter.sendMail({
         from: process.env.USER,
         to: req.body.email,
         subject: "Your OTP for Verification",
-        text: `Your OTP is: ${otpValue}`,
+        text: `Your OTP is: ${otpValue} .it will be expire in 10 min.`,
       });
-
-      await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
-      const otpToken = await generateotptoken(EmailExists._id);
-      const cookieOptions = {
-        httpOnly: true,
-        maxAge: 10 * 60 * 1000,
-      };
-      res.cookie("otpToken", otpToken, cookieOptions);
-      return res.status(200).json({
-        success: true,
-        message: { result: ["OTP sent successfully."] },
-        _id: EmailExists._id,
-      });
+      if (emailinfo.accepted.length === 1) {
+        await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
+        const otpToken = await generateotptoken(EmailExists._id);
+        const cookieOptions = {
+          httpOnly: true,
+          maxAge: 10 * 60 * 1000,
+        };
+        res.cookie("otpToken", otpToken, cookieOptions);
+        console.log(req.cookies.otpToken);
+        return res.status(200).json({
+          success: true,
+          message: { result: ["OTP sent successfully."] },
+        });
+      } else {
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: { error: ["Failed to send OTP."] },
+          });
+      }
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: { error: ["Failed to send OTP."] },
+        message: { error: ["server error"] },
         error,
       });
     }
   }
 );
-
 module.exports = router;

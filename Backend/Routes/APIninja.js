@@ -46,4 +46,3 @@ router.get("/api_ninja", (req, res) => {
 });
 
 module.exports = router;
-

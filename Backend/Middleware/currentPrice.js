@@ -1,3 +1,4 @@
+
 const axios = require('axios'); 
 async function getCurrentCryptoPrice(cryptoSymbol) {
   let apiUrl;
@@ -44,4 +45,3 @@ async function getCurrentCryptoPrice(cryptoSymbol) {
 }
 
 module.exports = getCurrentCryptoPrice;
-

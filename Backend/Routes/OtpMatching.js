@@ -30,56 +30,63 @@ const decryptOTP = (encryptedOTP) => {
 };
 
 router.post(
-  "/otpmatching/:userId",
-  [
-    body("otp").notEmpty().withMessage("OTP is required"),
-  ],
+  "/otpmatching",
+  [body("otp").notEmpty().withMessage("otp is required")],
   validateotpmatching,
   verifyauthtoken,
   verifyotptoken,
   async (req, res) => {
     try {
-      const userRecord = await user.findById(req.params.userId);
-
-      if (!userRecord) {
-        return res.status(404).json({
-          success: false,
-          message: "User not found.",
-        });
-      }
-
-      const decryptedOTP = decryptOTP(userRecord.otp);
-      if (decryptedOTP === req.body.otp) {
-        await user.findByIdAndUpdate(req.params.userId, {
-          otp: { iv: null, encryptedData: null, expiry: null },
-        });
-        res.clearCookie("otpToken");
-        const otpmatchToken = await generateotpmatching(req.params.userId);
-        const cookieOptions = {
-          httpOnly: true,
-          maxAge: 60 * 60 * 1000,
-        };
-        res.cookie("otpmatchToken", otpmatchToken, cookieOptions);
-        return res.status(200).json({
-          success: true,
-          message: "OTP matches successfully. Continue to create a new password.",
-        });
+      const otpExists = await user.findById({ _id: req.payload._id });
+      if (otpExists) {
+        const decryptedOTP = decryptOTP(otpExists.otp);
+        console.log(decryptedOTP);
+        console.log(req.body.otp);
+        console.log("otpToken", req.cookies.otpToken);
+        if (decryptedOTP === req.body.otp) {
+          await user.findByIdAndUpdate(req.payload._id, {
+            otp: { iv: null, encryptedData: null, expiry: null },
+          });
+          res.clearCookie("otpToken");
+          console.log(req.payload._id);
+          const otpmatchToken = await generateotpmatching(req.payload._id);
+          console.log(otpmatchToken);
+          const cookieOptions = {
+            httpOnly: true,
+            maxAge: 60 * 60 * 1000,
+          };
+          res.cookie("otpmatchToken", otpmatchToken, cookieOptions);
+          console.log("otpmatchToken", req.cookies.otpmatchToken);
+          return res.status(200).json({
+            success: true,
+            message: {
+              otp: [
+                "OTP matches successfully continue to create new password.",
+              ],
+            },
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: {
+              otp: ["OTP does not match. Try again."],
+            },
+          });
+        }
       } else {
         return res.status(400).json({
           success: false,
-          message: "OTP does not match. Try again.",
+          message: {
+            otp: ["User with provided ID not found."],
+          },
         });
       }
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        success: false,
-        message: "Failed to match OTP.",
-        error: error.message,
-      });
+      res
+        .status(500)
+        .json({ success: false, message: "Failed to match OTP.", error });
     }
   }
 );
 
 module.exports = router;
-
