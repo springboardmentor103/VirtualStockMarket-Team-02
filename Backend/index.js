@@ -13,11 +13,9 @@ mongodb()
     removeExpiredOTP();
     app.use(
       cors({
-        origin: ["http://localhost:3000"],
-        credentials: true,
+        origin: "*",
       })
     );
-
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
     app.use(cookieparser());
@@ -25,7 +23,6 @@ mongodb()
       res.send("Hello World!");
     });
     app.use("/api", require("./Routes/CreateUser"));
-    app.use("/api", require("./Routes/Authstatus"));
     app.use("/api", require("./Routes/LoginUser"));
     app.use("/api", require("./Routes/OtpGeneration"));
     app.use("/api", require("./Routes/OtpMatching"));
@@ -33,6 +30,8 @@ mongodb()
     app.use("/api", require("./Routes/LogoutUser"));
     app.use("/api", require("./Routes/Dashboard"));
     app.use("/api", require("./Routes/stockRoutes"));
+    app.use("/api", require("./Routes/TopCryptos"));
+    app.use("/api", require("./Routes/leaderboard"));
     app.listen(port, () => {
       console.log(`Virtual stock  market Platform listening on port ${port}`);
     });
@@ -40,4 +39,3 @@ mongodb()
   .catch((err) => {
     console.log(err);
   });
-
