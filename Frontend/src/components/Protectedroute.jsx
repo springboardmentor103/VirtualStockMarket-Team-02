@@ -42,6 +42,9 @@ export default function Protectedroute({ Element }) {
           if (location.pathname === "/dashboard") {
             navigate("/login");
           }
+          if (location.pathname === "/account") {
+            navigate("/login");
+          }
         }
       } catch (error) {
         setLoading(false);
