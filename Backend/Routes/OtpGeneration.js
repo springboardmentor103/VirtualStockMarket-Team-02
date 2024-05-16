@@ -51,7 +51,6 @@ const otpgenerate = () => {
   const max = Math.pow(10, otpLength) - 1;
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
 router.post(
   "/otpgenerate",
   [
@@ -102,9 +101,10 @@ router.post(
         });
       } else {
         return res.status(400).json({
-            success: false,
-            message: { error: ["Failed to send OTP."] },
-          });
+
+          success: false,
+          message: { error: ["Failed to send OTP."] },
+        });
       }
     } catch (error) {
       res.status(500).json({
