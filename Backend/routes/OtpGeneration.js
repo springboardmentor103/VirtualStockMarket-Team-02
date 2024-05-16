@@ -102,9 +102,9 @@ router.post(
         });
       } else {
         return res.status(400).json({
-          success: false,
-          message: { error: ["Failed to send OTP."] },
-        });
+            success: false,
+            message: { error: ["Failed to send OTP."] },
+          });
       }
     } catch (error) {
       res.status(500).json({

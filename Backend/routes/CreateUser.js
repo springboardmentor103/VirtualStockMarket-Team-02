@@ -4,7 +4,6 @@ const user = require("../Models/User");
 const { body } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { validatecreateuser } = require("../Middleware/validate");
-
 router.post(
   "/createuser",
   [
