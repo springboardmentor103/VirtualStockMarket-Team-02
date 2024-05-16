@@ -1,98 +1,231 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./resetPass.css";
 import bg from "../Images/bg.png";
 import arrow from "../Images/arrow.png";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import PassSuccess from "../PassSuccess/PassSuccess";
+import Loader from "../Loader/Loader";
+import { datacontext } from "../Datacontext";
 
-function ResetPass() {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+function ForgetPassword() {
+  const { tokenState, setTokenState } = useContext(datacontext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("Token changed:", tokenState);
+    if (tokenState.authtoken) {
+      console.log("Navigating to /dashboard");
+      navigate("/dashboard");
+    } else if (tokenState.otptoken) {
+      console.log("Navigating to /forgetPassword");
+      navigate("/forgetPassword");
+    }
+  }, [tokenState, navigate]);
+  const [resetData, setResetData] = useState({
+    password: "",
+    confirmpassword: "",
+  });
+  const [err, seterr] = useState({
+    password: "",
+    confirmpassword: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleResetPassword = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
     try {
-      if (!newPassword || !confirmPassword) {
-        setError("Please enter both new and confirm passwords.");
+      e.preventDefault();
+      setIsLoading(true);
+      const validate = await validation(resetData);
+      if (!validate) {
+        setIsLoading(false);
         return;
       }
-
-      if (newPassword !== confirmPassword) {
-        setError("Passwords do not match.");
-        return;
+      const response = await fetch("http://localhost:8000/api/newpassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(resetData),
+        credentials: "include",
+      });
+      const data = await response.json();
+      console.log(data);
+      if (response.ok && data.success) {
+        setIsLoading(false);
+        alert(
+          "You have successfully created new password, now proceed to login."
+        );
+        seterr({
+          password: "",
+          confirmpassword: "",
+        });
+        setTokenState({
+          authtoken: false,
+          otptoken: false,
+          otpmatchtoken: false,
+        });
+      } else {
+        console.log(typeof data.message);
+        if (typeof data.message === "object") {
+          setIsLoading(false);
+          seterr({
+            password: data.message[0].password,
+            confirmpassword: "",
+          });
+        }
+        if (typeof data.message === "string") {
+          setIsLoading(false);
+          alert(data.message);
+        }
       }
-
-      const response = await axios.post(
-        "http://localhost:8000/api/newpassword",
-        { newPassword }
-      );
-
-      // Redirect to PassSuccess component
-      return;
     } catch (error) {
-      setError("Something went wrong. Please try again later.");
-      console.error("Error:", error);
+      console.log(error);
+      setIsLoading(false);
+      alert("Internal server error.");
     }
   };
 
-  return (
-    <div className="login-container4">
-      <img src={bg} alt="bg" className="overlay-bg4" />
-      <div className="resetPass-form-cover">
-        <div className="arrow">
-          <img src={arrow} alt="arrow" />
-        </div>
-        <div className="resetPass-form-container">
-          <h1>
-            Empowering Your Trades: Where <br /> Opportunities Meet Expertise
-          </h1>
-          <h2>Reset Your Password?</h2>
-          <form onSubmit={handleResetPassword}>
-            <div className="newPass">
-              <label htmlFor="newPass">New Password</label>
-              <br />
-              <input
-                type="password"
-                placeholder="Enter New Password"
-                value={newPassword}
-                name="newPass"
-                id="newPass"
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="confirmPass">
-              <label htmlFor="confirmPass">Confirm Password</label>
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                name="confirmPass"
-                id="confirmPass"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-            </div>
-            {error && <div className="error">{error}</div>}
-            <div className="submit">
-              <button type="submit">
-                <Link to="/PassSuccess">Save</Link>
-              </button>
-            </div>
-          </form>
-          <div className="signup-link-container">
-            <span>
-              Don’t have an account?
-              <Link to="/signup" className="sign-link">
-                Signup
-              </Link>
-            </span>
+  const validation = async (data) => {
+    let isValid = true;
+    const errors = { password: "", confirmpassword: "" };
+    if (!data.password) {
+      errors.password = "Password required.";
+      isValid = false;
+    } else {
+      if (isValidPassword(data.password).length === 0) {
+        if (data.password.length < 8) {
+          errors.password = "Password must be min 8 characters";
+          isValid = false;
+        }
+      }
+      if (isValidPassword(data.password).length > 0) {
+        if (data.password.length < 8) {
+          errors.password = "Password must be min 8 characters";
+          const passerr = isValidPassword(data.password);
+          errors.password =
+            errors.password + " and must contain atleast " + passerr.join(" ");
+          isValid = false;
+        } else {
+          const passerr = isValidPassword(data.password);
+
+          errors.password =
+            "Password must atleast contain " + passerr.join(" ");
+          isValid = false;
+        }
+      }
+    }
+    if (!data.confirmpassword) {
+      errors.confirmpassword = "Confirm Password required.";
+      isValid = false;
+    } else {
+      if (isValidPassword(data.confirmpassword).length === 0) {
+        if (data.confirmpassword.length < 8) {
+          errors.confirmpassword = "Confirm Password must be min 8 characters";
+          isValid = false;
+        }
+      }
+      if (isValidPassword(data.confirmpassword).length > 0) {
+        if (data.confirmpassword.length < 8) {
+          errors.confirmpassword = "Confirm Password must be min 8 characters";
+          const passerr = isValidPassword(data.confirmpassword);
+          errors.confirmpassword =
+            errors.confirmpassword +
+            " and must contain atleast " +
+            passerr.join(" ");
+          isValid = false;
+        } else {
+          const passerr = isValidPassword(data.confirmpassword);
+
+          errors.confirmpassword =
+            "Confirm Password must atleast contain " + passerr.join(" ");
+          isValid = false;
+        }
+      }
+    }
+    if (data.password !== data.confirmpassword) {
+      errors.password = "Password and Confirm Password should be same";
+      errors.confirmpassword = "Password and Confirm Password should be same";
+      isValid = false;
+    }
+    seterr(errors);
+    return isValid;
+  };
+  const isValidPassword = (password) => {
+    let errors = [];
+    if (!/(?=.*[A-Z])/.test(password)) {
+      errors.push("one uppercase letter");
+    }
+    if (!/(?=.*[a-z])/.test(password)) {
+      errors.push("one lowercase letter");
+    }
+    if (!/(?=.*\d)/.test(password)) {
+      errors.push("one number");
+    }
+    if (!/(?=.*[@$!%*?&])/.test(password)) {
+      errors.push("one special character");
+    }
+    return errors;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setResetData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  if (!tokenState.otpmatchtoken) {
+    return <PassSuccess />;
+  } else {
+    return (
+      <div className="reset-container">
+        {isLoading ? <Loader /> : ""}
+        <img src={bg} alt="bg" className="overlay-bg" />
+        <div className="reset-form-cover">
+          <div className="arrow">
+            <img src={arrow} alt="arrow" />
+          </div>
+          <div className="reset-form-container">
+            <h1>
+              Empowering Your Trades: Where <br /> Opportunities Meet Expertise
+            </h1>
+            <h2>RESET YOUR PASSWORD?</h2>
+            <p>ENTER NEW PASSWORD</p>
+            <form onSubmit={handleResetPassword}>
+              <div className="password">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  className={`${err.password ? "err" : ""}`}
+                  placeholder="Enter New Password"
+                  value={resetData.password}
+                  onChange={handleInputChange}
+                />
+                <span>{err.password}</span>
+              </div>
+              <div className="confirmpassword">
+                <input
+                  type="password"
+                  name="confirmpassword"
+                  id="confirmpassword"
+                  className={`${err.confirmpassword ? "err" : ""}`}
+                  placeholder="Confirm Password"
+                  value={resetData.confirmpassword}
+                  onChange={handleInputChange}
+                />
+                <span>{err.confirmpassword}</span>
+              </div>
+              <div className="submit">
+                <button type="submit">Save</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default ResetPass;
+export default ForgetPassword;

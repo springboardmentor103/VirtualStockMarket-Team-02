@@ -10,3 +10,12 @@
   height: 100%;
   z-index: -1;
 }
+.sidebar-container {
+  width: 320px;
+  height: 100%;
+  border: 1px solid red;
+}
+.sidebar {
+  width: 100%;
+  border: 1px solid blue;
+}

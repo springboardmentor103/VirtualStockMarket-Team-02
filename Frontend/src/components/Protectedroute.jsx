@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { datacontext } from "../Datacontext";
 
 export default function Protectedroute({ Element }) {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [loading, setLoading] = useState(true);
+  const { setTokenState } = useContext(datacontext);
   useEffect(() => {
     const checkAuthToken = async () => {
       try {
@@ -13,29 +15,47 @@ export default function Protectedroute({ Element }) {
         });
         const data = await response.json();
         if (response.ok && data.success) {
-          navigate("/dashboard");
+          let newTokenState = {
+            authtoken: false,
+            otptoken: false,
+            otpmatchtoken: false,
+          };
+          if (data.token === "authToken") {
+            newTokenState.authtoken = true;
+          } else if (data.token === "otpToken") {
+            newTokenState.otptoken = true;
+          } else if (data.token === "otpmatchToken") {
+            newTokenState.otpmatchtoken = true;
+          }
+          setTokenState(newTokenState);
         } else {
-          if (location.pathname === "/register") {
-            navigate("/register");
-          } else if (location.pathname === "/login") {
-            navigate("/login");
-          } else if (location.pathname === "/forgetPassword") {
+          if (
+            location.pathname === "/login" ||
+            location.pathname === "/register" ||
+            location.pathname === "/forgetPassword"
+          ) {
+            navigate(location.pathname);
+          }
+          if (location.pathname === "/resetPass") {
             navigate("/forgetPassword");
-          } else if (location.pathname === "/getotp") {
-            navigate("/getotp");
-          } else {
+          }
+          if (location.pathname === "/dashboard") {
             navigate("/login");
           }
         }
       } catch (error) {
+        setLoading(false);
         console.error("Error checking authToken:", error);
-        // Navigate to login route if there's an error
         navigate("/login");
+      } finally {
+        setLoading(false);
       }
     };
 
     checkAuthToken();
-  }, [navigate, location]);
+  }, [navigate, location.pathname, setTokenState]);
+
+  if (loading) return null;
 
   return <Element />;
 }

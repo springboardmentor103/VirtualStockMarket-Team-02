@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./register.css";
 import bg from "../Images/bg.png";
 import arrow from "./arrow.png";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
+import { datacontext } from "../Datacontext";
 
-function Register() {
+function Register({ token }) {
+  const navigate = useNavigate();
+  const { tokenState } = useContext(datacontext);
+  useEffect(() => {
+    if (tokenState.authtoken) {
+      navigate("/dashboard");
+    } else if (tokenState.otpmatchtoken) {
+      navigate("/resetPass");
+    } else if (tokenState.otptoken) {
+      navigate("/register");
+    }
+  }, [tokenState, navigate]);
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
@@ -13,8 +25,6 @@ function Register() {
   });
   const [err, seterr] = useState({ email: "", password: "", name: "" });
   const [isLoading, setIsLoading] = useState(false);
-
-  const navigate = useNavigate();
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);

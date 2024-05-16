@@ -1,8 +1,8 @@
-.login-container4 {
+.reset-container {
   height: 100%;
   width: 100%;
 }
-.overlay-bg4 {
+.reset-container .overlay-bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -10,43 +10,61 @@
   height: 100%;
   z-index: -1;
 }
-.resetPass-form-cover {
+.reset-form-cover {
   display: flex;
   justify-content: center;
 
   align-items: center;
   width: 100%;
+
   height: 100%;
 }
-.arrow {
+.reset-form-cover .arrow {
+  width: 50%;
+  max-width: 500px;
   margin-right: 5rem;
 }
-.resetPass-form-container h1,
-.resetPass-form-container h2 {
+.reset-form-cover .arrow img {
+  width: 100%;
+  height: 100%;
+}
+.reset-form-container h1,
+.reset-form-container h2 {
   color: white;
 }
-.resetPass-form-container h1 {
-  margin-bottom: 2rem;
-}
-.resetPass-form-container h2 {
+.reset-form-container h1 {
   margin-bottom: 1.5rem;
 }
-form {
-  width: 80%;
-  margin-bottom: 10px;
+.reset-form-container h2 {
+  margin-bottom: 0.5rem;
 }
-.resetPass-form-container form .newPass,
-.resetPass-form-container form .confirmPass {
+.reset-form-container p {
+  color: rgba(255, 255, 255, 0.8);
+}
+.reset-form-container form {
+  margin-top: 1rem;
+
+  width: 100%;
+}
+.reset-form-container form .password,
+.reset-form-container form .confirmpassword {
   margin-bottom: 1rem;
 }
-.resetPass-form-container form .newPass label,
-.resetPass-form-container form .confirmPass label {
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
+.reset-form-container form .password span,
+.reset-form-container form .confirmpassword span {
+  display: block;
+  text-align: center;
+  color: red;
+  margin-top: 0.4rem;
+  width: 100%;
+  max-width: 500px;
 }
-.resetPass-form-container form .newPass input,
-.resetPass-form-container form .confirmPass input {
+.reset-form-container form .confirmpassword span {
+  margin-bottom: 0rem;
+}
+
+.reset-form-container form .password input,
+.reset-form-container form .confirmpassword input {
   background-color: transparent;
   color: white;
   border: 1px solid white;
@@ -55,18 +73,23 @@ form {
   width: 100%;
   margin-top: 10px;
 }
-.resetPass-form-container form .newPass input::placeholder,
-.resetPass-form-container form .confirmPass input::placeholder {
+.reset-form-container form .password input.err,
+.reset-form-container form .confirmpassword input.err {
+  border-color: red;
+}
+.reset-form-container form .password input::placeholder,
+.reset-form-container form .confirmpassword input::placeholder {
   color: white;
 }
-.resetPass-form-container form .error {
-  color: white;
+.reset-form-container form .password input.err::placeholder,
+.reset-form-container form .confirmpassword input.err::placeholder {
+  color: red;
 }
-.submit {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+.reset-form-container .submit {
+  margin-top: 1.2rem;
+  margin-bottom: 10px;
 }
-.submit button {
+.reset-form-container .submit button {
   padding: 0.8rem 0rem;
   font-weight: bold;
   font-size: 15px;
@@ -77,48 +100,48 @@ form {
   width: 100%;
   cursor: pointer;
 }
-.signup-link-container span {
-  color: white;
-}
-.signup-link-container span .sign-link {
-  margin-left: 10px;
-  text-decoration: none;
-  color: green;
-}
-.signup-link-container span .sign-link:hover {
-  text-decoration: underline;
-}
-@media screen and (max-width: 1200px) {
-  .resetPass-form-cover {
-    flex-direction: column;
+@media screen and (max-width: 1100px) {
+  .reset-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
-  .resetPass-form-container {
+  .reset-form-cover {
+    flex-direction: column;
+    max-width: 700px;
+  }
+  .reset-form-container {
     align-self: center;
     width: 100%;
     padding: 3rem;
     padding-top: 0rem;
     padding-bottom: 0rem;
   }
-  .arrow {
-    width: 40%;
-  }
-  .arrow img {
-    width: 100%;
-    height: 100%;
-  }
-  .arrow {
+  .reset-form-cover .arrow {
+    max-width: 250px;
     margin-right: 0rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
-  .resetPass-form-container h1 {
+  .reset-form-container h1 {
     display: none;
   }
-  .resetPass-form-container h2 {
+  .reset-form-container h2 {
     margin-bottom: 1rem;
     text-align: center;
   }
-  form {
+  .reset-form-container p {
+    text-align: center;
+  }
+  .reset-form-container form {
     width: 100%;
     margin-bottom: 10px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .reset-form-container {
+    padding: 1rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
   }
 }

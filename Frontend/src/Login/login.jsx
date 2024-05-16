@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Login/login.css";
 import bg from "../Images/bg.png";
 import arrow from "../Images/arrow.png";
 import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
+import { datacontext } from "../Datacontext";
 
 function Login() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [err, seterr] = useState({ email: "", password: "", check: false });
+  const [err, seterr] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
+  const { tokenState, setTokenState } = useContext(datacontext);
+  useEffect(() => {
+    if (tokenState.authtoken) {
+      navigate("/dashboard");
+    } else if (tokenState.otpmatchtoken) {
+      navigate("/resetPass");
+    } else if (tokenState.otptoken) {
+      navigate("/login");
+    }
+  }, [tokenState, navigate]);
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -40,6 +51,11 @@ function Login() {
         seterr({
           email: "",
           password: "",
+        });
+        setTokenState({
+          authtoken: true,
+          otptoken: false,
+          otpmatchtoken: false,
         });
       } else {
         if (data.message.email) {

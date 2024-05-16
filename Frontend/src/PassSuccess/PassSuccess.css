@@ -1,8 +1,8 @@
-.login-container5 {
+.pass-container {
   height: 100%;
   width: 100%;
 }
-.overlay-bg5 {
+.pass-container .overlay-bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -10,28 +10,53 @@
   height: 100%;
   z-index: -1;
 }
-.passSuccess-form-cover {
+.pass-form-cover {
   display: flex;
   justify-content: center;
 
   align-items: center;
   width: 100%;
+
   height: 100%;
 }
-.arrow {
+.pass-form-cover .arrow {
+  max-width: 400px;
   margin-right: 5rem;
 }
-.passSuccess-form-container h2 {
+.pass-form-cover .arrow img {
+  width: 100%;
+  height: 100%;
+}
+.pass-form-container .image-tick {
+  text-align: center;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+.pass-form-container .image-tick img {
+  filter: brightness(80%) grayscale(10%);
+  max-width: 100px;
+}
+.pass-form-container .image-tick h2 {
+  margin-top: 0.5rem;
   color: white;
 }
-.passSuccess-form-container h2 {
-  margin-bottom: 1.5rem;
+.pass-form-container .text-box {
+  border-radius: 5px;
+  height: 150px;
+  width: 100%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: rgb(31, 27, 27);
+  padding: 2rem 1.5rem;
 }
-.submit {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+.pass-form-container .text-box {
+  color: white;
 }
-.submit button {
+.pass-form-container button {
+  margin-top: 1.2rem;
+  margin-bottom: 10px;
   padding: 0.8rem 0rem;
   font-weight: bold;
   font-size: 15px;
@@ -42,41 +67,39 @@
   width: 100%;
   cursor: pointer;
 }
-@media screen and (max-width: 1200px) {
-  .passSuccess-form-cover {
-    flex-direction: column;
+@media screen and (max-width: 880px) {
+  .pass-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
-  .passSuccess-form-container {
+  .pass-form-cover {
+    flex-direction: column;
+    max-width: 600px;
+  }
+  .pass-form-container {
     align-self: center;
     width: 100%;
     padding: 3rem;
     padding-top: 0rem;
     padding-bottom: 0rem;
   }
-  .arrow {
-    width: 40%;
+  .pass-form-cover .arrow {
+    display: none;
   }
-  .arrow img {
-    width: 100%;
-    height: 100%;
+  .pass-form-container .image-tick img {
+    filter: brightness(80%) grayscale(10%);
+    max-width: 80px;
   }
-  .arrow {
-    margin-right: 0rem;
-    margin-bottom: 2rem;
+  .pass-form-container .text-box {
+    height: 100px;
   }
-  .logo-icon {
-    width: 40%;
-  }
-  .logo-icon img {
-    width: 70%;
-    height: 70%;
-  }
-  .logo-icon {
-    margin-right: -5rem;
-    margin-bottom: 0rem;
-  }
-  .passSuccess-form-container h2 {
-    margin-bottom: 1rem;
-    text-align: center;
+}
+@media screen and (max-width: 400px) {
+  .pass-form-container {
+    padding: 1rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
   }
 }
