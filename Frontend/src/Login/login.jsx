@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Login/login.css";
+import Loader from "../Loader/Loader";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Hook for programmatically navigation
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
 
     const loginData = {
       email: email,
@@ -29,6 +32,7 @@ function Login() {
         return response.json();
       })
       .then((data) => {
+        setLoading(false);
         if (data.token) {
           localStorage.setItem("token", data.token);
         }
@@ -52,6 +56,7 @@ function Login() {
 
   return (
     <div className="login-container">
+      {loading && <Loader />}
       <div className="content-wrapper">
         <div className="login-header">
           <div>Empowering Your Trades: Where Opportunities Meet Expertise</div>
