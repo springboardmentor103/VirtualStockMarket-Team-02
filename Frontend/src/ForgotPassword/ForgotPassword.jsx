@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import "../Login/login.css";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 function ForgotPassword() {
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
 
   const handleOtpGeneration = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailRegex.test(email)) {
+      setLoading(true); // Set loading to true when API call starts
       try {
-        const data = {
-          email: email,
-        };
-
+        const data = { email };
         fetch("http://localhost:8000/api/otpgenerate", {
           method: "POST",
           headers: {
@@ -26,22 +25,28 @@ function ForgotPassword() {
         })
           .then((response) => response.json())
           .then((data) => {
+            setLoading(false); // Set loading to false when response is received
             if (data.success) {
-              console.log(data);
               setShowOtpInput(true);
             } else {
-              alert("Unable to send otp, please try again");
+              alert("Unable to send OTP, please try again");
             }
+          })
+          .catch((error) => {
+            setLoading(false); // Ensure loading is set to false on error
+            console.error("Error:", error);
           });
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     } else {
-      alert("invalid email");
+      alert("Invalid email");
     }
   };
 
   const handleOtpVerification = async () => {
+    setLoading(true); // Set loading to true when API call starts
     try {
       const data = {
         email: email,
@@ -56,14 +61,19 @@ function ForgotPassword() {
       })
         .then((response) => response.json())
         .then((data) => {
+          setLoading(false); // Set loading to false when response is received
           if (data.success) {
-            console.log(data);
-            navigate("/reset-password");
+            navigate("/reset-password", { state: { email: email } });
           } else {
-            alert("Unable to send otp, please try again");
+            alert("OTP verification failed, please try again");
           }
+        })
+        .catch((error) => {
+          setLoading(false); // Ensure loading is set to false on error
+          console.error("Error:", error);
         });
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -77,7 +87,9 @@ function ForgotPassword() {
           </div>
         </div>
         <h2>Forgot Your Password?</h2>
-        {!showOtpInput ? (
+        {loading ? (
+          <Loader />
+        ) : !showOtpInput ? (
           <>
             <p>Please enter the email you used to sign in</p>
             <form className="login-form">
@@ -90,7 +102,7 @@ function ForgotPassword() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <button type="button" onClick={() => handleOtpGeneration()}>
+              <button type="button" onClick={handleOtpGeneration}>
                 Request OTP
               </button>
             </form>
@@ -108,8 +120,8 @@ function ForgotPassword() {
                   required
                 />
               </div>
-              <button type="button" onClick={() => handleOtpVerification()}>
-                Save
+              <button type="button" onClick={handleOtpVerification}>
+                Continue
               </button>
             </form>
           </>
