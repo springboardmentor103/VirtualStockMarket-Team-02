@@ -1,0 +1,105 @@
+.sidebar-container {
+  width: 300px;
+  height: 100%;
+  padding: 0.7rem 1rem;
+}
+.sidebar {
+  padding: 0.5rem 1.5rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  background-color: #131212;
+}
+.sidebar .img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.sidebar .img-container img {
+  width: 100%;
+}
+.sidebar .img-container p {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.sidebar .sidebar-links-1 {
+  margin-top: 0.5rem;
+}
+.sidebar .sidebar-links-2 {
+  margin-top: 0.5rem;
+}
+.sidebar .sidebar-links-1 p,
+.sidebar .sidebar-links-2 p {
+  color: rgb(206, 196, 196);
+  font-size: 12px;
+}
+.sidebar .sidebar-links-2 p {
+  margin-bottom: 1rem;
+}
+.sidebar .sidebar-links-1 .sidebar-link,
+.sidebar .sidebar-links-2 .sidebar-link {
+  cursor: pointer;
+  margin-top: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sidebar .sidebar-links-1 .sidebar-link .part-1,
+.sidebar .sidebar-links-2 .sidebar-link .part-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar .sidebar-links-1 .sidebar-link .part-1 .img1,
+.sidebar .sidebar-links-2 .sidebar-link .part-1 .img1 {
+  width: 20px;
+  margin-right: 15px;
+}
+.sidebar .sidebar-links-1 .sidebar-link .part-1 span,
+.sidebar .sidebar-links-2 .sidebar-link .part-1 span {
+  color: rgb(206, 196, 196);
+}
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #000000;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 2rem;
+  width: 210px;
+}
+
+.profile-container .profile-pic {
+  width: 30px;
+}
+.profile-container .profile-pic img {
+  width: 100%;
+  height: 100%;
+}
+.profile-container .profile-content {
+  display: flex;
+  flex-direction: column;
+}
+.profile-container .profile-content p {
+  color: white;
+  font-size: 15px;
+}
+.profile-container .profile-content p:last-child {
+  color: rgb(206, 196, 196);
+  font-size: 10px;
+}
+.profile-container .down {
+  width: 20px;
+}
+.profile-container .down img {
+  width: 100%;
+  height: 100%;
+}

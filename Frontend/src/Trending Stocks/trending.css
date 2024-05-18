@@ -1,0 +1,51 @@
+.Trending-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.Trending-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.Trending-container .Trending-stocks-container {
+  max-width: 60%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid red;
+}
+.Trending-container .Trending-stocks-container .search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0.5rem;
+}
+.Trending-container .Trending-stocks-container .search-container .left {
+  display: flex;
+  align-items: center;
+}
+.Trending-container .Trending-stocks-container .search-container .left p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+.Trending-container .Trending-stocks-container .search-container .right {
+  width: 80%;
+}
+.Trending-container .Trending-stocks-container .search-container .right input {
+  outline: none;
+  background-color: transparent;
+  border: 1px solid rgb(75, 12, 156);
+  padding: 1rem 0.5rem;
+  border-radius: 5px;
+  width: 100%;
+  color: white;
+}

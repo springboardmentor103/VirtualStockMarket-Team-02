@@ -2,6 +2,16 @@
   width: 100%;
   height: 100%;
 }
+.dashboard-container .layer {
+  background-color: #131212a8;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: calc(50% + 4rem);
+  width: 300px;
+  max-width: 300px;
+  z-index: -1;
+}
 .dashboard-bg {
   position: absolute;
   top: 0;
@@ -10,12 +20,48 @@
   height: 100%;
   z-index: -1;
 }
-.sidebar-container {
-  width: 320px;
+.dashboard-content {
   height: 100%;
   border: 1px solid red;
+  display: flex;
 }
-.sidebar {
-  width: 100%;
+.dashboard-content .charts-1 {
   border: 1px solid blue;
+  width: 50%;
+}
+.dashboard-content .charts-1 .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #131212a8;
+  width: 100%;
+}
+.dashboard-content .charts-1 .navbar .left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard-content .charts-1 .navbar .left p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+.dashboard-content .charts-1 .navbar .right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard-content .charts-1 .navbar .right img {
+  margin-right: 1.5rem;
+  width: 20px;
+}
+.dashboard-content .charts-1 .monthly-retail {
+  background-color: #131212a8;
+  height: 50%;
+  width: 100%;
+}
+
+.dashboard-content .charts-2 {
 }

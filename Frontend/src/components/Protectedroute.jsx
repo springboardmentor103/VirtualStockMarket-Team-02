@@ -45,6 +45,9 @@ export default function Protectedroute({ Element }) {
           if (location.pathname === "/account") {
             navigate("/login");
           }
+          if (location.pathname === "/TrendingStocks") {
+            navigate("/login");
+          }
         }
       } catch (error) {
         setLoading(false);

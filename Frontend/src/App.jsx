@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar";
 import Register from "./Register/Register";
 import ResetPass from "./resetPass/resetPass";
 import Datacontext from "./Datacontext";
-import Account from "./Accounts/Account";
+import Trending from "./Trending Stocks/Trending";
 
 function App() {
   return (
@@ -36,8 +36,8 @@ function App() {
               element={<Protectedroute Element={ResetPass} />}
             />
             <Route
-              path="/account"
-              element={<Protectedroute Element={Account} />}
+              path="/TrendingStocks"
+              element={<Protectedroute Element={Trending} />}
             />
           </Routes>
         </div>
