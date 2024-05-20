@@ -38,20 +38,25 @@ router.post(
   async (req, res) => {
     try {
       const otpExists = await user.findById({ _id: req.payload._id });
-
       if (otpExists) {
         const decryptedOTP = decryptOTP(otpExists.otp);
+        console.log(decryptedOTP);
+        console.log(req.body.otp);
+        console.log("otpToken", req.cookies.otpToken);
         if (decryptedOTP === req.body.otp) {
           await user.findByIdAndUpdate(req.payload._id, {
             otp: { iv: null, encryptedData: null, expiry: null },
           });
           res.clearCookie("otpToken");
-          const otpmatchToken = await generateotpmatching(req.params._id);
+          console.log(req.payload._id);
+          const otpmatchToken = await generateotpmatching(req.payload._id);
+          console.log(otpmatchToken);
           const cookieOptions = {
             httpOnly: true,
             maxAge: 60 * 60 * 1000,
           };
           res.cookie("otpmatchToken", otpmatchToken, cookieOptions);
+          console.log("otpmatchToken", req.cookies.otpmatchToken);
           return res.status(200).json({
             success: true,
             message: {
