@@ -41,11 +41,13 @@ const encryptOTP = (otpValue) => {
   encrypted = Buffer.concat([encrypted, cipher.final()]);
   return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
 };
-const otpgenerate = () => {
-  const generatedOTP = otp.generate(6);
-  return generatedOTP;
-};
 
+const otpgenerate = () => {
+  const min = 100000; // Minimum 6-digit number
+  const max = 999999; // Maximum 6-digit number
+  const generatedOTP = Math.floor(Math.random() * (max - min + 1)) + min;
+  return generatedOTP.toString(); // Convert the number to a string
+};
 router.post(
   "/otpgenerate",
   [
@@ -69,31 +71,43 @@ router.post(
           },
         });
       }
-      const otpValue = otpgenerate();
+      // const otpValue = otpgenerate();
+      // const encryptedotp = encryptOTP(otpValue);
+      const otpValue = otpgenerate().toString(); 
       const encryptedotp = encryptOTP(otpValue);
+
       encryptedotp.expiry = new Date(Date.now() + 600000);
-      await transporter.sendMail({
+      const emailinfo = await transporter.sendMail({
         from: process.env.USER,
         to: req.body.email,
         subject: "Your OTP for Verification",
-        text: `Your OTP is: ${otpValue}.it will be expire in 10 min.`,
+        text: `Your OTP is: ${otpValue} .it will be expire in 10 min.`,
       });
-      await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
-      const otpToken = await generateotptoken(EmailExists._id);
-      const cookieOptions = {
-        httpOnly: true,
-        maxAge: 10 * 60 * 1000,
-      };
-      res.cookie("otpToken", otpToken, cookieOptions);
-      return res.status(200).json({
-        success: true,
-        message: { result: ["OTP sent successfully."] },
-        _id: EmailExists._id,
-      });
+      if (emailinfo.accepted.length === 1) {
+        await user.updateOne({ email: req.body.email }, { otp: encryptedotp });
+        const otpToken = await generateotptoken(EmailExists._id);
+        const cookieOptions = {
+          httpOnly: true,
+          maxAge: 10 * 60 * 1000,
+        };
+        res.cookie("otpToken", otpToken, cookieOptions);
+        console.log(req.cookies.otpToken);
+        return res.status(200).json({
+          success: true,
+          message: { result: ["OTP sent successfully."] },
+        });
+      } else {
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: { error: ["Failed to send OTP."] },
+          });
+      }
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: { error: ["Failed to send OTP."] },
+        message: { error: ["server error"] },
         error,
       });
     }
