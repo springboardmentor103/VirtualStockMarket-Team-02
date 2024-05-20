@@ -1,61 +1,105 @@
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Purchase = require('../Models/Purchase');
-const { getStockData } = require('../services/stockService');
+const { verifyauthtoken } = require("../Middleware/authtoken");
+const { getCoinData } = require("../Middleware/getCoinData");
+const purchase = require("../Models/Purchase");
 
-router.post('/buy', async (req, res) => {
+router.post("/buy", verifyauthtoken, async (req, res) => {
   try {
-    const { stockName, quantity, price } = req.body;
-    const totalAmount = quantity * price;
+    const { cryptoSymbol, quantity } = req.body;
+    if (!cryptoSymbol || cryptoSymbol.trim() === "") {
+      return res.status(400).json({ success: false, message: "Crypto symbol is required" });
+    }
 
-    const stockData = await getStockData(stockName);
-    const currentPrice = stockData.quoteResponse.result[0].regularMarketPrice;
-    
-    const userID = req.user.id; 
+    if (!req.payload || !req.payload._id) {
+      return res.status(400).json({ success: false, message: "User ID not found in payload" });
+    }
 
-    const purchase = new Purchase({
-      userID,
-      stockName,
+    const getresult = await getCoinData([cryptoSymbol]);
+    if (!getresult.data || !getresult.data[cryptoSymbol]) {
+      return res.status(400).json({ success: false, message: "Invalid crypto symbol" });
+    }
+    const currentPrice = getresult.data[cryptoSymbol][0].quote.USD.price;
+
+    let purchaseUser = await purchase.findOne({ UserId: req.payload._id });
+    if (!purchaseUser) {
+      purchaseUser = new purchase({
+        UserId: req.payload._id,
+        cashBalance: 1000, // Set default cash balance
+        purchases: [],
+      });
+    }
+
+    const totalAmount = currentPrice * quantity;
+    if (purchaseUser.cashBalance < totalAmount) {
+      return res.status(400).json({ success: false, message: "Not enough balance to buy" });
+    }
+
+    purchaseUser.cashBalance -= totalAmount;
+
+    purchaseUser.purchases.push({
+      cryptoSymbol, 
       quantity,
-      price: currentPrice,
-      status: 'In Production',
-      info: 'NIL'
+      purchasePrice: currentPrice,
+      timestamp: new Date(),
+      purchasetype: "BUY",
+      status: "COMPLETED", 
+      info: "" 
     });
 
-    await purchase.save();
+    await purchaseUser.save();
+    res.status(200).json({ success: true, message: "Purchase successful" });
 
-    res.status(201).json({ message: 'Stock purchased successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
 
-router.post('/sell', async (req, res) => {
+
+router.post("/sell", verifyauthtoken, async (req, res) => {
   try {
-    const { stockName, quantity, price } = req.body;
-
-    const stockData = await getStockData(stockName);
-    const currentPrice = stockData.quoteResponse.result[0].regularMarketPrice;
-
-    const userID = req.user.id;
-
-    const purchase = await Purchase.findOne({ userID, stockName, status: 'In Production' });
-
-    if (!purchase) {
-      return res.status(404).json({ error: 'No stock available to sell' });
+    const { cryptoSymbol, quantity } = req.body;
+    if (!cryptoSymbol || cryptoSymbol.trim() === "") {
+      return res.status(400).json({ success: false, message: "Crypto symbol is required" });
     }
 
-    if (purchase.quantity < quantity) {
-      return res.status(400).json({ error: 'Not enough quantity to sell' });
+    if (!req.payload || !req.payload._id) {
+      return res.status(400).json({ success: false, message: "User ID not found in payload" });
     }
 
-    purchase.quantity -= quantity;
-    await purchase.save();
+    const getresult = await getCoinData([cryptoSymbol]);
+    if (!getresult.data || !getresult.data[cryptoSymbol]) {
+      return res.status(400).json({ success: false, message: "Invalid crypto symbol" });
+    }
+    const currentPrice = getresult.data[cryptoSymbol][0].quote.USD.price;
 
-    res.json({ message: 'Stock sold successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    let purchaseUser = await purchase.findOne({ UserId: req.payload._id });
+    if (!purchaseUser) {
+      return res.status(400).json({ success: false, message: "User has no purchase record" });
+    }
+
+    const totalAmount = currentPrice * quantity;
+
+    purchaseUser.cashBalance += totalAmount;
+
+    purchaseUser.purchases.push({
+      cryptoSymbol, 
+      quantity,
+      purchasePrice: currentPrice,
+      timestamp: new Date(),
+      purchasetype: "SELL",
+      status: "COMPLETED", 
+      info: "" 
+    });
+
+    await purchaseUser.save();
+    res.status(200).json({ success: true, message: "Sale successful" });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
 
