@@ -1,34 +1,55 @@
-const mongoose = require('mongoose');
-
-const purchaseSchema = new mongoose.Schema({
-  userID: {
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const purchaseschema = new Schema({
+  UserId: {
     type: String,
-    required: true
+    required: true,
   },
-  stockName: {
-    type: String,
-    required: true
-  },
-  quantity: {
+  cashBalance: {
     type: Number,
-    required: true
+    required: true,
+    default: 10000,
   },
-  price: {
-    type: Number,
-    required: true
+  purchases: {
+    type: [
+      {
+        cryptoSymbol: {
+          type: String
+        },
+        assetId: {
+          type: Number,
+        },
+        assetName: {
+          type: String,
+        },
+        quantity: {
+          type: Number,
+        },
+        purchasePrice: {
+          type: Number,
+        },
+        timestamp: {
+          type: Date,
+        },
+        purchasetype: {
+          type: String,
+        },
+        status: {
+          type: String,
+        },
+        info: {
+          type: String,
+        },
+        volume: {
+          type: Number,
+        }
+      },
+    ],
+    default: [],
   },
-  status: {
-    type: String,
-    default: 'In Production'
-  },
-  info: {
-    type: String,
-    default: 'NIL'
-  },
-  purchaseDate: {
+  date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
-
-module.exports = mongoose.model('Purchase', purchaseSchema);
+module.exports = mongoose.model("purchase", purchaseschema);
