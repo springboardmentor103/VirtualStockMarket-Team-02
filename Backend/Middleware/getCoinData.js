@@ -1,8 +1,8 @@
 //getCoinData.js
 const axios = require("axios");
 
-const getCoinData = async (coins) => {
-  const url = `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=${coins.join(",")}`;
+const getCoinData = async (coin) => {
+  const url = `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=${coin}`;
   const headers = {
     "X-CMC_PRO_API_KEY": process.env.API_KEY,
   };
