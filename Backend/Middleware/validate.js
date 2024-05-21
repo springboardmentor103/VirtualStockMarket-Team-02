@@ -1,3 +1,4 @@
+//validate.js
 const { validationResult } = require("express-validator");
 const validatecreateuser = (req, res, next) => {
   const errors = validationResult(req);

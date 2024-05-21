@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const userschema = new Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -9,20 +9,18 @@ const userschema = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   phone: {
-    type: Number,
-    required: true,
-  },
-  password: {
     type: String,
     required: true,
   },
-  confirmpassword: {
+  password: {
     type: String,
     required: true,
   },
@@ -41,15 +39,15 @@ const userschema = new Schema({
   },
   accountLocked: {
     type: Boolean,
-    default: false, // Initially, the account is not locked
+    default: false,
   },
   failedLoginAttempts: {
     type: Number,
-    default: 0, // Number of failed login attempts
+    default: 0,
   },
   lastFailedLoginAttempt: {
     type: Date,
-    default: null, // Timestamp of the last failed login attempt
+    default: null,
   },
   date: {
     type: Date,
@@ -57,4 +55,4 @@ const userschema = new Schema({
   },
 });
 
-module.exports = mongoose.model("user", userschema);
+module.exports = mongoose.model("User", userSchema);

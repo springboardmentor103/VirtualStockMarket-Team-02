@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const user = require("../Models/User");
+const User = require("../Models/User"); 
 const { body } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { validatecreateuser } = require("../Middleware/validate");
+
 router.post(
   "/createuser",
   [
@@ -24,51 +25,64 @@ router.post(
       .trim(),
     body("name")
       .notEmpty()
-      .withMessage("name is required.")
+      .withMessage("Name is required.")
       .isLength({ min: 3 })
-      .withMessage("name must be atleast 3 characters long")
+      .withMessage("Name must be at least 3 characters long")
       .trim(),
+    body("username")
+      .notEmpty()
+      .withMessage("Username is required.")
+      .isLength({ min: 3 })
+      .withMessage("Username must be at least 3 characters long")
+      .trim(),
+    body("phone")
+      .notEmpty()
+      .withMessage("Phone is required.")
+      .isMobilePhone()
+      .withMessage("Invalid phone number")
   ],
   validatecreateuser,
   async (req, res) => {
-    const salt = await bcrypt.genSalt(10);
-    let secpassword = await bcrypt.hash(req.body.password, salt);
-    const userExists = await user.findOne({
-      email: req.body.email,
-      password: req.body.password,
-      name: req.body.name,
-    });
-    if (userExists) {
-      return res.status(400).json({
-        success: false,
-        message: { usercreation: ["User already exist."] },
-      });
-    }
-    const emailExists = await user.findOne({ email: req.body.email });
-    if (emailExists) {
-      return res.status(400).json({
-        success: false,
-        message: { email: ["Email already exists."] },
-      });
-    }
-    await user
-      .create({
-        name: req.body.name,
-        email: req.body.email,
-        password: secpassword,
-      })
-      .then(() => {
-        res.status(201).json({
-          success: true,
-          message: { usercreation: ["you created account successfully"] },
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const secpassword = await bcrypt.hash(req.body.password, salt);
+
+      const userExists = await User.findOne({ email: req.body.email });
+      if (userExists) {
+        return res.status(400).json({
           success: false,
-          message: { servererror: ["Internal Server Error"] },
+          message: { usercreation: ["User already exists."] },
         });
+      }
+
+      const usernameExists = await User.findOne({ username: req.body.username });
+      if (usernameExists) {
+        return res.status(400).json({
+          success: false,
+          message: { username: ["Username already exists."] },
+        });
+      }
+
+      await User.create({
+        name: req.body.name,
+        username: req.body.username,
+        email: req.body.email,
+        phone: req.body.phone,
+        password: secpassword,
       });
+
+      res.status(201).json({
+        success: true,
+        message: { usercreation: ["You created an account successfully"] },
+      });
+    } catch (error) {
+      console.error("Error creating user:", error); 
+      res.status(500).json({
+        success: false,
+        message: { servererror: ["Internal Server Error"] },
+      });
+    }
   }
 );
+
 module.exports = router;

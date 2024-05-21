@@ -14,8 +14,8 @@ mongodb()
     removeExpiredOTP();
     app.use(
       cors({
-        origin: "http://localhost:3000", // Allow requests from localhost:3000
-        credentials: true, // Enable sending cookies
+        origin: "http://localhost:3000", 
+        credentials: true, 
       })
     );
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,7 +26,7 @@ mongodb()
     });
 
     // Routes
-    app.use("/api", require("./Routes/APIninja")); 
+    app.use("/api", require("./Routes/APICoinMarket"));
     app.use("/api", require("./Routes/CreateUser"));
     app.use("/api", require("./Routes/LoginUser"));
     app.use("/api", require("./Routes/OtpGeneration"));
@@ -37,9 +37,8 @@ mongodb()
     app.use("/api", require("./Routes/Portfolio"));
     app.use("/api", require("./Routes/CryptoDetails"));
     app.use("/api", require("./Routes/stockRoutes"));
-    app.use("/api", require("./Routes/TocheckToken")); // Add the TocheckToken route
+    app.use("/api", require("./Routes/TocheckToken")); 
     app.use("/api", require("./Routes/leaderboard"));
-    app.use("/api", require("./Routes/APIninja")); 
     app.use("/api", require("./Routes/loginAttempts"));
     app.listen(port, () => {
       console.log(`Virtual stock market Platform listening on port ${port}`);
@@ -48,4 +47,3 @@ mongodb()
   .catch((err) => {
     console.log(err);
   });
-

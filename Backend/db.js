@@ -1,4 +1,4 @@
-// db.js
+//  db.js
 const mongoose = require("mongoose");
 
 const mongodb = async () => {
