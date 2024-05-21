@@ -6,12 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { datacontext } from "../Datacontext";
 
-function Register({ token }) {
+function Register() {
   const navigate = useNavigate();
   const { tokenState } = useContext(datacontext);
   useEffect(() => {
     if (tokenState.authtoken) {
-      navigate("/dashboard");
+      navigate("/TrendingStocks");
     } else if (tokenState.otpmatchtoken) {
       navigate("/resetPass");
     } else if (tokenState.otptoken) {

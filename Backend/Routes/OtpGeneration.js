@@ -41,15 +41,12 @@ const encryptOTP = (otpValue) => {
   encrypted = Buffer.concat([encrypted, cipher.final()]);
   return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
 };
-// const otpgenerate = () => {
-//   const generatedOTP = otp.generate(6,{ digits: true });
-//   return generatedOTP;
-// };
+
 const otpgenerate = () => {
-  const otpLength = 6;
-  const min = Math.pow(10, otpLength - 1);
-  const max = Math.pow(10, otpLength) - 1;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  const min = 100000; // Minimum 6-digit number
+  const max = 999999; // Maximum 6-digit number
+  const generatedOTP = Math.floor(Math.random() * (max - min + 1)) + min;
+  return generatedOTP.toString(); // Convert the number to a string
 };
 router.post(
   "/otpgenerate",
@@ -76,7 +73,7 @@ router.post(
       }
       // const otpValue = otpgenerate();
       // const encryptedotp = encryptOTP(otpValue);
-      const otpValue = otpgenerate().toString();
+      const otpValue = otpgenerate().toString(); 
       const encryptedotp = encryptOTP(otpValue);
 
       encryptedotp.expiry = new Date(Date.now() + 600000);
@@ -100,11 +97,12 @@ router.post(
           message: { result: ["OTP sent successfully."] },
         });
       } else {
-        return res.status(400).json({
-
-          success: false,
-          message: { error: ["Failed to send OTP."] },
-        });
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: { error: ["Failed to send OTP."] },
+          });
       }
     } catch (error) {
       res.status(500).json({

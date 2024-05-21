@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./sidebar.css";
 import logo1 from "../Images/icon1.png";
@@ -12,10 +12,13 @@ import logo8 from "../Images/icon8.png";
 import logo9 from "../Images/icon9.png";
 import logo10 from "../Images/icon10.png";
 import profile from "../Images/profile.png";
+import { datacontext } from "../Datacontext";
 
 import int from "../Images/Intersect.png";
 export default function Sidebars() {
   const navigate = useNavigate();
+  const { dispdata } = useContext(datacontext);
+
   return (
     <div className="sidebar-container">
       <div className="sidebar">
@@ -100,8 +103,8 @@ export default function Sidebars() {
             <img src={profile} alt="pic" />
           </div>
           <div className="profile-content">
-            <p>Puneet Pandey</p>
-            <p>helloabc@gmail.com</p>
+            <p>{dispdata.name}</p>
+            <p>{dispdata.email}</p>
           </div>
           <div className="down">
             <img src={logo10} alt="down" />

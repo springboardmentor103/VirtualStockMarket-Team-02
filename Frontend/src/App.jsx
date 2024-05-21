@@ -4,7 +4,6 @@ import Protectedroute from "./components/Protectedroute";
 import "./App.css";
 import Login from "./Login/login";
 import ForgetPassword from "./forgetPassword/forgetPassword";
-import Dashboard from "./Dashboard/Dashboard";
 import Navbar from "./components/Navbar";
 import Register from "./Register/Register";
 import ResetPass from "./resetPass/resetPass";
@@ -19,10 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navbar />} />
             <Route path="/login" element={<Protectedroute Element={Login} />} />
-            <Route
-              path="/dashboard"
-              element={<Protectedroute Element={Dashboard} />}
-            />
+
             <Route
               path="/register"
               element={<Protectedroute Element={Register} />}

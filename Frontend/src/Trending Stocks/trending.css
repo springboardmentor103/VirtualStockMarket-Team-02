@@ -12,20 +12,28 @@
   z-index: -1;
 }
 .Trending-container .Trending-stocks-container {
-  max-width: 60%;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.Trending-container .Trending-stocks-container .Trend-container {
+  max-width: 80%;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid red;
+  padding: 1rem 0rem;
 }
 .Trending-container .Trending-stocks-container .search-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 1rem 0.5rem;
+  padding: 0rem 0.5rem;
+  margin-bottom: 2rem;
 }
 .Trending-container .Trending-stocks-container .search-container .left {
   display: flex;
@@ -48,4 +56,67 @@
   border-radius: 5px;
   width: 100%;
   color: white;
+}
+.stocks-container {
+  padding: 1rem;
+  background-color: #454140;
+  border-radius: 5px;
+  width: 100%;
+  height: 80vh;
+  overflow-y: scroll;
+}
+.stocks-container .stocks-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stocks-container .stocks-title p {
+  color: white;
+  font-size: 17px;
+}
+.stocks-container .stocks-title button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: palevioletred;
+  font-size: 15px;
+  cursor: pointer;
+}
+.stocks-container .stocks-content {
+  margin-top: 1rem;
+}
+.stocks-container .stocks-content .stocks {
+  margin-top: 2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+.stocks-container .stocks-content .stocks:hover {
+  background-color: gray;
+}
+.stocks-container .stocks-content .stocks h2 {
+  color: white;
+}
+.stocks-container .stocks-content .stocks i {
+  color: orange;
+  font-size: 40px;
+}
+.stocks-container .stocks-content .stocks .price-container {
+  display: flex;
+  flex-direction: column;
+}
+.stocks-container .stocks-content .stocks .price-container p {
+  color: white;
+}
+.stocks-container .stocks-content .stocks .price-container p:last-child.up {
+  color: green;
+}
+.stocks-container .stocks-content .stocks .price-container p:last-child.down {
+  color: red;
+}
+.stocks-container .stocks-content .error {
+  color: white;
+  text-align: center;
 }

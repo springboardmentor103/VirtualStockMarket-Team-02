@@ -39,9 +39,6 @@ export default function Protectedroute({ Element }) {
           if (location.pathname === "/resetPass") {
             navigate("/forgetPassword");
           }
-          if (location.pathname === "/dashboard") {
-            navigate("/login");
-          }
           if (location.pathname === "/account") {
             navigate("/login");
           }

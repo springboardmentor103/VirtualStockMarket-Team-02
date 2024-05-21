@@ -13,12 +13,9 @@ function ForgetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Token changed:", tokenState);
     if (tokenState.authtoken) {
-      console.log("Navigating to /dashboard");
-      navigate("/dashboard");
+      navigate("/TrendingStocks");
     } else if (tokenState.otptoken) {
-      console.log("Navigating to /forgetPassword");
       navigate("/forgetPassword");
     }
   }, [tokenState, navigate]);

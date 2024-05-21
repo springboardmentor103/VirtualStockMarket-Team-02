@@ -15,7 +15,7 @@ function Login() {
   const { tokenState, setTokenState } = useContext(datacontext);
   useEffect(() => {
     if (tokenState.authtoken) {
-      navigate("/dashboard");
+      navigate("/TrendingStocks");
     } else if (tokenState.otpmatchtoken) {
       navigate("/resetPass");
     } else if (tokenState.otptoken) {
@@ -43,7 +43,7 @@ function Login() {
       if (response.ok) {
         setIsLoading(false);
         alert("You have successfully logged in.");
-        navigate("/dashboard");
+        navigate("/TrendingStocks");
         setLoginData({
           email: "",
           password: "",

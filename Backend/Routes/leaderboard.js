@@ -12,7 +12,7 @@ router.get("/leaderboard", async (req, res) => {
       const userPurchases = await Purchase.findOne({ UserId: currentUser._id });
 
       if (!userPurchases) {
-        continue;
+        continue; 
       }
 
       let totalBuyAmount = 0;
@@ -20,10 +20,10 @@ router.get("/leaderboard", async (req, res) => {
 
       if (userPurchases.purchases) {
         userPurchases.purchases.forEach((transaction) => {
-          if (transaction.type === "BUY") {
+          if (transaction.purchasetype === 'BUY') {
             totalBuyAmount += transaction.quantity * transaction.purchasePrice;
-          } else if (transaction.type === "SELL") {
-            totalSellAmount += transaction.quantity * transaction.sellPrice;
+          } else if (transaction.purchasetype === 'SELL') {
+            totalSellAmount += transaction.quantity * transaction.purchasePrice;
           }
         });
       }
@@ -34,13 +34,14 @@ router.get("/leaderboard", async (req, res) => {
         userId: currentUser._id,
         userName: currentUser.name,
         userEmail: currentUser.email,
-        totalProfit: totalProfit.toFixed(2),
+        totalProfit: totalProfit.toFixed(6),
       });
     }
 
     topUsers.sort((a, b) => b.totalProfit - a.totalProfit);
+    const top10Users = topUsers.slice(0, 10);
 
-    res.status(200).json({ success: true, topUsers });
+    res.status(200).json({ success: true, topUsers: top10Users });
   } catch (error) {
     console.error("Error fetching top users:", error);
     res.status(500).json({ success: false, message: "Internal server error" });

@@ -12,7 +12,7 @@ function ForgetPassword() {
   const { tokenState, setTokenState } = useContext(datacontext);
   useEffect(() => {
     if (tokenState.authtoken) {
-      navigate("/dashboard");
+      navigate("/TrendingStocks");
     } else if (tokenState.otpmatchtoken) {
       navigate("/resetPass");
     }

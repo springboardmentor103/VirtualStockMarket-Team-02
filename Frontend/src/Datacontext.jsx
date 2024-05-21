@@ -6,8 +6,12 @@ export default function Datacontext({ children }) {
     otptoken: false,
     otpmatchtoken: false,
   });
+  const [dispdata, setdispdata] = useState({ name: "", email: "" });
+
   return (
-    <datacontext.Provider value={{ tokenState, setTokenState }}>
+    <datacontext.Provider
+      value={{ tokenState, setTokenState, dispdata, setdispdata }}
+    >
       {children}
     </datacontext.Provider>
   );

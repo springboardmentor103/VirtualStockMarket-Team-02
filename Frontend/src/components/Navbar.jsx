@@ -11,7 +11,7 @@ export default function Navbar() {
         });
         const data = await response.json();
         if (response.ok && data.success) {
-          navigate("/dashboard");
+          navigate("/TrendingStocks");
         } else {
           navigate("/login");
         }
