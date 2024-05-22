@@ -3,17 +3,19 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
 const cookieparser = require("cookie-parser");
-
 require("dotenv").config();
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
+require('dotenv').config({ path: './process.env' });
 const removeExpiredOTP = require("./Middleware/expireotps");
+
 mongodb()
   .then(() => {
     removeExpiredOTP();
     app.use(
       cors({
-        origin: "*",
+        origin: "http://localhost:3000", // Allow requests from localhost:3000
+        credentials: true, // Enable sending cookies
       })
     );
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +24,9 @@ mongodb()
     app.get("/", (req, res) => {
       res.send("Hello World!");
     });
+
+    // Routes
+    app.use("/api", require("./Routes/APIninja")); 
     app.use("/api", require("./Routes/CreateUser"));
     app.use("/api", require("./Routes/LoginUser"));
     app.use("/api", require("./Routes/OtpGeneration"));
@@ -29,11 +34,18 @@ mongodb()
     app.use("/api", require("./Routes/NewPassword"));
     app.use("/api", require("./Routes/LogoutUser"));
     app.use("/api", require("./Routes/Dashboard"));
+    app.use("/api", require("./Routes/Portfolio"));
+    app.use("/api", require("./Routes/CryptoDetails"));
     app.use("/api", require("./Routes/stockRoutes"));
+    app.use("/api", require("./Routes/TocheckToken")); // Add the TocheckToken route
+    app.use("/api", require("./Routes/leaderboard"));
+    app.use("/api", require("./Routes/APIninja")); 
+    app.use("/api", require("./Routes/loginAttempts"));
     app.listen(port, () => {
-      console.log(`Virtual stock  market Platform listening on port ${port}`);
+      console.log(`Virtual stock market Platform listening on port ${port}`);
     });
   })
   .catch((err) => {
     console.log(err);
   });
+

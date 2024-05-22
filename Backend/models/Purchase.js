@@ -8,11 +8,14 @@ const purchaseschema = new Schema({
   cashBalance: {
     type: Number,
     required: true,
-    default: 1000,
+    default: 10000,
   },
   purchases: {
     type: [
       {
+        cryptoSymbol: {
+          type: String
+        },
         assetId: {
           type: Number,
         },
@@ -34,9 +37,12 @@ const purchaseschema = new Schema({
         status: {
           type: String,
         },
-        Info: {
+        info: {
           type: String,
         },
+        volume: {
+          type: Number,
+        }
       },
     ],
     default: [],
