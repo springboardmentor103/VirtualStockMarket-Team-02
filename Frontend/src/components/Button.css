@@ -1,0 +1,75 @@
+.chevron-down-icon1 {
+    position: absolute;
+    top: 26px;
+    left: 224px;
+    border-radius: var(--br-8xs);
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+  }
+  .group-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-mini);
+    background-color: var(--color-gray-400);
+    width: 257px;
+    height: 71.9px;
+  }
+  .profile-img {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    border-radius: var(--br-31xl);
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+  }
+  .puneet-pandey1 {
+    position: absolute;
+    top: 18px;
+    left: 66px;
+    font-weight: 600;
+  }
+  .chevron-down-group {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 257px;
+    height: 71.9px;
+  }
+  .button10,
+  .helloabcgmailcom1 {
+    position: absolute;
+    top: 39px;
+    left: 67px;
+    font-size: var(--heading-07-size);
+    color: var(--color-darkgray-100);
+  }
+  .button10 {
+    top: 87%;
+    left: 21px;
+    width: 257px;
+    height: 71.9px;
+    text-align: right;
+    font-size: var(--font-size-mini);
+    color: var(--white-100);
+    font-family: var(--font-inter);
+  }
+
+  @media screen and (max-width: 960px) {
+    .puneet-pandey1,
+    .helloabcgmailcom1,
+    .chevron-down-icon1 {
+      display: none;
+    }
+
+    .group-inner {
+      background: none;
+    }
+    .profile-img {
+      left: -6.6%;
+      width: 34px;
+      height: 34px;
+    }
+  }

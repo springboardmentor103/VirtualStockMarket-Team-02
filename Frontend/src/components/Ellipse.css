@@ -1,0 +1,23 @@
+.ellipse-icon1 {
+  width: 142px;
+  max-width: 100%;
+  height: 145px;
+  opacity: 0.6;
+  overflow: unset;
+  position: absolute;
+  top: -40px;
+  left: -34px;
+}
+
+@media screen and (max-width: 960px) {
+  .ellipse-icon1 {
+    width: 142px;
+    max-width: 250%;
+    height: 145px;
+    opacity: 0.8;
+    overflow: unset;
+    position: absolute;
+    top: -50px;
+    left: -40px;
+  }
+}

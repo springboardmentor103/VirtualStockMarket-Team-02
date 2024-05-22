@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Abhaya+Libre+ExtraBold:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Eudoxus+Sans:wght@400;700&display=swap");
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  --font-poppins: Poppins;
+  --font-inter: Inter;
+  --font-abhaya-libre-extrabold: "Abhaya Libre ExtraBold";
+  --font-istok-web: "Istok Web";
+  --heading-05: "Eudoxus Sans";
+
+  /* font sizes */
+  --font-size-13xl: 32px;
+  --heading-07-size: 12px;
+  --font-size-21xl: 40px;
+  --font-size-6xl: 25px;
+  --font-size-16xl: 35px;
+  --font-size-3xl: 22px;
+  --font-size-mini: 13px;
+  --heading-05-size: 16px;
+  --font-size-xl: 20px;
+
+  /* Colors */
+  --white-100: #fff;
+  --button: #03314b;
+  --pink: #f61c7a;
+  --color-black: #000;
+  --color-darkgray-100: #acacac;
+  --color-darkgray-200: #a0a0a0;
+  --color-gray-100: #787878;
+  --color-gray-200: #131212;
+  --color-gray-300: rgba(0, 0, 0, 0.17);
+  --color-gray-400: rgba(0, 0, 0, 0.25);
+  --gray-g6: #6c727f;
+  --fuschia-60: #fcddec;
+  --component-colors-utility-blue-utility-blue-600: #1570ef;
+  --d-blue: #3500d4;
+  --color-midnightblue: rgba(13, 12, 77, 0.5);
+  --color-midnightgreen: rgba(12, 77, 21, 0.5);
+  --color-gainsboro: #d9d9d9;
+  --green-g7: #1b7a00;
+  --green-g6: #8ee04e;
+
+  /* Border radiuses */
+  --br-3xs: 10px;
+  --br-xs: 12px;
+  --br-6xl: 25px;
+  --br-5xl: 24px;
+  --br-31xl: 50px;
+  --br-mini: 15px;
+  --br-8xs: 5px;
+  --br-xl: 20px;
+  --br-2xl: 21px;
+  --br-27xl: 46px;
+}

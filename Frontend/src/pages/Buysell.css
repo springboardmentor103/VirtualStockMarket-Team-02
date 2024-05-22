@@ -1,0 +1,878 @@
+.portfolio-inner,
+.portfolio-item {
+  position: absolute;
+  top: 120px;
+  left: 1480px;
+  border-radius: 50%;
+  background-color: var(--color-midnightblue);
+  width: 114px;
+  height: 124px;
+  opacity: 0.8;
+}
+.portfolio-inner {
+  top: 939px;
+  left: -26px;
+}
+.portfolio-child1,
+.rectangle-icon {
+  position: absolute;
+  top: 503px;
+  left: -1px;
+  opacity: 0.9;
+}
+.portfolio-child1 {
+  top: 764px;
+  left: 999px;
+  border-radius: var(--br-27xl);
+  width: 1079px;
+  object-fit: contain;
+}
+.icon,
+.side-bar {
+  position: absolute;
+}
+.side-bar {
+  top: 19px;
+  left: 19px;
+  box-shadow: 0 0 39px 12px rgba(255, 255, 255, 0.04);
+  border-radius: var(--br-2xl);
+  background-color: var(--color-gray-200);
+  border: 1px solid var(--color-gray-300);
+  box-sizing: border-box;
+  width: 300px;
+  height: 95vh;
+  opacity: 0.9;
+}
+.icon {
+  top: 776px;
+  left: 56px;
+  width: 30px;
+  height: 37.1px;
+  overflow: hidden;
+}
+.chartstables-layouts,
+.personal {
+  position: absolute;
+  top: 133px;
+  left: 22px;
+  font-size: var(--font-size-mini);
+  font-weight: 600;
+  font-family: var(--font-inter);
+  color: var(--color-darkgray-200);
+  opacity: 0.9;
+}
+.chartstables-layouts {
+  top: 60%;
+}
+.dashboard {
+  position: absolute;
+  top: 3px;
+  left: 61px;
+  font-size: 18px;
+}
+.icon-alternate-tachometer,
+.icon-chevron-right-arrow-icon {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  top: 0;
+  right: 85.3%;
+  bottom: 15.63%;
+  left: 0;
+  overflow: hidden;
+}
+.icon-chevron-right-arrow-icon {
+  height: 25%;
+  width: 1.69%;
+  top: 37.5%;
+  right: 0;
+  bottom: 37.5%;
+  left: 98.31%;
+}
+.icon-chevron-right-arrow-icon1 {
+  position: absolute;
+  height: 37.59%;
+  width: 2.59%;
+  top: 31.03%;
+  right: 0;
+  bottom: 41.38%;
+  left: 130.71%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.app,
+.button {
+  position: absolute;
+}
+.button {
+  top: 31%;
+  left: 35px;
+  width: 225px;
+  height: 32px;
+  opacity: 0.9;
+}
+.app {
+  top: 0;
+  left: 0;
+}
+
+.icon-app-menu {
+  position: absolute;
+  height: 27px;
+  width: 27px;
+  top: 4px;
+  right: 87.18%;
+  bottom: 3.23%;
+  left: 3px;
+  overflow: hidden;
+}
+.button1 {
+  position: absolute;
+  top: 38%;
+  left: 35px;
+  width: 225px;
+  height: 31px;
+  opacity: 0.9;
+}
+
+.icon-mail {
+  position: absolute;
+  height: 35px;
+  width: 32px;
+  top: 0;
+  right: 84.81%;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+.button2,
+.icon-laptop {
+  position: absolute;
+  width: 225px;
+  height: 38px;
+}
+.button2 {
+  top: 45%;
+  left: 35px;
+  opacity: 0.9;
+}
+.group-parent,
+.icon-laptop {
+  top: 0;
+  left: 0;
+}
+
+.button3 {
+  position: absolute;
+  top: 52%;
+  left: 35px;
+  width: 225px;
+  height: 38px;
+  opacity: 0.9;
+}
+
+.icon-partition {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  top: 0;
+  right: 86.68%;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+.button4 {
+  position: absolute;
+  top: 65%;
+  left: 35px;
+  width: 225px;
+  height: 32px;
+  opacity: 0.9;
+}
+.icon-tables-bold {
+  height: 32px;
+  width: 32px;
+  right: 87.17%;
+  bottom: 0;
+  left: 0;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.button5 {
+  position: absolute;
+  top: 72%;
+  left: 35px;
+  width: 225px;
+  height: 30px;
+  opacity: 0.9;
+}
+.button6 {
+  position: absolute;
+  top: 79%;
+  left: 35px;
+  width: 170px;
+  height: 29px;
+  opacity: 0.9;
+}
+
+.button7,
+.group-icon {
+  position: absolute;
+  height: 32px;
+}
+.group-icon {
+  top: 0;
+  left: 0;
+  width: 32px;
+  object-fit: cover;
+}
+.button7 {
+  top: 24%;
+  left: 35px;
+  width: 225px;
+  opacity: 0.9;
+  color: var(--white-100);
+}
+.intersect-icon {
+  position: relative;
+  width: 267px;
+  height: 70px;
+  opacity: 0.9;
+  left: 1rem;
+  top: 2.3rem;
+}
+
+.intersect-icon1 {
+  position: relative;
+  width: 0;
+  height: 0;
+  object-fit: cover;
+  opacity: 0.7;
+}
+.springboard {
+  position: absolute;
+  top: 57px;
+  left: 100px;
+  font-size: var(--heading-05-size);
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--white-100);
+  opacity: 0.9;
+}
+
+.icon-chevron-left {
+  position: absolute;
+  height: 2.34%;
+  width: 0.81%;
+  top: 3.42%;
+  right: 73.42%;
+  bottom: 94.24%;
+  left: 25.76%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0.9;
+}
+.ellipse-div {
+  position: absolute;
+  top: -52px;
+  left: 594px;
+  border-radius: 50%;
+  background-color: var(--color-midnightblue);
+  width: 114px;
+  height: 107px;
+  opacity: 0.9;
+}
+.stocks {
+  margin: 0;
+}
+
+.buttonslargenormalrest {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+
+.icon1 {
+  position: absolute;
+  height: 100%;
+  width: 7.34%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 92.66%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.legal {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.portfolio1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-black);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-size: var(--font-size-xl);
+  color: var(--color-darkgray-100);
+  font-family: var(--font-istok-web);
+}
+.market-cap1 {
+  top: calc(50% - 25.5px);
+  left: 18%;
+  line-height: 16px;
+  display: inline-block;
+}
+.b,
+.market-cap,
+.market-cap1 {
+  position: absolute;
+}
+.b {
+  width: 59.23%;
+  top: calc(50% - 2.5px);
+  left: 5%;
+  line-height: 22px;
+  display: inline-block;
+}
+.market-cap {
+  width: 32%;
+  top: calc(85%);
+  right: 0;
+  left: 65.45%;
+  height: 51px;
+  font-size: 22px;
+}
+.avg-volume1,
+.div {
+  position: absolute;
+  width: 100%;
+  top: calc(50% - 26px);
+  left: 0;
+  line-height: 16px;
+  display: inline-block;
+}
+.div {
+  width: 54.05%;
+  top: calc(50% - 2px);
+  left: 16%;
+  line-height: 22px;
+}
+.avg-volume {
+  width: 32%;
+  top: calc(85%);
+  right: 0;
+  left: 31%;
+  height: 51px;
+  font-size: 22px;
+}
+.avg-volume,
+.div1,
+.volume {
+  position: absolute;
+}
+.div1 {
+  width: 75%;
+  top: calc(50% - 2px);
+  left: 15%;
+  line-height: 22px;
+  display: inline-block;
+}
+.volume {
+  width: 28%;
+  top: calc(85%);
+  left: 1.54%;
+  height: 52px;
+  font-size: 22px;
+}
+.low1 {
+  width: 91.14%;
+  top: calc(50% - 26px);
+  left: 0;
+  line-height: 16px;
+  display: inline-block;
+}
+.div2,
+.low,
+.low1 {
+  position: absolute;
+}
+.div2 {
+  width: 96.03%;
+  top: calc(50% - 2px);
+  left: 3%;
+  line-height: 22px;
+  display: inline-block;
+}
+.low {
+  width: 30%;
+  top: calc(50% - 10px);
+  left: 63.83%;
+  height: 52px;
+  font-size: 22px;
+}
+.high1 {
+  width: 91%;
+  top: calc(50% - 26px);
+  left: 0;
+  line-height: 16px;
+  display: inline-block;
+}
+.div3,
+.high,
+.high1 {
+  position: absolute;
+}
+.div3 {
+  width: 96.03%;
+  top: calc(50% - 2px);
+  left: 3%;
+  line-height: 22px;
+  display: inline-block;
+}
+.high {
+  width: 30%;
+  top: calc(50% - 10px);
+  right: 47.22%;
+  left: 31.47%;
+  height: 52px;
+  font-size: 22px;
+}
+.open1 {
+  width: 97.86%;
+  top: calc(50% - 26px);
+  left: 0;
+  line-height: 16px;
+  display: inline-block;
+}
+.div4,
+.open,
+.open1 {
+  position: absolute;
+}
+.div4 {
+  width: 100%;
+  top: calc(50% - 2px);
+  left: 2.14%;
+  line-height: 22px;
+  display: inline-block;
+}
+.open {
+  font-size: 22px;
+  width: 30%;
+  top: calc(50% - 10px);
+  left: 0;
+  height: 52px;
+}
+.statistics1 {
+  position: absolute;
+  width: 71.98%;
+  top: calc(20%);
+  left: 1.54%;
+  font-size: var(--font-size-13xl);
+  line-height: 20px;
+  text-align: left;
+  display: inline-block;
+}
+.statistics {
+  position: absolute;
+  width: 45%;
+  top: calc(40%);
+  right: 17.74%;
+  left: 40.35%;
+  height: 196px;
+  text-align: center;
+}
+.triangle-icon {
+  width: 8px;
+  position: relative;
+  border-radius: 1px;
+  height: 6px;
+}
+.div5 {
+  position: relative;
+  line-height: 16px;
+  font-weight: 500;
+}
+.percent {
+  position: absolute;
+  height: 2.83%;
+  top: 28.5%;
+  left: 56.5%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+}
+.div6{
+  position: absolute;
+  display: inline-block;
+}
+.div6 {
+  top: 24%;
+  left: 56%;
+  font-size: 29px;
+  line-height: 28px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.body {
+  width: 96.92%;
+  top: calc(50% + 10px);
+  left: 0;
+  height: 16px;
+  opacity: 0.6;
+  mix-blend-mode: normal;
+}
+.body,
+.nasdaq,
+.twtr {
+  position: absolute;
+}
+.twtr {
+  top: 7%;
+  left: 0;
+  font-size: var(--font-size-13xl);
+  line-height: 25px;
+  display: inline-block;
+}
+.nasdaq {
+  width: 11%;
+  top: 12%;
+  left: 56%;
+  height: 63px;
+}
+.portfolio,
+.portfolio-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-black);
+  overflow: hidden;
+  font-size: var(--font-size-xl);
+  color: var(--color-darkgray-100);
+  font-family: var(--font-istok-web);
+}
+.portfolio-1 {
+  background-color: var(--white-100);
+  overflow: hidden;
+}
+.home1 {
+  margin: 0;
+  position: absolute;
+  top: 2.5%;
+  left: 27%;
+  font-size: var(--font-size-6xl);
+  text-decoration: underline;
+  font-weight: 500;
+  font-family: inherit;
+  display: inline-block;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.buysell {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-color: var(--white-100);
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-6xl);
+  color: var(--white-100);
+  font-family: var(--font-poppins);
+}
+
+.ellipse-div2 {
+  position: absolute;
+  top: 620px;
+  left: 250px;
+  border-radius: 50%;
+  background-color: var(--color-midnightgreen);
+  width: 130px;
+  height: 130px;
+  opacity: 0.4;
+}
+
+
+
+/* ------------------------Buttons--------------------------- */
+.base9 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: var(--br-5xl);
+  background-color: var(--green-g6);
+}
+.edit-text-here2 {
+  position: absolute;
+  top: calc(50% - 13px);
+  left: calc(33%);
+  line-height: 23px;
+  cursor: pointer;
+
+  font-size: 20px;
+  font-family: Poppins;
+  color: #fff;
+  font-weight: 500;
+  background: none;
+  border: none;
+}
+.buttonslargenormalrest3 {
+  position: absolute;
+  height: 8%;
+  width: 10%;
+  top: 80%;
+  left: 45%;
+  height: 8%;
+  right: 44.79%;
+  bottom: 4.49%;
+  cursor: pointer;
+}
+
+/* @media screen and (max-width: 1200px) {
+  .portfolio {
+    width: 1200px;
+    height: 611px;
+    max-width: 1200px;
+  }
+} */
+@media screen and (max-width: 960px) {
+  /* .portfolio {
+    display: flex;
+    height: 100vh;
+  } */
+
+  .side-bar {
+    top: 19px;
+    left: 19px;
+    box-shadow: 0 0 39px 12px rgba(255, 255, 255, 0.04);
+    border-radius: var(--br-2xl);
+    background-color: var(--color-gray-200);
+    border: 1px solid var(--color-gray-300);
+    box-sizing: border-box;
+    width: 10%;
+    height: 95vh;
+    opacity: 0.9;
+  }
+  .icon-chevron-left {
+    width: 2.5%;
+    left: 17%;
+    overflow: hidden;
+    object-fit: contain;
+  }
+  .springboard {
+    display: none;
+  }
+  .home1 {
+    top: 2.5%;
+    left: 21%;
+    font-size: 30px;
+  }
+
+  .nasdaq {
+    width: 11%;
+    top: 13%;
+    left: 46%;
+  }
+  .twtr {
+    top: 10%;
+    left: 0;
+  }
+  .body {
+    top: calc(60%);
+  }
+  .div6 {
+    top: 25%;
+    left: 44%;
+    font-size: 34px;
+  }
+  .percent {
+    position: absolute;
+    top: 29%;
+    left: 48%;
+  }
+
+  .statistics {
+    position: absolute;
+    width: 68%;
+    left: 28%;
+    text-align: center;
+  }
+  .statistics1 {
+    position: absolute;
+    top: calc(10%);
+    left: -15%;
+    font-size: 30px;
+  }
+
+  .open1,
+  .div4,
+  .high,
+  .div3,
+  .low,
+  .volume,
+  .avg-volume,
+  .market-cap {
+    font-size: 21px;
+  }
+  .open {
+    left: -12%;
+    top: 45%;
+  }
+  .high {
+    left: 26%;
+    top: 45%;
+  }
+  .low {
+    left: 65%;
+    top: 45%;
+  }
+  .volume {
+    left: -12%;
+    top: 92%;
+  }
+  .avg-volume {
+    left: 15.5%;
+    top: 92%;
+  }
+  .market-cap {
+    left: 55%;
+    top: 92%;
+  }
+  .market-cap,
+  .avg-volume {
+    width: 46.6%;
+  }
+  .div1 {
+    left: 8%;
+  }
+  .div {
+    left: 20%;
+  }
+  .b {
+    left: 25%;
+  }
+
+  .intersect-icon,
+  .intersect-icon1,
+  .personal,
+  .dashboard,
+  .icon-chevron-right-arrow-icon,
+  .icon-chevron-right-arrow-icon1,
+  .chartstables-layouts {
+    display: none;
+  }
+  .group-icon,
+  .icon-alternate-tachometer,
+  .icon-app-menu,
+  .icon-mail,
+  .icon-partition {
+    left: -12%;
+    height: 25px;
+    width: 25px;
+    top: -300%;
+  }
+  .icon-mail {
+    width: 32px;
+    height: 32px;
+    left: -13.5%;
+    top: -210%;
+  }
+  .app {
+    top: -100%;
+  }
+  .icon-partition {
+    top: -205%;
+  }
+  .table {
+    top: -155%;
+  }
+  .leaderboard {
+    left: -16%;
+    top: -100%;
+  }
+  .icon-tables-bold {
+    left: -500%;
+    top: -300%;
+    max-height: 80%;
+  }
+
+  .ellipse-div {
+    position: absolute;
+    top: -50px;
+    left: 310px;
+    border-radius: 50%;
+    background-color: var(--color-midnightblue);
+    width: 150px;
+    height: 150px;
+    opacity: 0.6;
+  }
+  .ellipse-div2 {
+    position: absolute;
+    top: 690px;
+    left: 200px;
+    border-radius: 50%;
+    background-color: var(--color-midnightgreen);
+    width: 150px;
+    height: 150px;
+    opacity: 0.5;
+  }
+  .portfolio-item {
+    position: absolute;
+    top: 400px;
+    left: -40px;
+    width: 114px;
+    height: 114px;
+    opacity: 0.6;
+  }
+
+
+  .base9 {
+    position: absolute;
+    width: 100px;
+    left: -120%;
+    border-radius: var(--br-mini);
+  }
+  .edit-text-here2 {
+    position: absolute;
+    left: -58%;
+    line-height: 23px;
+  }
+  .buttonslargenormalrest2 {
+    top: 80%;
+  }
+  
+}
+@media screen and (max-width: 420px) {
+  .portfolio {
+    width: 420px;
+    height: 914px;
+  }
+}
