@@ -41,11 +41,15 @@ const encryptOTP = (otpValue) => {
   encrypted = Buffer.concat([encrypted, cipher.final()]);
   return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
 };
+// const otpgenerate = () => {
+//   const generatedOTP = otp.generate(6,{ digits: true });
+//   return generatedOTP;
+// };
 const otpgenerate = () => {
-  const min = 100000; 
-  const max = 999999; 
-  const generatedOTP = Math.floor(Math.random() * (max - min + 1)) + min;
-  return generatedOTP.toString(); 
+  const otpLength = 6;
+  const min = Math.pow(10, otpLength - 1);
+  const max = Math.pow(10, otpLength) - 1;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 router.post(
   "/otpgenerate",
@@ -70,8 +74,11 @@ router.post(
           },
         });
       }
-      const otpValue = otpgenerate();
+      // const otpValue = otpgenerate();
+      // const encryptedotp = encryptOTP(otpValue);
+      const otpValue = otpgenerate().toString();
       const encryptedotp = encryptOTP(otpValue);
+
       encryptedotp.expiry = new Date(Date.now() + 600000);
       const emailinfo = await transporter.sendMail({
         from: process.env.USER,
@@ -94,6 +101,7 @@ router.post(
         });
       } else {
         return res.status(400).json({
+
           success: false,
           message: { error: ["Failed to send OTP."] },
         });
