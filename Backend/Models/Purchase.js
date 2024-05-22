@@ -14,7 +14,7 @@ const purchaseschema = new Schema({
     type: [
       {
         cryptoSymbol: {
-          type: String
+          type: String,
         },
         assetId: {
           type: Number,
@@ -34,6 +34,9 @@ const purchaseschema = new Schema({
         purchasetype: {
           type: String,
         },
+        purchasepercent: {
+          type: Number,
+        },
         status: {
           type: String,
         },
@@ -42,7 +45,7 @@ const purchaseschema = new Schema({
         },
         volume: {
           type: Number,
-        }
+        },
       },
     ],
     default: [],

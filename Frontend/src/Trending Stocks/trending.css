@@ -38,6 +38,7 @@
 .Trending-container .Trending-stocks-container .search-container .left {
   display: flex;
   align-items: center;
+  margin-right: 1rem;
 }
 .Trending-container .Trending-stocks-container .search-container .left p {
   color: white;
@@ -119,4 +120,54 @@
 .stocks-container .stocks-content .error {
   color: white;
   text-align: center;
+}
+@media screen and (max-width: 530px) {
+  .Trending-container .Trending-stocks-container {
+    padding: 1rem;
+  }
+  .Trending-container .Trending-stocks-container .Trend-container {
+    max-width: 100%;
+    padding: 0rem 0rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container {
+    padding: 0rem 0rem;
+    margin-bottom: 2rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container .left {
+    margin-right: 1rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container .left img {
+    width: 10px;
+  }
+  .Trending-container .Trending-stocks-container .search-container .left p {
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container .right {
+    width: 100%;
+  }
+  .Trending-container
+    .Trending-stocks-container
+    .search-container
+    .right
+    input {
+    padding: 0.7rem 0.5rem;
+  }
+  .stocks-container .stocks-content .stocks {
+    margin-top: 1rem;
+  }
+  .stocks-container .stocks-content .stocks h2 {
+    font-size: 20px;
+  }
+  .stocks-container .stocks-content .stocks i {
+    font-size: 30px;
+  }
+  .stocks-container .stocks-content .stocks .price-container p {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 385px) {
+  .stocks-container .stocks-content .stocks h2 {
+    font-size: 15px;
+  }
 }

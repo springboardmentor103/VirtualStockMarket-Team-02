@@ -8,7 +8,6 @@ const getValidSymbols = async () => {
   try {
     const response = await axios.get(url, { headers });
     const validSymbols = response.data.data.map((coin) => coin.symbol);
-    // const validName = response.data.data.map((coin) => coin.name);
     return { validSymbols };
   } catch (error) {
     throw error.response ? error.response.data : error.message;

@@ -9,6 +9,7 @@ import Register from "./Register/Register";
 import ResetPass from "./resetPass/resetPass";
 import Datacontext from "./Datacontext";
 import Trending from "./Trending Stocks/Trending";
+import Orderhistory from "./order history/Orderhistory";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
             <Route
               path="/TrendingStocks"
               element={<Protectedroute Element={Trending} />}
+            />
+            <Route
+              path="/OrderHistory"
+              element={<Protectedroute Element={Orderhistory} />}
             />
           </Routes>
         </div>

@@ -6,20 +6,29 @@ const purchase = require("../Models/Purchase");
 
 router.post("/buy", verifyauthtoken, async (req, res) => {
   try {
-    const { cryptoSymbol, quantity } = req.body;
+    const { cryptoSymbol, quantity, cryptoname } = req.body;
     if (!cryptoSymbol || cryptoSymbol.trim() === "") {
-      return res.status(400).json({ success: false, message: "Crypto symbol is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Crypto symbol is required" });
     }
 
     if (!req.payload || !req.payload._id) {
-      return res.status(400).json({ success: false, message: "User ID not found in payload" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User ID not found in payload" });
     }
 
-    const getresult = await getCoinData([cryptoSymbol]);
+    const getresult = await getCoinData(cryptoSymbol);
     if (!getresult.data || !getresult.data[cryptoSymbol]) {
-      return res.status(400).json({ success: false, message: "Invalid crypto symbol" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid crypto symbol" });
     }
-    const currentPrice = getresult.data[cryptoSymbol][0].quote.USD.price;
+    const result = getresult.data[cryptoSymbol]
+      .filter((item) => item.name === cryptoname)
+      .map((item) => item);
+    const currentPrice = result[0].quote.USD.price;
 
     let purchaseUser = await purchase.findOne({ UserId: req.payload._id });
     if (!purchaseUser) {
@@ -32,51 +41,64 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
 
     const totalAmount = currentPrice * quantity;
     if (purchaseUser.cashBalance < totalAmount) {
-      return res.status(400).json({ success: false, message: "Not enough balance to buy" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Not enough balance to buy" });
     }
 
     purchaseUser.cashBalance -= totalAmount;
 
     purchaseUser.purchases.push({
-      cryptoSymbol, 
+      cryptoSymbol,
       quantity,
       purchasePrice: currentPrice,
       timestamp: new Date(),
       purchasetype: "BUY",
-      status: "COMPLETED", 
-      info: "" 
+      status: "COMPLETED",
+      info: "",
+      assetName: cryptoname,
+      purchasepercent: result[0].quote.USD.percent_change_1h,
     });
 
     await purchaseUser.save();
     res.status(200).json({ success: true, message: "Purchase successful" });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
 
-
 router.post("/sell", verifyauthtoken, async (req, res) => {
   try {
-    const { cryptoSymbol, quantity } = req.body;
+    const { cryptoSymbol, quantity, cryptoname } = req.body;
     if (!cryptoSymbol || cryptoSymbol.trim() === "") {
-      return res.status(400).json({ success: false, message: "Crypto symbol is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Crypto symbol is required" });
     }
 
     if (!req.payload || !req.payload._id) {
-      return res.status(400).json({ success: false, message: "User ID not found in payload" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User ID not found in payload" });
     }
 
-    const getresult = await getCoinData([cryptoSymbol]);
+    const getresult = await getCoinData(cryptoSymbol);
     if (!getresult.data || !getresult.data[cryptoSymbol]) {
-      return res.status(400).json({ success: false, message: "Invalid crypto symbol" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid crypto symbol" });
     }
-    const currentPrice = getresult.data[cryptoSymbol][0].quote.USD.price;
+    const result = getresult.data[cryptoSymbol]
+      .filter((item) => item.name === cryptoname)
+      .map((item) => item);
+    const currentPrice = result[0].quote.USD.price;
 
     let purchaseUser = await purchase.findOne({ UserId: req.payload._id });
     if (!purchaseUser) {
-      return res.status(400).json({ success: false, message: "User has no purchase record" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User has no purchase record" });
     }
 
     const totalAmount = currentPrice * quantity;
@@ -84,18 +106,19 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
     purchaseUser.cashBalance += totalAmount;
 
     purchaseUser.purchases.push({
-      cryptoSymbol, 
+      cryptoSymbol,
       quantity,
       purchasePrice: currentPrice,
       timestamp: new Date(),
       purchasetype: "SELL",
-      status: "COMPLETED", 
-      info: "" 
+      status: "COMPLETED",
+      info: "",
+      assetName: cryptoname,
+      purchasepercent: result[0].quote.USD.percent_change_1h,
     });
 
     await purchaseUser.save();
     res.status(200).json({ success: true, message: "Sale successful" });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error." });
@@ -103,4 +126,3 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
 });
 
 module.exports = router;
-

@@ -136,6 +136,7 @@ export default function Trending() {
                               maximumFractionDigits: 2,
                             })
                           : singlecoin.price}
+                        $
                       </p>
                       <p
                         className={`${singlecoin.percent > 0 ? "up" : "down"}`}

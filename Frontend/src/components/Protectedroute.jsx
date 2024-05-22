@@ -39,10 +39,16 @@ export default function Protectedroute({ Element }) {
           if (location.pathname === "/resetPass") {
             navigate("/forgetPassword");
           }
-          if (location.pathname === "/account") {
+          if (location.pathname === "/Account") {
             navigate("/login");
           }
           if (location.pathname === "/TrendingStocks") {
+            navigate("/login");
+          }
+          if (location.pathname === "/OrderHistory") {
+            navigate("/login");
+          }
+          if (location.pathname === "/Buy-Sell") {
             navigate("/login");
           }
         }
