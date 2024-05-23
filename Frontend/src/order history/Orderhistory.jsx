@@ -28,6 +28,7 @@ export default function Orderhistory() {
         credentials: "include",
       });
       const data = await response.json();
+      console.log(data);
       if (response.ok) {
         const formattedData = data.user.purchases.map((coin) => ({
           name: coin.cryptoname,
@@ -37,10 +38,20 @@ export default function Orderhistory() {
           type: coin.purchaseType,
           status: coin.status,
         }));
-        setIsLoading(false);
-        seterr("");
-        setdispdata({ name: data.user.name, email: data.user.email });
-        setorderdata(formattedData);
+        console.log(formattedData);
+        if (formattedData.length === 0) {
+          setIsLoading(false);
+          seterr(
+            "No Purchase or Selling record found. Try your first purchase to add a record to Order history."
+          );
+          setdispdata({ name: data.user.name, email: data.user.email });
+          setorderdata(formattedData);
+        } else {
+          setIsLoading(false);
+          seterr("");
+          setdispdata({ name: data.user.name, email: data.user.email });
+          setorderdata(formattedData);
+        }
       } else {
         setIsLoading(false);
         seterr(data.message);

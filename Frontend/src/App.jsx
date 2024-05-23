@@ -11,6 +11,7 @@ import Datacontext from "./Datacontext";
 import Trending from "./Trending Stocks/Trending";
 import Orderhistory from "./order history/Orderhistory";
 import Account from "./Account/Accounts";
+import Buysell from "./BuySell/Buysell";
 
 function App() {
   return (
@@ -44,6 +45,10 @@ function App() {
             <Route
               path="/Account"
               element={<Protectedroute Element={Account} />}
+            />
+            <Route
+              path="/Buy-Sell"
+              element={<Protectedroute Element={Buysell} />}
             />
           </Routes>
         </div>

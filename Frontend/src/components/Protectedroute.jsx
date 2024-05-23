@@ -14,6 +14,7 @@ export default function Protectedroute({ Element }) {
           credentials: "include",
         });
         const data = await response.json();
+        console.log(data);
         if (response.ok && data.success) {
           let newTokenState = {
             authtoken: false,
@@ -46,6 +47,9 @@ export default function Protectedroute({ Element }) {
             navigate("/login");
           }
           if (location.pathname === "/OrderHistory") {
+            navigate("/login");
+          }
+          if (location.pathname === "/Buy-Sell") {
             navigate("/login");
           }
         }

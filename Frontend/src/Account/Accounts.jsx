@@ -27,7 +27,7 @@ export default function Account() {
       <div className="account-right-cover">
         <div className="account-right-container">
           <div className="title-container">
-            <img src={logo11} alt="logo11" className="orderhistory-logo11" />
+            <img src={logo11} alt="logo11" />
             <p>Account</p>
           </div>
           <div className="profile-info-container">
