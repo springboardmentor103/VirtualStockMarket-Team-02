@@ -12,6 +12,7 @@ const Buysell = () => {
     console.log('Buy button clicked');
     fetch('http://localhost:8000/api/buy')
       .then(response => {
+        console.log(response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -170,10 +171,10 @@ const Buysell = () => {
               <div className="buttonslargenormalrest3" style={{ left: "71.5%" }}>
                 <div className="base9" style={{ backgroundColor: "#d40000" }} />
                 <button onClick={handleSellButtonClick} className="edit-text-here2">Sell</button>
-            </div>
-              <div className="buttonslargenormalrest3">
+              </div>
+              <div className="buttonslargenormalrest3"  onClick={handleBuyButtonClick}>
                 <div className="base9" style={{ backgroundColor: "#04491c" }} />
-                <button onClick={handleBuyButtonClick} className="edit-text-here2">Buy</button>
+                <button className="edit-text-here2">Buy</button>
               </div>
 
             {/* Display data received from backend */}
