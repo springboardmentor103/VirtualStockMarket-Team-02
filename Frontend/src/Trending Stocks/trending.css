@@ -52,7 +52,7 @@
 .Trending-container .Trending-stocks-container .search-container .right input {
   outline: none;
   background-color: transparent;
-  border: 1px solid rgb(75, 12, 156);
+  border: 1px solid #fff;
   padding: 1rem 0.5rem;
   border-radius: 5px;
   width: 100%;
@@ -66,6 +66,16 @@
   height: 80vh;
   overflow-y: scroll;
 }
+
+.stocks-container::-webkit-scrollbar {
+  display: none;
+}
+
+.stocks-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .stocks-container .stocks-title {
   display: flex;
   justify-content: space-between;
@@ -96,6 +106,7 @@
 }
 .stocks-container .stocks-content .stocks:hover {
   background-color: gray;
+  border-radius: 10px;
 }
 .stocks-container .stocks-content .stocks h2 {
   color: white;
