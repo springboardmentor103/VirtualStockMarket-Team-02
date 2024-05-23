@@ -12,6 +12,7 @@ import Trending from "./Trending Stocks/Trending";
 import Orderhistory from "./order history/Orderhistory";
 import Account from "./Account/Accounts";
 import Buysell from "./BuySell/Buysell";
+import Error404Page from "./Error/Error404Page";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
               path="/Buy-Sell"
               element={<Protectedroute Element={Buysell} />}
             />
+            <Route path="*" element={<Error404Page />} />
           </Routes>
         </div>
       </BrowserRouter>

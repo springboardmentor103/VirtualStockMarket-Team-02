@@ -1,0 +1,41 @@
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
+}
+
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.error-content {
+  text-align: center;
+}
+
+.error-image {
+  width: 50%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.go-back-button {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.go-back-button:hover {
+  background-color: darkgreen;
+}
