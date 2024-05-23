@@ -100,7 +100,7 @@ export default function Sidebars() {
           <div
             className="sidebar-link"
             onClick={() => {
-              navigate("/ Account");
+              navigate("/Account");
               setactivecolor({
                 Dashboard: "#cec4c4",
                 Account: "white",

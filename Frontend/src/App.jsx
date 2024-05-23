@@ -10,6 +10,7 @@ import ResetPass from "./resetPass/resetPass";
 import Datacontext from "./Datacontext";
 import Trending from "./Trending Stocks/Trending";
 import Orderhistory from "./order history/Orderhistory";
+import Account from "./Account/Accounts";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <BrowserRouter>
         <div className="app">
           <Routes>
-            <Route path="/" element={<Navbar />} />
+            <Route path="/" element={<Protectedroute Element={Navbar} />} />
             <Route path="/login" element={<Protectedroute Element={Login} />} />
 
             <Route
@@ -39,6 +40,10 @@ function App() {
             <Route
               path="/OrderHistory"
               element={<Protectedroute Element={Orderhistory} />}
+            />
+            <Route
+              path="/Account"
+              element={<Protectedroute Element={Account} />}
             />
           </Routes>
         </div>

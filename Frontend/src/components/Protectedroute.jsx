@@ -48,9 +48,6 @@ export default function Protectedroute({ Element }) {
           if (location.pathname === "/OrderHistory") {
             navigate("/login");
           }
-          if (location.pathname === "/Buy-Sell") {
-            navigate("/login");
-          }
         }
       } catch (error) {
         setLoading(false);

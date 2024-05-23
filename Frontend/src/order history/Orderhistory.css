@@ -97,7 +97,7 @@
   color: white;
   text-align: center;
 }
-/*@media screen and (max-width: 530px) {
+@media screen and (max-width: 530px) {
   .historyorder-container .historyorder-stocks-container {
     padding: 1rem;
   }
@@ -135,4 +135,4 @@
   .history-container .order-content .order h2 {
     font-size: 15px;
   }
-}*/
+}
