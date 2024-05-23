@@ -18,7 +18,6 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  border: 1px solid red;
 }
 .account-right-container {
   max-width: 100%;
@@ -28,7 +27,6 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem 1rem;
-  border: 1px solid blue;
 }
 .account-right-container .title-container {
   display: flex;
