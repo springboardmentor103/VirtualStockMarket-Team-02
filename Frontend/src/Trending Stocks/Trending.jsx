@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebars from "../sidebar/Sidebars";
 import "./trending.css";
 import bg from "../Images/bg.png";
-import logo11 from "../Images/icon11.png";
+// import logo11 from "../Images/icon11.png";
 import Loader from "../Loader/Loader";
 import { datacontext } from "../Datacontext";
 
@@ -122,8 +122,8 @@ export default function Trending() {
         <div className="Trend-container">
           <div className="search-container">
             <div className="left">
-              <img src={logo11} alt="logo11" className="Trending-logo11" />
               <p>Stocks</p>
+              {/* <img src={logo11} alt="logo11" className="Trending-logo11" /> */}
             </div>
             <div className="right">
               <input
@@ -138,7 +138,7 @@ export default function Trending() {
           <div className="stocks-container">
             <div className="stocks-title">
               <p>Top Stocks</p>
-              <button>view all</button>
+              {/* <button>view all</button> */}
             </div>
             <div className="stocks-content">
               {!err ? (

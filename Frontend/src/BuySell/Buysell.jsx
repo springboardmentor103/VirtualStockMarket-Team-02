@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bg from "../Images/bg.png";
 import Sidebars from "../sidebar/Sidebars";
-import logo11 from "../Images/icon11.png";
+// import logo11 from "../Images/icon11.png";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Loader from "../Loader/Loader";
 import crypto from "../Images/micro.png";
 import { datacontext } from "../Datacontext";
@@ -11,16 +12,24 @@ export default function Buysell() {
   const navigate = useNavigate();
   const { tokenState, selectedcrypto } = useContext(datacontext);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    if (tokenState.authtoken) {
-      navigate("/Buy-Sell");
-    } else if (tokenState.otpmatchtoken) {
-      navigate("/resetPass");
-    } else if (tokenState.otptoken) {
-      navigate("/forgetPassword");
+    if (!tokenState.authtoken) {
+      if (tokenState.otpmatchtoken) {
+        navigate("/resetPass");
+      } else if (tokenState.otptoken) {
+        navigate("/forgetPassword");
+      } else {
+        navigate("/login");
+      }
     }
     console.log(selectedcrypto);
   }, [tokenState, navigate]);
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="buysell-container">
       {isLoading ? <Loader /> : ""}
@@ -28,8 +37,8 @@ export default function Buysell() {
       <Sidebars />
       <div className="buysell-right-cover">
         <div className="buysell-right-container">
-          <div className="title-container">
-            <img src={logo11} alt="logo11" />
+          <div className="title-container" onClick={handleBackClick}>
+            <ArrowBackIosNewIcon sx={{ color: "#FFF" }} />
             <p>Stock Detail</p>
           </div>
           <div className="crypto-info-container">

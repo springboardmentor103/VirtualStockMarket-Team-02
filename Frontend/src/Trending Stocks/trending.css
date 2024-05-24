@@ -44,10 +44,10 @@
   color: white;
   text-decoration: underline;
   font-size: 1.5rem;
-  margin-left: 1rem;
+  margin-left: -0.6rem;
 }
 .Trending-container .Trending-stocks-container .search-container .right {
-  width: 80%;
+  width: 90%;
 }
 .Trending-container .Trending-stocks-container .search-container .right input {
   outline: none;
