@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { verifyauthtoken } = require("../Middleware/authtoken");
 const { getCoinData } = require("../Middleware/getCoinData");
-const purchase = require("../Models/Purchase");
+const Purchase = require("../Models/Purchase");
 
 router.post("/buy", verifyauthtoken, async (req, res) => {
   try {
@@ -21,9 +21,9 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
     }
     const currentPrice = getresult.data[cryptoSymbol][0].quote.USD.price;
 
-    let purchaseUser = await purchase.findOne({ UserId: req.payload._id });
+    let purchaseUser = await Purchase.findOne({ UserId: req.payload._id });
     if (!purchaseUser) {
-      purchaseUser = new purchase({
+      purchaseUser = new Purchase({
         UserId: req.payload._id,
         cashBalance: 1000, // Set default cash balance
         purchases: [],
@@ -56,7 +56,6 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
   }
 });
 
-
 router.post("/sell", verifyauthtoken, async (req, res) => {
   try {
     const { cryptoSymbol, quantity } = req.body;
@@ -74,13 +73,23 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
     }
     const currentPrice = getresult.data[cryptoSymbol][0].quote.USD.price;
 
-    let purchaseUser = await purchase.findOne({ UserId: req.payload._id });
+    let purchaseUser = await Purchase.findOne({ UserId: req.payload._id });
     if (!purchaseUser) {
       return res.status(400).json({ success: false, message: "User has no purchase record" });
     }
 
-    const totalAmount = currentPrice * quantity;
+    // Calculate the total quantity of the cryptocurrency the user owns
+    const totalOwned = purchaseUser.purchases
+      .filter(p => p.cryptoSymbol === cryptoSymbol)
+      .reduce((acc, p) => {
+        return p.purchasetype === 'BUY' ? acc + p.quantity : acc - p.quantity;
+      }, 0);
 
+    if (totalOwned < quantity) {
+      return res.status(400).json({ success: false, message: "Not enough cryptocurrency to sell" });
+    }
+
+    const totalAmount = currentPrice * quantity;
     purchaseUser.cashBalance += totalAmount;
 
     purchaseUser.purchases.push({
@@ -103,4 +112,3 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
 });
 
 module.exports = router;
-

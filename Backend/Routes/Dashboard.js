@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { verifyauthtoken } = require("../Middleware/authtoken");
-const user = require("../Models/User"); // Import the user model
-const purchase = require("../Models/Purchase");
+const User = require("../Models/User"); // Import the user model
+const Purchase = require("../Models/Purchase");
 
 router.get("/dashboard", verifyauthtoken, async (req, res) => {
   try {
-    const purchaseUser = await purchase.findOne({ UserId: req.payload._id });
-    const userinfo = await user.findOne({ _id: req.payload._id });
+    const purchaseUser = await Purchase.findOne({ UserId: req.payload._id });
+    const userinfo = await User.findOne({ _id: req.payload._id });
     
     if (!userinfo) {
       return res.status(404).json({ success: false, message: "User not found" });
@@ -25,7 +25,8 @@ router.get("/dashboard", verifyauthtoken, async (req, res) => {
         purchaseType: purchase.purchasetype,
         status: purchase.status,
         volume: volume,
-        info: purchase.info || "NIL"
+        info: purchase.info || "NIL",
+        timestamp: purchase.timestamp 
       };
     }) : [];
 
