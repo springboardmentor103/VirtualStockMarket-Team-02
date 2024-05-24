@@ -1,0 +1,173 @@
+.portfolio-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  color: white;
+  background-color: rgba(18, 18, 18, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.portfolio-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-image: url("../Images/bg.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  backdrop-filter: blur(10px);
+}
+
+.portfolio-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  z-index: 1;
+  overflow-y: auto;
+}
+
+.portfolio-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  position: relative;
+}
+
+.portfolio-header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+.portfolio-header::after {
+  content: "";
+  display: block;
+  width: 6rem;
+  height: 2px;
+  background-color: #ddd;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.portfolio-header .user-email-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 1rem;
+  color: white;
+}
+
+.portfolio-header .user-email {
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.portfolio-details {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.portfolio-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.summary-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary-text {
+  margin-left: 1rem;
+  text-align: left;
+  color: white;
+}
+
+.summary-text p {
+  font-size: 1rem;
+  margin: 0;
+  color: #aaa;
+}
+
+.summary-text h2 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.gains .summary-circle {
+  background-color: rgba(76, 175, 80, 0.8);
+}
+
+.losses .summary-circle {
+  background-color: rgba(244, 67, 54, 0.8);
+}
+
+.balance-container {
+  width: 50%;
+  background: rgba(44, 44, 84, 0.8);
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.balance-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.balance-container p {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.balance-container span {
+  font-size: 1.2rem;
+  color: #4caf50;
+}
+
+.error {
+  color: red;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
