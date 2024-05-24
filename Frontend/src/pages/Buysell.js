@@ -10,9 +10,15 @@ const Buysell = () => {
 
   const handleBuyButtonClick = () => {
     console.log('Buy button clicked');
-    fetch('http://localhost:8000/api/buy')
+    fetch('http://localhost:8000/api/buy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({})
+  })
       .then(response => {
-        console.log(response);
+        // console.log(response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -27,7 +33,13 @@ const Buysell = () => {
 
   const handleSellButtonClick = () => {
     console.log('Sell button clicked');
-    fetch('http://localhost:8000/api/sell')
+    fetch('http://localhost:8000/api/sell', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -168,11 +180,11 @@ const Buysell = () => {
           </div>
 
           {/* -------------------------------------Buttons--------------------------------- */}
-              <div className="buttonslargenormalrest3" style={{ left: "71.5%" }}>
+              <div onClick={handleSellButtonClick} className="buttonslargenormalrest3" style={{ left: "71.5%" }}>
                 <div className="base9" style={{ backgroundColor: "#d40000" }} />
-                <button onClick={handleSellButtonClick} className="edit-text-here2">Sell</button>
+                <button className="edit-text-here2">Sell</button>
               </div>
-              <div className="buttonslargenormalrest3"  onClick={handleBuyButtonClick}>
+              <div onClick={handleBuyButtonClick} className="buttonslargenormalrest3">
                 <div className="base9" style={{ backgroundColor: "#04491c" }} />
                 <button className="edit-text-here2">Buy</button>
               </div>
