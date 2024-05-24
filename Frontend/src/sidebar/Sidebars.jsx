@@ -1,5 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import "./sidebar.css";
 import logo1 from "../Images/icon1.png";
 import logo2 from "../Images/icon2.png";
@@ -15,14 +21,26 @@ import ham from "../Images/hamburger.png";
 import close from "../Images/close.png";
 import int from "../Images/Intersect.png";
 import Loader from "../Loader/Loader";
+
 export default function Sidebars() {
   const navigate = useNavigate();
   const [display, setdisplay] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const { dispdata, activecolor, setactivecolor } = useContext(datacontext);
+  const [dialogOpen, setDialogOpen] = useState(false); // State to manage dialog open
+
   const handlesidebarclick = () => {
     setdisplay(!display);
   };
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
   const handleLogOut = async () => {
     try {
       setisLoading(true);
@@ -34,19 +52,24 @@ export default function Sidebars() {
         credentials: "include",
       });
       const data = await response.json();
+      setisLoading(false);
       if (data.success) {
-        setisLoading(false);
         alert(data.message);
         navigate(0);
       } else {
-        setisLoading(false);
         alert(data.message);
       }
     } catch (error) {
       setisLoading(false);
-      alert("internal error");
+      alert("Internal error");
     }
   };
+
+  const handleLogOutConfirm = () => {
+    handleDialogClose();
+    handleLogOut();
+  };
+
   return (
     <div
       className={`${display ? "sidebar-container show" : "sidebar-container"}`}
@@ -228,7 +251,7 @@ export default function Sidebars() {
         </div>
         <div className="bottom-container">
           <div className="sidebar-links-2">
-            <div className="sidebar-link" onClick={handleLogOut}>
+            <div className="sidebar-link" onClick={handleDialogOpen}>
               <div className="part-1">
                 <img
                   src={logout}
@@ -262,6 +285,27 @@ export default function Sidebars() {
           </div>
         </div>
       </div>
+
+      {/* AlertDialog */}
+      <Dialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Logout?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Do you really want to logout?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>No</Button>
+          <Button onClick={handleLogOutConfirm} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
