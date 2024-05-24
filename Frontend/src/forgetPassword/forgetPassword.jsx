@@ -224,8 +224,8 @@ function ForgetPassword() {
           <div className="signup-link-container">
             <span>
               Don’t have an account?
-              <Link to="/register" className="sign-link">
-                Signup
+              <Link to="/login" className="sign-link">
+                Login
               </Link>
             </span>
           </div>

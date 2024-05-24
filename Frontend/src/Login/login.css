@@ -13,10 +13,8 @@
 .login-form-cover {
   display: flex;
   justify-content: center;
-
   align-items: center;
   width: 100%;
-
   height: 100%;
 }
 .login-form-cover .arrow {
@@ -31,6 +29,9 @@
 .login-form-container h1,
 .login-form-container h2 {
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .login-form-container h1 {
   margin-bottom: 2rem;
@@ -42,10 +43,11 @@
 .login-form-container form .password,
 .login-form-container form .check-link-container {
   margin-bottom: 0rem;
+  color: #fff;
 }
 .login-form-container form .email label,
 .login-form-container form .password label {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
 }
 .login-form-container form .email span,
@@ -116,6 +118,8 @@
 }
 .login-form-container .signup-link-container span {
   color: white;
+  display: flex;
+  justify-content: center;
 }
 .login-form-container .signup-link-container span .sign-link {
   margin-left: 10px;

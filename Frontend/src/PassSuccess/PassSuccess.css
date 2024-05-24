@@ -53,6 +53,8 @@
 }
 .pass-form-container .text-box {
   color: white;
+  display: flex;
+  align-items: center;
 }
 .pass-form-container button {
   margin-top: 1.2rem;

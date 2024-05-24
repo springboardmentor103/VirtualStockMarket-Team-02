@@ -34,6 +34,8 @@
 .signup-form-container h1,
 .signup-form-container h2 {
   color: white;
+  display: flex;
+  justify-content: center;
 }
 .signup-form-container h1 {
   margin-bottom: 1.5rem;
@@ -122,6 +124,8 @@
 }
 .login-link-container span {
   color: white;
+  justify-content: center;
+  display: flex;
 }
 .login-link-container span .sign-link {
   margin-left: 10px;

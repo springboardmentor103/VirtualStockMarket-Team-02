@@ -172,8 +172,8 @@ function Login() {
           <h2>Login</h2>
           <form onSubmit={handleLoginSubmit}>
             <div className="email">
-              <label htmlFor="email">Email</label>
-              <br />
+              {/* <label htmlFor="email">Email</label> */}
+              {/* <br /> */}
               <input
                 type="text"
                 name="email"
@@ -186,8 +186,8 @@ function Login() {
               <span>{err.email}</span>
             </div>
             <div className="password">
-              <label htmlFor="password">Password</label>
-              <br />
+              {/* <label htmlFor="password">Password</label> */}
+              {/* <br /> */}
               <input
                 type="password"
                 name="password"
