@@ -1,0 +1,177 @@
+.signup-container {
+  height: 100%;
+  width: 100%;
+}
+.signup-container .overlay-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.signup-form-cover {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.signup-form-cover .arrow {
+  max-width: 500px;
+  margin-left: 5rem;
+  order: 2;
+  width: 50%;
+}
+.signup-form-cover .arrow img {
+  width: 100%;
+  height: 100%;
+}
+.signup-form-container {
+  order: 1;
+}
+.signup-form-container h1,
+.signup-form-container h2 {
+  color: white;
+}
+.signup-form-container h1 {
+  margin-bottom: 1.5rem;
+}
+.signup-form-container h2 {
+  margin-bottom: 1.5rem;
+}
+.signup-form-container form {
+  margin-bottom: 0px;
+}
+.signup-form-container form .email,
+.signup-form-container form .password,
+.signup-form-container form .name,
+.signup-form-container form .check-link-container {
+  margin-bottom: 1rem;
+}
+.signup-form-container form .password {
+  margin-bottom: 0rem;
+}
+.signup-form-container form .email span,
+.signup-form-container form .name span,
+.signup-form-container form .password span {
+  display: block;
+  text-align: center;
+  color: red;
+  margin-top: 0.2rem;
+  max-width: 500px;
+}
+.signup-form-container form .password span {
+  margin-bottom: 0rem;
+}
+
+.signup-form-container form .email input,
+.signup-form-container form .name input,
+.signup-form-container form .password input {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 1rem 0.5rem;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 0px;
+}
+.signup-form-container form .email input.err,
+.signup-form-container form .name input.err,
+.signup-form-container form .password input.err {
+  border-color: red;
+}
+.signup-form-container form .email input::placeholder,
+.signup-form-container form .name input::placeholder,
+.signup-form-container form .password input::placeholder {
+  color: white;
+}
+.signup-form-container form .email input.err::placeholder,
+.signup-form-container form .name input.err::placeholder,
+.signup-form-container form .password input.err::placeholder {
+  color: red;
+}
+.signup-form-container .check-link-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+.signup-form-container .check-link-container #checkbox {
+  accent-color: green;
+  margin-right: 0.5rem;
+}
+.signup-form-container .check-link-container .checkbox label {
+  color: white;
+}
+.signup-form-container .submit {
+  margin-top: 1.2rem;
+  margin-bottom: 10px;
+}
+.signup-form-container .submit button {
+  padding: 0.8rem 0rem;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: white;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+.login-link-container span {
+  color: white;
+}
+.login-link-container span .sign-link {
+  margin-left: 10px;
+  text-decoration: none;
+  color: green;
+}
+.login-link-container span .sign-link:hover {
+  text-decoration: underline;
+}
+@media screen and (max-width: 1100px) {
+  .signup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .signup-form-cover {
+    flex-direction: column;
+    max-width: 700px;
+  }
+  .signup-form-container {
+    order: 2;
+    align-self: center;
+    width: 100%;
+    padding: 3rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+  }
+  .signup-form-cover .arrow {
+    order: 1;
+    max-width: 250px;
+    margin-left: 0rem;
+    margin-bottom: 1rem;
+  }
+  .signup-form-container h1 {
+    display: none;
+  }
+  .signup-form-container h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .signup-form-container form {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .signup-form-container {
+    padding: 1rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+  }
+}

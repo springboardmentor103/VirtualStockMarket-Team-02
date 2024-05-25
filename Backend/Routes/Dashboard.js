@@ -1,85 +1,104 @@
+<<<<<<< HEAD
 const express = require("express");
 const router = express.Router();
-
 const { verifyauthtoken } = require("../Middleware/authtoken");
-const { getCoinsData } = require("../Middleware/latestCoins");
-const user = require("../Models/User");
+const user = require("../Models/User"); // Import the user model
 const purchase = require("../Models/Purchase");
 
-// Route to get total profit, total loss, today's profit, today's loss, and total amount
 router.get("/dashboard", verifyauthtoken, async (req, res) => {
   try {
-    const userpurchases = await purchase.find({ UserId: req.payload._id });
-    let totalAmount = 0;
-    let totalProfit = 0;
-    let totalLoss = 0;
-    let todayProfit = 0;
-    let todayLoss = 0;
+    const purchaseUser = await purchase.findOne({ UserId: req.payload._id });
+    const userinfo = await user.findOne({ _id: req.payload._id });
 
-    // Calculate total amount, total profit, total loss, today's profit, and today's loss
-    userpurchases.forEach((purchase) => {
-      totalAmount += purchase.cashBalance;
-      purchase.purchases.forEach((item) => {
-        if (item.purchasetype === "BUY") {
-          totalProfit += item.purchasePrice;
-          if (isToday(item.timestamp)) {
-            todayProfit += item.purchasePrice;
-          }
-        } else if (item.purchasetype === "SELL") {
-          totalLoss += item.purchasePrice;
-          if (isToday(item.timestamp)) {
-            todayLoss += item.purchasePrice;
-          }
-        }
-      });
-    });
+    if (!userinfo) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
 
-    res.status(200).json({
-      success: true,
-      totalProfit,
-      totalLoss,
-      todayProfit,
-      todayLoss,
-      totalAmount,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-});
+    const name = userinfo.name;
+    const email = userinfo.email;
 
-// Route to get purchase history, getresult, name, and email
-router.get("/details", verifyauthtoken, async (req, res) => {
-  try {
-    const userpurchases = await purchase.find({ UserId: req.payload._id });
-    const userinfo = await user.find({ _id: req.payload._id });
-    const getresult = await getCoinsData();
-    const purchasehistory = userpurchases.length ? userpurchases[0].purchases : [];
-    const name = userinfo.length ? userinfo[0].name : "";
-    const email = userinfo.length ? userinfo[0].email : "";
+    let purchases = [];
+    if (purchaseUser) {
+      purchases = await Promise.all(
+        purchaseUser.purchases.map(async (purchase) => {
+          const volume = purchase.quantity * purchase.purchasePrice;
+          return {
+            id: purchase._id,
+            cryptoSymbol: purchase.cryptoSymbol,
+            cryptoname: purchase.assetName,
+            purchaseType: purchase.purchasetype,
+            status: purchase.status,
+            volume: volume,
+            info: purchase.info || "NIL",
+            percent: purchase.purchasepercent,
+          };
+        })
+      );
+    }
 
     res.status(200).json({
       success: true,
-      purchasehistory,
-      getresult,
-      name,
-      email,
+      user: {
+        name,
+        email,
+        purchases,
+      },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
-// Helper function to check if a given timestamp is from today
-function isToday(timestamp) {
-  const today = new Date();
-  const itemDate = new Date(timestamp);
-  return (
-    itemDate.getDate() === today.getDate() &&
-    itemDate.getMonth() === today.getMonth() &&
-    itemDate.getFullYear() === today.getFullYear()
-  );
-}
 
 module.exports = router;
+=======
+const express = require("express");
+const router = express.Router();
+const { verifyauthtoken } = require("../Middleware/authtoken");
+const User = require("../Models/User"); // Import the user model
+const Purchase = require("../Models/Purchase");
+
+router.get("/dashboard", verifyauthtoken, async (req, res) => {
+  try {
+    const purchaseUser = await Purchase.findOne({ UserId: req.payload._id });
+    const userinfo = await User.findOne({ _id: req.payload._id });
+    
+    if (!userinfo) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const name = userinfo.name;
+    const email = userinfo.email;
+
+    const purchases = purchaseUser ? purchaseUser.purchases.map(purchase => {
+      const volume = purchase.quantity * purchase.purchasePrice;
+
+      return {
+        id: purchase._id,
+        cryptoSymbol: purchase.cryptoSymbol,
+        purchaseType: purchase.purchasetype,
+        status: purchase.status,
+        volume: volume,
+        info: purchase.info || "NIL",
+        timestamp: purchase.timestamp 
+      };
+    }) : [];
+
+    res.status(200).json({
+      success: true,
+      user: {
+        name,
+        email,
+        purchases
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+module.exports = router;
+>>>>>>> 465c35f9ce83da72e5252f6a7cfebdc2f5c3993d
