@@ -3,6 +3,7 @@
   height: 100%;
   display: flex;
 }
+
 .orderhistory-bg {
   position: absolute;
   top: 0;
@@ -11,6 +12,7 @@
   height: 100%;
   z-index: -1;
 }
+
 .orderhistory-container .orderhistory-stocks-container {
   max-width: 100%;
   width: 100%;
@@ -18,9 +20,8 @@
   display: flex;
   justify-content: center;
 }
-.orderhistory-container
-  .orderhistory-stocks-container
-  .history-title-container {
+
+.orderhistory-container .orderhistory-stocks-container .history-title-container {
   max-width: 100%;
   width: 100%;
   height: 100%;
@@ -29,6 +30,7 @@
   align-items: center;
   padding: 1rem 0rem;
 }
+
 .orderhistory-container .orderhistory-stocks-container .title-container {
   display: flex;
   align-items: center;
@@ -36,32 +38,36 @@
   padding: 0rem 0.5rem;
   margin-bottom: 0rem;
 }
+
 .orderhistory-container .orderhistory-stocks-container .title-container p {
   color: white;
   text-decoration: underline;
-  font-size: 1.5rem;
-  margin-left: 1rem;
+  font-size: 1.8rem; /* Increased font size */
+  margin-left: 1.4rem;
 }
+
 .history-container {
-  width: 100%;
+  width: 95%;
   padding: 1rem;
   height: 80vh;
   margin-top: 1rem;
 }
+
 .history-container .history-title p {
   color: white;
-  font-size: 25px;
+  font-size: 30px; /* Increased font size */
 }
+
 .history-container .order-content {
   overflow-y: scroll;
-
   border-radius: 5px;
-  width: 100%;
-  height: 100%;
-  background-color: #454140;
+  width: 95%;
+  height: 73vh;
+  background-color: #454140; /* Grayish black */
   margin-top: 1rem;
   padding: 1rem;
 }
+
 .history-container .order-content .order {
   margin-top: 2rem;
   cursor: pointer;
@@ -70,52 +76,74 @@
   align-items: center;
   padding: 0.5rem 1rem;
 }
+
 .history-container .order-content .order:hover {
   background-color: gray;
 }
+
 .history-container .order-content .order h2 {
   color: white;
+  font-size: 40px; /* Increased font size */
 }
+
 .history-container .order-content .order i {
   color: orange;
   font-size: 40px;
 }
+
 .history-container .order-content .order .price-container {
   display: flex;
   flex-direction: column;
 }
+
 .history-container .order-content .order .price-container p {
   color: white;
 }
+
 .history-container .order-content .order .price-container p:last-child.up {
   color: green;
 }
+
 .history-container .order-content .order .price-container p:last-child.down {
   color: red;
 }
+
 .history-container .order-content .error {
   color: white;
   text-align: center;
 }
+
+.order-content .MuiTableCell-root {
+  color: white; /* Ensure text color contrasts with background */
+  font-size: 1.5rem; /* Increased font size */
+}
+
+.order-content .MuiTableRow-root:hover .MuiTableCell-root {
+  color: white;
+}
+
+.yellow-symbol {
+  color: orange;
+  font-size: 2rem; /* Increased symbol size */
+}
+
 @media screen and (max-width: 530px) {
-  .historyorder-container .historyorder-stocks-container {
+  .orderhistory-container .orderhistory-stocks-container {
     padding: 1rem;
   }
-  .historyorder-container
-    .historyorder-stocks-container
-    .history-title-container {
+  .orderhistory-container .orderhistory-stocks-container .history-title-container {
     max-width: 100%;
     padding: 0rem 0rem;
   }
-  .historyorder-container .historyorder-stocks-container .title-container {
+  .orderhistory-container .orderhistory-stocks-container .title-container {
     padding: 0rem 0rem;
     margin-bottom: 2rem;
   }
-  .historyorder-container .historyorder-stocks-container .title-container img {
+  .orderhistory-container .orderhistory-stocks-container .title-container img {
     width: 10px;
   }
-  .historyorder-container .historyorder-stocks-container .title-container p {
-    font-size: 1.1rem;
+  .orderhistory-container .orderhistory-stocks-container .title-container p {
+    font-size: 1.3rem; /* Increased font size */
     margin-left: 0.5rem;
   }
   .history-container .order-content .order {
@@ -131,6 +159,7 @@
     font-size: 15px;
   }
 }
+
 @media screen and (max-width: 385px) {
   .history-container .order-content .order h2 {
     font-size: 15px;

@@ -9,7 +9,7 @@ import Register from "./Register/Register";
 import ResetPass from "./resetPass/resetPass";
 import Datacontext from "./Datacontext";
 import Trending from "./Trending Stocks/Trending";
-import Orderhistory from "./order history/Orderhistory";
+import Orderhistory from "./orderHistory/Orderhistory";
 import Account from "./Account/Accounts";
 import Buysell from "./BuySell/Buysell";
 
