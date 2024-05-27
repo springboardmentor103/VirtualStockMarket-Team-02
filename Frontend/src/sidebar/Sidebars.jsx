@@ -19,7 +19,8 @@ export default function Sidebars() {
   const navigate = useNavigate();
   const [display, setdisplay] = useState(false);
   const [isLoading, setisLoading] = useState(false);
-  const { dispdata, activecolor, setactivecolor } = useContext(datacontext);
+  const { dispdata, activecolor, setactivecolor, setselectedcrypto } =
+    useContext(datacontext);
   const handlesidebarclick = () => {
     setdisplay(!display);
   };
@@ -76,6 +77,8 @@ export default function Sidebars() {
                 Portfolio: "#cec4c4",
                 Leaderboard: "#cec4c4",
               });
+              setselectedcrypto(null);
+              localStorage.removeItem("symbol");
             }}
           >
             <div className="part-1">

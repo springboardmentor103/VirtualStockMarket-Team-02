@@ -12,6 +12,8 @@ import Trending from "./Trending Stocks/Trending";
 import Orderhistory from "./order history/Orderhistory";
 import Account from "./Account/Accounts";
 import Buysell from "./BuySell/Buysell";
+import Buy from "./Buy/Buy";
+import Sell from "./sell/Sell";
 
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
               path="/Buy-Sell"
               element={<Protectedroute Element={Buysell} />}
             />
+            <Route path="/buy" element={<Protectedroute Element={Buy} />} />
+            <Route path="/sell" element={<Protectedroute Element={Sell} />} />
           </Routes>
         </div>
       </BrowserRouter>

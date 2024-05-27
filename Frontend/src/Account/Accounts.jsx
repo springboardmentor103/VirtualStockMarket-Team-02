@@ -10,9 +10,19 @@ import "./Account.css";
 export default function Account() {
   const navigate = useNavigate();
 
-  const { dispdata, tokenState } = useContext(datacontext);
+  const { dispdata, tokenState, setactivecolor, setselectedcrypto } =
+    useContext(datacontext);
   useEffect(() => {
+    setselectedcrypto(null);
+    localStorage.removeItem("symbol");
     if (tokenState.authtoken) {
+      setactivecolor({
+        Dashboard: "#cec4c4",
+        Account: "white",
+        Orderhistory: "#cec4c4",
+        Portfolio: "#cec4c4",
+        Leaderboard: "#cec4c4",
+      });
       navigate("/Account");
     } else if (tokenState.otpmatchtoken) {
       navigate("/resetPass");

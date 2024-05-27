@@ -80,6 +80,7 @@
   background-color: #000000a9;
   border-radius: 5px;
   cursor: pointer;
+  display: none;
 }
 .bottom-container {
   height: 100%;

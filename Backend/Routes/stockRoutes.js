@@ -100,7 +100,17 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
         .status(400)
         .json({ success: false, message: "User has no purchase record" });
     }
+    const totalOwned = purchaseUser.purchases
+      .filter((p) => p.cryptoSymbol === cryptoSymbol)
+      .reduce((acc, p) => {
+        return p.purchasetype === "BUY" ? acc + p.quantity : acc - p.quantity;
+      }, 0);
 
+    if (totalOwned < quantity) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Not enough cryptocurrency to sell" });
+    }
     const totalAmount = currentPrice * quantity;
 
     purchaseUser.cashBalance += totalAmount;

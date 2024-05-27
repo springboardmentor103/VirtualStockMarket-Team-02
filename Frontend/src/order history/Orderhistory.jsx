@@ -11,9 +11,19 @@ export default function Orderhistory() {
   const [orderdata, setorderdata] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [err, seterr] = useState("");
-  const { setdispdata, tokenState } = useContext(datacontext);
+  const { setdispdata, tokenState, setactivecolor, setselectedcrypto } =
+    useContext(datacontext);
   useEffect(() => {
+    setselectedcrypto(null);
+    localStorage.removeItem("symbol");
     if (tokenState.authtoken) {
+      setactivecolor({
+        Dashboard: "#cec4c4",
+        Account: "#cec4c4",
+        Orderhistory: "white",
+        Portfolio: "#cec4c4",
+        Leaderboard: "#cec4c4",
+      });
       navigate("/OrderHistory");
     } else if (tokenState.otpmatchtoken) {
       navigate("/resetPass");
@@ -28,7 +38,6 @@ export default function Orderhistory() {
         credentials: "include",
       });
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         const formattedData = data.user.purchases.map((coin) => ({
           name: coin.cryptoname,
@@ -38,7 +47,6 @@ export default function Orderhistory() {
           type: coin.purchaseType,
           status: coin.status,
         }));
-        console.log(formattedData);
         if (formattedData.length === 0) {
           setIsLoading(false);
           seterr(
