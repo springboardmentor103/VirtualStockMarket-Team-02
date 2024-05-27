@@ -11,7 +11,9 @@ import Datacontext from "./Datacontext";
 import Trending from "./Trending Stocks/Trending";
 import Orderhistory from "./order history/Orderhistory";
 import Account from "./Account/Accounts";
-import portfolio from "./portfolio/portfolio";
+import Buysell from "./BuySell/Buysell";
+import LeaderBoard from "./Leaderboard/LeaderBoard";
+
 function App() {
   return (
     <Datacontext>
@@ -45,7 +47,14 @@ function App() {
               path="/Account"
               element={<Protectedroute Element={Account} />}
             />
-            <Route path="/portfolio" element={<Protectedroute Element={portfolio} />} />
+            <Route
+              path="/Buy-Sell"
+              element={<Protectedroute Element={Buysell} />}
+            />
+            <Route
+              path="/Leaderboard"
+              element={<Protectedroute Element={LeaderBoard} />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
@@ -54,4 +63,3 @@ function App() {
 }
 
 export default App;
-

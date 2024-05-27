@@ -12,7 +12,8 @@ function Login() {
   const [err, seterr] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { tokenState, setTokenState } = useContext(datacontext);
+  const { tokenState, setTokenState, setactivecolor, activecolor } =
+    useContext(datacontext);
   useEffect(() => {
     if (tokenState.authtoken) {
       navigate("/TrendingStocks");
@@ -42,6 +43,13 @@ function Login() {
       const data = await response.json();
       if (response.ok) {
         setIsLoading(false);
+        setactivecolor({
+          Dashboard: "white",
+          Account: "#cec4c4",
+          Orderhistory: "#cec4c4",
+          Portfolio: "#cec4c4",
+          Leaderboard: "#cec4c4",
+        });
         alert("You have successfully logged in.");
         navigate("/TrendingStocks");
         setLoginData({

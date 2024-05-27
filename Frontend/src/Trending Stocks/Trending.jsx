@@ -10,9 +10,11 @@ import { datacontext } from "../Datacontext";
 export default function Trending() {
   const navigate = useNavigate();
   const [cryptodata, setcryptodata] = useState([]);
+  const [filteredCryptoData, setFilteredCryptoData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [err, seterr] = useState("");
-  const { setdispdata, tokenState } = useContext(datacontext);
+  const { setdispdata, tokenState, setselectedcrypto } =
+    useContext(datacontext);
   useEffect(() => {
     if (tokenState.authtoken) {
       navigate("/TrendingStocks");
@@ -41,10 +43,12 @@ export default function Trending() {
         seterr("");
         setdispdata({ name: data.name, email: data.email });
         setcryptodata(formattedData);
+        setFilteredCryptoData(formattedData);
       } else {
         setIsLoading(false);
         seterr(data.message);
         setcryptodata([]);
+        setFilteredCryptoData([]);
       }
     } catch (error) {
       setIsLoading(false);
@@ -57,7 +61,23 @@ export default function Trending() {
   const handleCryptoChange = async (e) => {
     const { value } = e.target;
     setcrypto(value);
-    try {
+    if (!value) {
+      setFilteredCryptoData(cryptodata);
+      seterr("");
+      return;
+    }
+    const filteredData = cryptodata.filter((coin) =>
+      coin.name.toLowerCase().startsWith(value.toLowerCase())
+    );
+    if (filteredData.length === 0) {
+      seterr(`No crypto name ${value} available`);
+      setFilteredCryptoData([]);
+    } else {
+      seterr("");
+      setFilteredCryptoData(filteredData);
+    }
+
+    /*try {
       setIsLoading(true);
       if (!value) {
         setIsLoading(false);
@@ -91,7 +111,7 @@ export default function Trending() {
     } catch (error) {
       setIsLoading(false);
       alert("Internal server error");
-    }
+    }*/
   };
   return (
     <div className="Trending-container">
@@ -122,8 +142,15 @@ export default function Trending() {
             </div>
             <div className="stocks-content">
               {!err ? (
-                cryptodata.map((singlecoin, index) => (
-                  <div className="stocks" key={index}>
+                filteredCryptoData.map((singlecoin, index) => (
+                  <div
+                    className="stocks"
+                    key={index}
+                    onClick={() => {
+                      navigate("/Buy-Sell");
+                      setselectedcrypto(filteredCryptoData[index]);
+                    }}
+                  >
                     <i
                       className={`cf cf-${singlecoin.symbol.toLowerCase()}`}
                     ></i>

@@ -1,0 +1,152 @@
+.buysell-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.buysell-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.buysell-right-cover {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.buysell-right-container {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem;
+}
+.buysell-right-container .title-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0rem 0.5rem;
+  margin-bottom: 0rem;
+}
+.buysell-right-container .title-container p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+.crypto-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+.crypto-heading-container {
+  margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.crypto-heading-container .crypto-pic {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.crypto-heading-container .crypto-pic img {
+  width: 50px;
+  margin-right: 1rem;
+}
+.crypto-heading-container .crypto-pic .crypto-identify {
+  display: flex;
+  flex-direction: column;
+}
+.crypto-heading-container .crypto-pic .crypto-identify p {
+  color: white;
+  font-size: 2rem;
+}
+.crypto-heading-container .crypto-pic .crypto-identify span {
+  color: rgba(255, 255, 255, 0.637);
+  font-size: 1rem;
+}
+.crypto-heading-container .crypto-price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.crypto-heading-container .crypto-price-container h3 {
+  color: white;
+  font-size: 2rem;
+}
+.crypto-heading-container .crypto-price-container span {
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+}
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.head {
+  align-self: start;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.values {
+  display: flex;
+  flex-direction: column;
+}
+
+.value-1,
+.value-2 {
+  display: flex;
+  font-size: 1.2rem;
+}
+.value-1 {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.value-1 div span,
+.value-2 div span {
+  color: rgba(255, 255, 255, 0.884);
+}
+.value-2 div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2rem;
+}
+.value-1 div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 5rem;
+}
+.value-1 div:last-child {
+  margin-right: 0rem;
+}
+.btns {
+  display: flex;
+  margin-top: 2rem;
+}
+.btns button {
+  outline: none;
+  border: none;
+  color: white;
+  padding: 0.5rem 3rem;
+  background-color: rgb(5, 92, 5);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.btns button:last-child {
+  margin-left: 3rem;
+  background-color: red;
+}

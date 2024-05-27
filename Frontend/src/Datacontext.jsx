@@ -7,6 +7,7 @@ export default function Datacontext({ children }) {
     otpmatchtoken: false,
   });
   const [dispdata, setdispdata] = useState({ name: "", email: "" });
+  const [selectedcrypto, setselectedcrypto] = useState(null);
   const [activecolor, setactivecolor] = useState({
     Dashboard: "#cec4c4",
     Account: "#cec4c4",
@@ -24,6 +25,8 @@ export default function Datacontext({ children }) {
         setdispdata,
         activecolor,
         setactivecolor,
+        selectedcrypto,
+        setselectedcrypto,
       }}
     >
       {children}
