@@ -1,3 +1,4 @@
+//portfolio.jsx
 import React, { useState, useEffect, useContext, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebars from "../sidebar/Sidebars";
