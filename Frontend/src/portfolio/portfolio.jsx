@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebars from "../sidebar/Sidebars";
 import Loader from "../Loader/Loader";
@@ -13,48 +13,92 @@ export default function Portfolio() {
   const [err, setErr] = useState("");
   const { setdispdata, tokenState } = useContext(datacontext);
 
+  const getPortfolioDetails = useCallback(async (signal) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:8000/api/portfolio", {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: 'include',
+        signal
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setdispdata({ name: data.user?.name, email: data.user?.email });
+        setPortfolioData(data.totalPortfolio);
+        setErr("");
+      } else {
+        const errorData = await response.json();
+        setErr(errorData.message);
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        setErr("Internal server error");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [setdispdata]);
+
   useEffect(() => {
     if (!tokenState.authtoken) {
       navigate("/login");
-      return; 
+      return;
     }
 
-    console.log("Token:", tokenState.authtoken); 
+    const controller = new AbortController();
+    getPortfolioDetails(controller.signal);
 
-    const getPortfolioDetails = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch("http://localhost:8000/api/portfolio", {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: 'include' 
-        });
-
-        console.log("Response Status:", response.status); 
-        console.log("Response Headers:", response.headers); 
-
-        const data = await response.json();
-        if (response.ok) {
-          setIsLoading(false);
-          setErr("");
-          setdispdata({ name: data.user?.name, email: data.user?.email });
-          setPortfolioData(data.totalPortfolio);
-        } else {
-          console.error("Error response:", data);
-          setIsLoading(false);
-          setErr(data.message);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-        setIsLoading(false);
-        setErr("Internal server error");
-      }
+    return () => {
+      controller.abort();
     };
+  }, [navigate, tokenState.authtoken, getPortfolioDetails]);
 
-    getPortfolioDetails();
-  }, [navigate, setdispdata, tokenState]);
+  const portfolioSummary = useMemo(() => (
+    portfolioData && (
+      <div className="portfolio-summary">
+        <div className="summary-item gains">
+          <div className="summary-circle">
+            <FaArrowUp />
+          </div>
+          <div className="summary-text">
+            <p>Today's Gains</p>
+            <h2>${portfolioData.todayProfit.toFixed(2)}</h2>
+          </div>
+        </div>
+        <div className="summary-item losses">
+          <div className="summary-circle">
+            <FaArrowDown />
+          </div>
+          <div className="summary-text">
+            <p>Today's Losses</p>
+            <h2>${portfolioData.todayLoss.toFixed(2)}</h2>
+          </div>
+        </div>
+        <div className="summary-item gains">
+          <div className="summary-circle">
+            <FaArrowUp />
+          </div>
+          <div className="summary-text">
+            <p>Overall Gains</p>
+            <h2>${portfolioData.totalProfit.toFixed(2)}</h2>
+          </div>
+        </div>
+        <div className="summary-item losses">
+          <div className="summary-circle">
+            <FaArrowDown />
+          </div>
+          <div className="summary-text">
+            <p>Overall Losses</p>
+            <h2>${portfolioData.totalLoss.toFixed(2)}</h2>
+          </div>
+        </div>
+      </div>
+    )
+  ), [portfolioData]);
 
   return (
     <div className="portfolio-container">
@@ -70,54 +114,20 @@ export default function Portfolio() {
             </div>
           )}
         </div>
-        {isLoading ? <Loader /> : ""}
-        <div className="portfolio-details">
-          <div className="portfolio-summary">
-            <div className="summary-item gains">
-              <div className="summary-circle">
-                <FaArrowUp />
-              </div>
-              <div className="summary-text">
-                <p>Today's Gains</p>
-                <h2>${portfolioData ? portfolioData.todayProfit.toFixed(2) : "-"}</h2>
-              </div>
-            </div>
-            <div className="summary-item losses">
-              <div className="summary-circle">
-                <FaArrowDown />
-              </div>
-              <div className="summary-text">
-                <p>Today's Losses</p>
-                <h2>${portfolioData ? portfolioData.todayLoss.toFixed(2) : "-"}</h2>
-              </div>
-            </div>
-            <div className="summary-item gains">
-              <div className="summary-circle">
-                <FaArrowUp />
-              </div>
-              <div className="summary-text">
-                <p>Overall Gains</p>
-                <h2>${portfolioData ? portfolioData.totalProfit.toFixed(2) : "-"}</h2>
-              </div>
-            </div>
-            <div className="summary-item losses">
-              <div className="summary-circle">
-                <FaArrowDown />
-              </div>
-              <div className="summary-text">
-                <p>Overall Losses</p>
-                <h2>${portfolioData ? portfolioData.totalLoss.toFixed(2) : "-"}</h2>
-              </div>
+        {isLoading && <Loader />}
+        {portfolioData && (
+          <div className="portfolio-details">
+            {portfolioSummary}
+            <div className="balance-container">
+              <h2>Balance</h2>
+              <p>${portfolioData.totalAmount.toFixed(2)}</p>
+              <span>+${portfolioData.totalProfit.toFixed(2)}</span>
             </div>
           </div>
-          <div className="balance-container">
-            <h2>Balance</h2>
-            <p>${portfolioData ? portfolioData.totalAmount.toFixed(2) : "-"}</p>
-            <span>+${portfolioData ? portfolioData.totalProfit.toFixed(2) : "-"}</span>
-          </div>
-        </div>
+        )}
         {err && <div className="error">{err}</div>}
       </div>
     </div>
   );
 }
+
