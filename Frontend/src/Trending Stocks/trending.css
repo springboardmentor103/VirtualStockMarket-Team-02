@@ -1,0 +1,164 @@
+.Trending-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.Trending-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.Trending-container .Trending-stocks-container {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.Trending-container .Trending-stocks-container .Trend-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0rem;
+}
+
+.Trending-container .Trending-stocks-container .search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0rem 0rem;
+  padding-right: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.Trending-container .Trending-stocks-container .search-container .left {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.Trending-container .Trending-stocks-container .search-container .left p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+.Trending-container .Trending-stocks-container .search-container .right {
+  width: 100%;
+}
+
+.Trending-container .Trending-stocks-container .search-container .right input {
+  outline: none;
+  background-color: transparent;
+  border: 1px solid rgb(75, 12, 156);
+  padding: 1rem 0.5rem;
+  border-radius: 5px;
+  width: 100%;
+  color: white;
+}
+
+.stocks-container {
+  padding: 1rem;
+  background-color: #454140;
+  border-radius: 5px;
+  max-width: 90%;
+  width: 100%;
+  height: 80vh;
+  overflow-y: hidden;
+}
+
+.stocks-container .stocks-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.stocks-container .stocks-title p {
+  color: white;
+  font-size: 17px;
+}
+
+.stocks-container .stocks-title button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: palevioletred;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .Trending-container .Trending-stocks-container {
+    padding: 1rem;
+  }
+  .stocks-container {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .Trending-container .Trending-stocks-container {
+    padding: 1rem 0rem;
+    padding-right: 0.5rem;
+  }
+  .Trending-container .Trending-stocks-container .Trend-container {
+    max-width: 100%;
+    padding: 0rem 0rem;
+  }
+  .Trending-container .Trending-stocks-container .stocks-container {
+    max-width: 100%;
+    padding: 1rem 0.5rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container {
+    padding: 0rem 0rem;
+    margin-bottom: 2rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container .left {
+    margin-right: 1rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container .left img {
+    width: 10px;
+  }
+  .Trending-container .Trending-stocks-container .search-container .left p {
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+  }
+  .Trending-container .Trending-stocks-container .search-container .right {
+    width: 100%;
+  }
+  .Trending-container
+    .Trending-stocks-container
+    .search-container
+    .right
+    input {
+    padding: 0.7rem 0.5rem;
+  }
+}
+
+@media screen and (max-width: 385px) {
+  .stocks-container .stocks-title p {
+    font-size: 14px;
+  }
+  .Trending-container .Trending-stocks-container .search-container .left p {
+    font-size: 1rem;
+  }
+  .Trending-container
+    .Trending-stocks-container
+    .search-container
+    .right
+    input {
+    padding: 0.5rem 0.3rem;
+  }
+}
