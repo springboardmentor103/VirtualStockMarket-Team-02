@@ -36,6 +36,8 @@ export default function Datacontext({ children }) {
       return details;
     }
   };
+  const [confirmshow, setconfirmshow] = useState(false);
+
   useEffect(() => {
     const storedSymbol = localStorage.getItem("symbol");
     if (storedSymbol) {
@@ -60,6 +62,8 @@ export default function Datacontext({ children }) {
         selectedcrypto,
         setselectedcrypto,
         fetchCryptoDetails,
+        confirmshow,
+        setconfirmshow,
       }}
     >
       {children}

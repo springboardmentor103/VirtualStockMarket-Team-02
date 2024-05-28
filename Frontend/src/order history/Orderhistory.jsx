@@ -147,26 +147,72 @@ export default function Orderhistory() {
                 </TableBody>
               </Table>
                 </TableContainer>*/}
+
             <TableContainer
               component={Paper}
-              style={{ backgroundColor: "#454140", marginTop: "1rem" }}
+              style={{
+                backgroundColor: "#454140",
+                marginTop: "1rem",
+                overflowY: "scroll",
+                maxHeight: "100%",
+              }}
             >
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{ color: "white" }} align="center">
+                    <TableCell
+                      style={{
+                        color: "white",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
                       Icon
                     </TableCell>
-                    <TableCell style={{ color: "white" }} align="center">
+                    <TableCell
+                      style={{
+                        color: "white",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
                       Name
                     </TableCell>
-                    <TableCell style={{ color: "white" }} align="center">
+                    <TableCell
+                      style={{
+                        color: "white",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
                       Order Type
                     </TableCell>
-                    <TableCell style={{ color: "white" }} align="center">
+                    <TableCell
+                      style={{
+                        color: "white",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
                       Amount
                     </TableCell>
-                    <TableCell style={{ color: "white" }} align="center">
+                    <TableCell
+                      style={{
+                        color: "white",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
                       Time
                     </TableCell>
                   </TableRow>
@@ -238,7 +284,13 @@ export default function Orderhistory() {
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{ color: "white", fontSize: "1rem" }}
+                          style={{
+                            color: "white",
+                            margin: "0px",
+                            paddingLeft: "0px",
+                            paddingRight: "0px",
+                            fontSize: "1rem",
+                          }}
                         >
                           {new Date(singlecoin.timestamp).toLocaleString()}
                         </TableCell>

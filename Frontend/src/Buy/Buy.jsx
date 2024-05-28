@@ -182,6 +182,13 @@ export default function Buy() {
           onClose: () => {
             setselectedcrypto(null);
             setcount(0);
+            setactivecolor({
+              Dashboard: "#cec4c4",
+              Account: "#cec4c4",
+              Orderhistory: "white",
+              Portfolio: "#cec4c4",
+              Leaderboard: "#cec4c4",
+            });
             navigate("/OrderHistory");
           },
         });
@@ -222,7 +229,7 @@ export default function Buy() {
     }
   };
   const handleIncreament = () => {
-    setcount(count + 1);
+    setcount(count * 1 + 1);
   };
   const handleDecreament = () => {
     if (count <= 1) {

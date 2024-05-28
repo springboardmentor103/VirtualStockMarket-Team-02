@@ -180,6 +180,13 @@ export default function Sell() {
           onClose: () => {
             setselectedcrypto(null);
             setcount(0);
+            setactivecolor({
+              Dashboard: "#cec4c4",
+              Account: "#cec4c4",
+              Orderhistory: "white",
+              Portfolio: "#cec4c4",
+              Leaderboard: "#cec4c4",
+            });
             navigate("/OrderHistory");
           },
         });

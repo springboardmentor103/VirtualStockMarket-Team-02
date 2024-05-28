@@ -21,13 +21,17 @@ export default function Sidebars() {
   const navigate = useNavigate();
   const [display, setdisplay] = useState(false);
   const [isLoading, setisLoading] = useState(false);
-  const { dispdata, activecolor, setactivecolor, setselectedcrypto } =
-    useContext(datacontext);
-  const handlesidebarclick = () => {
-    setdisplay(!display);
-  };
+  const {
+    dispdata,
+    activecolor,
+    setactivecolor,
+    setselectedcrypto,
+    //confirmshow,
+    // setconfirmshow,
+  } = useContext(datacontext);
   const handleLogOut = async () => {
     try {
+      //setconfirmshow(false);
       setisLoading(true);
       const response = await fetch("http://localhost:8000/api/logoutuser", {
         method: "DELETE",
@@ -82,6 +86,9 @@ export default function Sidebars() {
       });
       //alert("internal error");
     }
+  };
+  const handlesidebarclick = () => {
+    setdisplay(!display);
   };
   return (
     <div
