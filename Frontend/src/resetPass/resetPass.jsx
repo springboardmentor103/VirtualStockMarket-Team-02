@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import PassSuccess from "../PassSuccess/PassSuccess";
 import Loader from "../Loader/Loader";
 import { datacontext } from "../Datacontext";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function ForgetPassword() {
   const { tokenState, setTokenState } = useContext(datacontext);
 
@@ -50,7 +51,31 @@ function ForgetPassword() {
       console.log(data);
       if (response.ok && data.success) {
         setIsLoading(false);
-        alert(
+        toast.success(
+          "You have successfully created new password, now proceed to login.",
+          {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            onClose: () => {
+              seterr({
+                password: "",
+                confirmpassword: "",
+              });
+              setTokenState({
+                authtoken: false,
+                otptoken: false,
+                otpmatchtoken: false,
+              });
+            },
+          }
+        );
+        /*alert(
           "You have successfully created new password, now proceed to login."
         );
         seterr({
@@ -61,9 +86,9 @@ function ForgetPassword() {
           authtoken: false,
           otptoken: false,
           otpmatchtoken: false,
-        });
+        });*/
       } else {
-        console.log(typeof data.message);
+        //console.log(typeof data.message);
         if (typeof data.message === "object") {
           setIsLoading(false);
           seterr({
@@ -73,13 +98,33 @@ function ForgetPassword() {
         }
         if (typeof data.message === "string") {
           setIsLoading(false);
-          alert(data.message);
+          toast.error(`${data.message}`, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          //alert(data.message);
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       setIsLoading(false);
-      alert("Internal server error.");
+      toast.error(`Internal Server Error`, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal server error.");
     }
   };
 
@@ -142,7 +187,7 @@ function ForgetPassword() {
     }
     if (data.password !== data.confirmpassword) {
       errors.password = "Password and Confirm Password should be same";
-      errors.confirmpassword = "Password and Confirm Password should be same";
+      //errors.confirmpassword = "Password and Confirm Password should be same";
       isValid = false;
     }
     seterr(errors);

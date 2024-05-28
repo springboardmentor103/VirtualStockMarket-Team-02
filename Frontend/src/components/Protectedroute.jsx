@@ -29,6 +29,9 @@ export default function Protectedroute({ Element }) {
           }
           setTokenState(newTokenState);
         } else {
+          if (location.pathname === "/") {
+            navigate("/login");
+          }
           if (
             location.pathname === "/login" ||
             location.pathname === "/register" ||
@@ -55,6 +58,12 @@ export default function Protectedroute({ Element }) {
             navigate("/login");
           }
           if (location.pathname === "/sell") {
+            navigate("/login");
+          }
+          if (location.pathname === "/Leaderboard") {
+            navigate("/login");
+          }
+          if (location.pathname === "/portfolio") {
             navigate("/login");
           }
         }

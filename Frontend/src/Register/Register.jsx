@@ -5,6 +5,8 @@ import arrow from "./arrow.png";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { datacontext } from "../Datacontext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -44,7 +46,8 @@ function Register() {
       const data = await response.json();
       if (response.ok) {
         setIsLoading(false);
-        alert(
+
+        /*alert(
           "You have successfully created the account, now proceed to login."
         );
         navigate("/login");
@@ -57,7 +60,33 @@ function Register() {
           name: "",
           email: "",
           password: "",
-        });
+        });*/
+        toast.success(
+          "You have successfully created the account, now proceed to login.",
+          {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            onClose: () => {
+              setSignupData({
+                email: "",
+                password: "",
+                name: "",
+              });
+              seterr({
+                name: "",
+                email: "",
+                password: "",
+              });
+              navigate("/login");
+            },
+          }
+        );
       } else {
         if (data.message.email) {
           setIsLoading(false);
@@ -70,7 +99,17 @@ function Register() {
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Server Error.");
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Server Error.");
     }
   };
   const validation = async (data) => {
@@ -155,7 +194,17 @@ function Register() {
     } catch (error) {
       console.log(error);
       setIsLoading(false);
-      alert("Internal server error.");
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal server error.");
       return;
     }
   };

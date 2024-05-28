@@ -15,6 +15,8 @@ import ham from "../Images/hamburger.png";
 import close from "../Images/close.png";
 import int from "../Images/Intersect.png";
 import Loader from "../Loader/Loader";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Sidebars() {
   const navigate = useNavigate();
   const [display, setdisplay] = useState(false);
@@ -37,15 +39,48 @@ export default function Sidebars() {
       const data = await response.json();
       if (data.success) {
         setisLoading(false);
-        alert(data.message);
-        navigate(0);
+        toast.success(`${data.message}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          onClose: () => {
+            navigate(0);
+          },
+        });
+        //alert(data.message);
+        //navigate(0);
       } else {
         setisLoading(false);
-        alert(data.message);
+        toast.error(`${data.message}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        //alert(data.message);
       }
     } catch (error) {
       setisLoading(false);
-      alert("internal error");
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("internal error");
     }
   };
   return (

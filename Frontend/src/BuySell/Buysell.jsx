@@ -7,6 +7,8 @@ import Loader from "../Loader/Loader";
 import up from "../Images/up.png";
 import down from "../Images/down.png";
 import { datacontext } from "../Datacontext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   TableContainer,
   Table,
@@ -87,7 +89,17 @@ export default function Buysell() {
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Internal Server error");
+      toast.error("Internal Server Error", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal Server error");
     }
   };
 

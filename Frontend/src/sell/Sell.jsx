@@ -7,6 +7,8 @@ import Loader from "../Loader/Loader";
 import up from "../Images/up.png";
 import down from "../Images/down.png";
 import { datacontext } from "../Datacontext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./sell.css";
 export default function Sell() {
   const navigate = useNavigate();
@@ -80,7 +82,17 @@ export default function Sell() {
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Internal server error");
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal server error");
     }
   };
   useEffect(() => {
@@ -93,17 +105,50 @@ export default function Sell() {
   const handleSelling = async () => {
     try {
       if (!count) {
-        alert(`Selling quantity required.`);
+        toast.error("Selling quantity required.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        //alert(`Selling quantity required.`);
         return;
       }
       if (count === 0 || count === "") {
-        alert(
+        /*alert(
           `Selling ${selectedcrypto.name} quantity must be greater than 0.`
+        );*/
+        toast.error(
+          `Selling ${cryptodetails.name} quantity must be greater than 0.`,
+          {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
         );
         return;
       }
       if (cryptodetails.price.toFixed(2) * count < 1) {
-        alert(`Selling price must be atleast $1.`);
+        toast.error(`Selling amount must be at least $1.`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        //alert(`Selling price must be atleast $1.`);
         return;
       }
 
@@ -123,22 +168,57 @@ export default function Sell() {
       const data = await response.json();
       if (response.ok) {
         setIsLoading(false);
-        setselectedcrypto(null);
-        setcount(0);
-        alert(data.message);
-        navigate("/OrderHistory");
-      }
-      if (!data.success) {
+        toast.success(`${data.message}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          onClose: () => {
+            setselectedcrypto(null);
+            setcount(0);
+            navigate("/OrderHistory");
+          },
+        });
+        //setselectedcrypto(null);
+        //setcount(0);
+        //alert(data.message);
+        //navigate("/OrderHistory");
+      } else {
         setIsLoading(false);
-        alert(data.message);
+        toast.error(`${data.message}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+        //alert(data.message);
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Internal Server Error.");
+      toast.error("Internal Server Error!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal Server Error.");
     }
   };
   const handleIncreament = () => {
-    setcount(count + 1);
+    setcount(count * 1 + 1);
   };
   const handleDecreament = () => {
     if (count <= 1) {

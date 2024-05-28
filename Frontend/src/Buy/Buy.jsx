@@ -8,6 +8,10 @@ import up from "../Images/up.png";
 import down from "../Images/down.png";
 import { datacontext } from "../Datacontext";
 import "./buy.css";
+//import { Toaster, toast } from "sonner";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Buy() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -80,6 +84,16 @@ export default function Buy() {
       }
     } catch (error) {
       setIsLoading(false);
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       alert("Internal server error");
     }
   };
@@ -93,17 +107,50 @@ export default function Buy() {
   const handlePurchase = async () => {
     try {
       if (!count) {
-        alert(`Purchase quantity required.`);
+        toast.error("Purchase quantity required.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        //alert(`Purchase quantity required.`);
         return;
       }
       if (count === 0 || count === "0") {
-        alert(
-          `Purchase ${cryptodetails.name} quantity must be greater than 0.`
+        toast.error(
+          `Purchase ${cryptodetails.name} quantity must be greater than 0.`,
+          {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
         );
+        /*alert(
+          `Purchase ${cryptodetails.name} quantity must be greater than 0.`
+        );*/
         return;
       }
       if (cryptodetails.price.toFixed(2) * count < 1) {
-        alert(`Purchase amount must be at least $1.`);
+        toast.error(`Purchase amount must be at least $1.`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        //alert(`Purchase amount must be at least $1.`);
         return;
       }
 
@@ -123,18 +170,55 @@ export default function Buy() {
       const data = await response.json();
       if (response.ok) {
         setIsLoading(false);
-        setselectedcrypto(null);
-        setcount(0);
-        alert(data.message);
-        navigate("/OrderHistory");
+        toast.success(`${data.message}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          onClose: () => {
+            setselectedcrypto(null);
+            setcount(0);
+            navigate("/OrderHistory");
+          },
+        });
+        //setselectedcrypto(null);
+        //setcount(0);
+        //alert(data.message);
+        //navigate("/OrderHistory");
       }
       if (!data.success) {
         setIsLoading(false);
-        alert(data.message);
+
+        toast.error(`${"Not enough crypto currencu to buy"}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+        //alert(data.message);
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Internal Server Error.");
+      toast.error("Internal Server Error!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal Server Error.");
     }
   };
   const handleIncreament = () => {

@@ -6,6 +6,8 @@ import arrow from "../Images/arrow.png";
 import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { datacontext } from "../Datacontext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -50,9 +52,9 @@ function Login() {
           Portfolio: "#cec4c4",
           Leaderboard: "#cec4c4",
         });
-        alert("You have successfully logged in.");
-        navigate("/TrendingStocks");
-        setLoginData({
+        //alert("You have successfully logged in.");
+        //navigate("/TrendingStocks");
+        /* setLoginData({
           email: "",
           password: "",
         });
@@ -64,6 +66,32 @@ function Login() {
           authtoken: true,
           otptoken: false,
           otpmatchtoken: false,
+        });*/
+        toast.success("You have successfully logged in.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          onClose: () => {
+            setLoginData({
+              email: "",
+              password: "",
+            });
+            seterr({
+              email: "",
+              password: "",
+            });
+            setTokenState({
+              authtoken: true,
+              otptoken: false,
+              otpmatchtoken: false,
+            });
+            navigate("/TrendingStocks");
+          },
         });
       } else {
         if (data.message.email) {
@@ -80,7 +108,17 @@ function Login() {
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Server Error.");
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Server Error.");
     }
   };
   const validation = (data) => {
@@ -201,7 +239,7 @@ function Login() {
             </div>
             <div className="check-link-container">
               <div className="checkbox">
-                <input type="checkbox" name="checkbox" id="checkbox" required />
+                <input type="checkbox" name="checkbox" id="checkbox" />
                 <label htmlFor="checkbox">Keep me logged in</label>
               </div>
               <div>

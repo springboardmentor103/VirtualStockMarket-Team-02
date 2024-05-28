@@ -5,6 +5,8 @@ import arrow from "../Images/arrow.png";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { datacontext } from "../Datacontext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ForgetPassword() {
   const navigate = useNavigate();
@@ -48,10 +50,35 @@ function ForgetPassword() {
       const data1 = await response1.json();
       if (response1.ok && data1.success) {
         setIsLoading(false);
-        alert(
+        /*alert(
           "You have generated the otp, Enter the OTP received in your email."
+        );*/
+        toast.success(
+          "You have generated the otp, Enter the OTP received in your email.",
+          {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            onClose: () => {
+              seterr({
+                otp: "",
+                email: "",
+              });
+              setTokenState({
+                authtoken: false,
+                otptoken: true,
+                otpmatchtoken: false,
+              });
+            },
+          }
         );
-        seterr({
+
+        /*seterr({
           otp: "",
           email: "",
         });
@@ -59,7 +86,7 @@ function ForgetPassword() {
           authtoken: false,
           otptoken: true,
           otpmatchtoken: false,
-        });
+        });*/
       } else {
         if (data1.message.email) {
           setIsLoading(false);
@@ -71,7 +98,17 @@ function ForgetPassword() {
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Internal server error.");
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal server error.");
     }
   };
   const handleOtpMatching = async (e) => {
@@ -94,8 +131,8 @@ function ForgetPassword() {
       const data2 = await response2.json();
       if (response2.ok && data2.success) {
         setIsLoading(false);
-        alert("You have Entered correct otp, continue to create new password.");
-        seterr({
+        //alert("You have Entered correct otp, continue to create new password.");
+        /*seterr({
           otp: "",
           email: "",
         });
@@ -104,7 +141,32 @@ function ForgetPassword() {
           otptoken: false,
           otpmatchtoken: true,
         });
-        navigate("/resetPass");
+        navigate("/resetPass");*/
+        toast.success(
+          "You have Entered correct otp, continue to create new password.",
+          {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            onClose: () => {
+              seterr({
+                otp: "",
+                email: "",
+              });
+              setTokenState({
+                authtoken: false,
+                otptoken: false,
+                otpmatchtoken: true,
+              });
+              navigate("/resetPass");
+            },
+          }
+        );
       } else {
         if (typeof data2.message === "object") {
           setIsLoading(false);
@@ -126,7 +188,17 @@ function ForgetPassword() {
       }
     } catch (error) {
       setIsLoading(false);
-      alert("Internal server error.");
+      toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      //alert("Internal server error.");
     }
   };
 

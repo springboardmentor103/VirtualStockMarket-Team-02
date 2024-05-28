@@ -14,6 +14,10 @@ import Account from "./Account/Accounts";
 import Buysell from "./BuySell/Buysell";
 import Buy from "./Buy/Buy";
 import Sell from "./sell/Sell";
+import LeaderBoard from "./Leaderboard/LeaderBoard";
+import Portfolio from "./portfolio/portfolio";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -54,8 +58,28 @@ function App() {
             />
             <Route path="/buy" element={<Protectedroute Element={Buy} />} />
             <Route path="/sell" element={<Protectedroute Element={Sell} />} />
+            <Route
+              path="/Leaderboard"
+              element={<Protectedroute Element={LeaderBoard} />}
+            />
+            <Route
+              path="/portfolio"
+              element={<Protectedroute Element={Portfolio} />}
+            />
           </Routes>
         </div>
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </BrowserRouter>
     </Datacontext>
   );
