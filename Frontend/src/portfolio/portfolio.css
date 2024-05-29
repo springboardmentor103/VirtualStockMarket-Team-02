@@ -38,7 +38,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 0;
-  position: relative;
 }
 
 .portfolio-header h1 {
@@ -46,16 +45,17 @@
   font-weight: bold;
   margin: 0;
   color: white;
+  position: relative;
 }
 
-.portfolio-header::after {
+.portfolio-header h1::after {
   content: "";
   display: block;
-  width: 6rem;
+  width: 100%;
   height: 2px;
   background-color: #ddd;
   position: absolute;
-  bottom: 0;
+  bottom: -5px;
   left: 0;
 }
 
@@ -82,40 +82,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  backdrop-filter: blur(10px);
 }
 
 .portfolio-summary {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 4rem; /* Increased gap for better spacing */
   width: 100%;
-  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem; /* Added margin-top for spacing from the header */
 }
 
 .summary-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: center; /* Centered the summary items */
+  flex-direction: row;
 }
 
 .summary-circle {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-right: 1rem;
 }
 
 .summary-text {
-  margin-left: 1rem;
   text-align: left;
   color: white;
 }
@@ -140,15 +140,17 @@
 }
 
 .balance-container {
-  width: 50%;
+  width: 100%;
+  max-width: 1400px;
   background: rgba(44, 44, 84, 0.8);
   border-radius: 10px;
   padding: 2rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-top: 6rem; /* Increased margin-top for better spacing */
   color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  align-self: center;
 }
 
 .balance-container h2 {
@@ -171,3 +173,5 @@
   font-size: 1.2rem;
   margin-top: 1rem;
 }
+
+
