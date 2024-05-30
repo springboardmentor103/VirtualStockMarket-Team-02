@@ -124,11 +124,19 @@ function Register() {
       errors.name = "Full Name required.";
       isValid = false;
     } else {
+      const hasSpecialChars = /[^\w\s]/.test(data.name); // Regular expression for special characters
       if (data.name.length < 3) {
-        errors.name = "Full Name must be atleast 3  characters.";
-        isValid = false;
+        errors.name = "Full Name must be at least 3 characters long.";
+      } else if (hasSpecialChars) {
+        errors.name = "Full Name cannot contain special characters.";
       }
     }
+    // else {
+    //   if (data.name.length < 3) {
+    //     errors.name = "FullName must be atleast 3  characters.";
+    //     isValid = false;
+    //   }
+    // }
     if (!data.email) {
       errors.email = "Email required.";
       isValid = false;
