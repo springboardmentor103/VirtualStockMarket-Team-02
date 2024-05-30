@@ -34,12 +34,17 @@ function Register() {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    // Perform validation
+    const validate = await validation(signupData);
+    
+    if (!validate) {
+      // If validation fails, stop the signup process and set loading to false
+      setIsLoading(false);
+      return;
+    }
+  
     try {
-      const validate = await validation(signupData);
-      if (!validate) {
-        setIsLoading(false);
-        return;
-      }
       const response = await fetch("http://localhost:8000/api/createuser", {
         method: "POST",
         headers: {
@@ -47,24 +52,10 @@ function Register() {
         },
         body: JSON.stringify(signupData),
       });
+      
       const data = await response.json();
+      
       if (response.ok) {
-        setIsLoading(false);
-
-        /*alert(
-          "You have successfully created the account, now proceed to login."
-        );
-        navigate("/login");
-        setSignupData({
-          email: "",
-          password: "",
-          name: "",
-        });
-        seterr({
-          name: "",
-          email: "",
-          password: "",
-        });*/
         toast.success(
           "You have successfully created the account, now proceed to login.",
           {
@@ -77,7 +68,6 @@ function Register() {
             progress: undefined,
             theme: "dark",
             onClose: () => {
-              //localStorage.setItem("registertoken", "registertoken");
               setSignupData({
                 email: "",
                 password: "",
@@ -94,16 +84,13 @@ function Register() {
         );
       } else {
         if (data.message.email) {
-          setIsLoading(false);
-          seterr({
-            name: "",
+          seterr((prevErr) => ({
+            ...prevErr,
             email: data.message.email[0],
-            password: "",
-          });
+          }));
         }
       }
     } catch (error) {
-      setIsLoading(false);
       toast.error("Internal Server Error.", {
         position: "top-center",
         autoClose: 1000,
@@ -114,29 +101,29 @@ function Register() {
         progress: undefined,
         theme: "dark",
       });
-      //alert("Server Error.");
+    } finally {
+      setIsLoading(false);
     }
   };
+  
   const validation = async (data) => {
     let isValid = true;
     const errors = { email: "", password: "", name: "" };
+    
     if (!data.name) {
-      errors.name = "Full Name required.";
+      errors.name = "FullName required.";
       isValid = false;
     } else {
       const hasSpecialChars = /[^\w\s]/.test(data.name); // Regular expression for special characters
       if (data.name.length < 3) {
         errors.name = "Full Name must be at least 3 characters long.";
+        isValid = false;
       } else if (hasSpecialChars) {
         errors.name = "Full Name cannot contain special characters.";
+        isValid = false;
       }
     }
-    // else {
-    //   if (data.name.length < 3) {
-    //     errors.name = "FullName must be atleast 3  characters.";
-    //     isValid = false;
-    //   }
-    // }
+  
     if (!data.email) {
       errors.email = "Email required.";
       isValid = false;
@@ -152,36 +139,22 @@ function Register() {
         }
       }
     }
+  
     if (!data.password) {
       errors.password = "Password required.";
       isValid = false;
     } else {
-      if (isValidPassword(data.password).length === 0) {
-        if (data.password.length < 8) {
-          errors.password = "Password must be min 8 characters";
-          isValid = false;
-        }
-      }
-      if (isValidPassword(data.password).length > 0) {
-        if (data.password.length < 8) {
-          errors.password = "Password must be min 8 characters";
-          const passerr = isValidPassword(data.password);
-          errors.password =
-            errors.password + " and must contain atleast " + passerr.join(" ");
-          isValid = false;
-        } else {
-          const passerr = isValidPassword(data.password);
-
-          errors.password =
-            "Password must atleast contain " + passerr.join(" ");
-          isValid = false;
-        }
+      const passerr = isValidPassword(data.password);
+      if (passerr.length > 0 || data.password.length < 8) {
+        errors.password = "Password must be at least 8 characters long and must contain at least " + passerr.join(", ");
+        isValid = false;
       }
     }
-
+  
     seterr(errors);
     return isValid;
   };
+  
 
   const isValidEmail = (email) => {
     const emailRegex =
