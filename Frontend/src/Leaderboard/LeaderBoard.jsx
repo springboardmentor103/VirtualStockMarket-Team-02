@@ -90,7 +90,7 @@ const LeaderBoard = () => {
                     <div className={`badge badge-${index + 1}`}>
                       {index + 1}
                     </div>
-                    <div className="initial">{user.userName.charAt(0)}</div>
+                    <div className="initial">{}</div>
                   </div>
                   <div className="user-details">
                     <div className="user-icon">{user.userName.charAt(0)}</div>

@@ -33,10 +33,11 @@
   color: white;
 }
 .login-form-container h1 {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 .login-form-container h2 {
-  margin-bottom: 1.5rem;
+  text-align: center;
+  margin-bottom: 0rem;
 }
 .login-form-container form .email,
 .login-form-container form .password,
@@ -101,7 +102,7 @@
 }
 .login-form-container .submit {
   margin-top: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .login-form-container .submit button {
   padding: 0.8rem 0rem;
@@ -113,6 +114,9 @@
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
+}
+.login-form-container .signup-link-container {
+  text-align: center;
 }
 .login-form-container .signup-link-container span {
   color: white;

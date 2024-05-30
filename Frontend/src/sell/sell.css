@@ -35,12 +35,17 @@
   padding: 0rem 0.5rem;
   margin-bottom: 0rem;
 }
+.sell-right-container .title-container img {
+  transform: rotate(-180deg);
+  cursor: pointer;
+}
 .sell-right-container .title-container p {
   color: white;
   text-decoration: underline;
   font-size: 1.5rem;
   margin-left: 1rem;
   text-underline-offset: 6px;
+  cursor: pointer;
 }
 .sell-info-container {
   display: flex;
@@ -142,6 +147,15 @@
   color: #f4f5f6;
   text-align: center;
 }
+.sell-heading-container .sell-quantity .crypto-holdings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.sell-heading-container .sell-quantity .crypto-holdings p {
+  color: white;
+}
 .sell-heading-container .sell-quantity-counter {
   display: flex;
   align-items: center;
@@ -205,6 +219,9 @@
   text-align: center;
   font-size: 15px;
   cursor: pointer;
+}
+.sell-heading-container .sell-quantity-box button.disabled {
+  background-color: rgba(255, 0, 0, 0.397);
 }
 @media screen and (max-width: 530px) {
   .sell-right-container {

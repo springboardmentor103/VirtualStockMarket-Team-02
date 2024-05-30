@@ -232,8 +232,8 @@ function ForgetPassword() {
             <h1>
               Empowering Your Trades: Where <br /> Opportunities Meet Expertise
             </h1>
-            <h2>RESET YOUR PASSWORD?</h2>
-            <p>ENTER NEW PASSWORD</p>
+            <h2>Reset Your Password?</h2>
+            <p>Enter New Password</p>
             <form onSubmit={handleResetPassword}>
               <div className="password">
                 <input
@@ -241,7 +241,7 @@ function ForgetPassword() {
                   name="password"
                   id="password"
                   className={`${err.password ? "err" : ""}`}
-                  placeholder="Enter New Password"
+                  placeholder="New Password"
                   value={resetData.password}
                   onChange={handleInputChange}
                 />

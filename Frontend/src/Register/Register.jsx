@@ -25,7 +25,11 @@ function Register() {
     email: "",
     password: "",
   });
-  const [err, seterr] = useState({ email: "", password: "", name: "" });
+  const [err, seterr] = useState({
+    email: "",
+    password: "",
+    name: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
@@ -73,6 +77,7 @@ function Register() {
             progress: undefined,
             theme: "dark",
             onClose: () => {
+              //localStorage.setItem("registertoken", "registertoken");
               setSignupData({
                 email: "",
                 password: "",
@@ -116,11 +121,11 @@ function Register() {
     let isValid = true;
     const errors = { email: "", password: "", name: "" };
     if (!data.name) {
-      errors.name = "FullName required.";
+      errors.name = "Full Name required.";
       isValid = false;
     } else {
       if (data.name.length < 3) {
-        errors.name = "FullName must be atleast 3  characters.";
+        errors.name = "Full Name must be atleast 3  characters.";
         isValid = false;
       }
     }
@@ -232,7 +237,6 @@ function Register() {
       [name]: value,
     }));
   };
-
   return (
     <div className="signup-container">
       {isLoading ? <Loader /> : ""}
@@ -253,7 +257,7 @@ function Register() {
                 name="name"
                 id="name"
                 className={`${err.name ? "err" : ""}`}
-                placeholder="FullName"
+                placeholder="Full Name"
                 value={signupData.name}
                 onChange={handleInputChange}
               />

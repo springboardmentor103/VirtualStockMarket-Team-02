@@ -14,6 +14,7 @@ export default function Sell() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [cryptodetails, setcryptodetails] = useState(null);
+  const [disable, setdisable] = useState(false);
 
   const {
     tokenState,
@@ -56,6 +57,27 @@ export default function Sell() {
           ].find((coin) => coin.name === selectedcrypto.name);
           if (selectedCoinData) {
             const details = await fetchCryptoDetails(selectedCoinData.symbol);
+            const responsecash = await fetch(
+              "http://localhost:8000/api/portfolio",
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+              }
+            );
+            const portfoliodetails = await responsecash.json();
+            const responsecryptoquantity = await fetch(
+              "http://localhost:8000/api/dashboard",
+              {
+                credentials: "include",
+              }
+            );
+            const cryptoquantity = await responsecryptoquantity.json();
+            const sumofcryptoquantity = cryptoquantity.user.purchases
+              .filter((item) => item.cryptoname === selectedCoinData.name)
+              .reduce((acc, item) => acc + item.quantity, 0);
             const formattedData = {
               name: selectedCoinData.name,
               price: selectedCoinData.quote.USD.price,
@@ -64,6 +86,8 @@ export default function Sell() {
               imageurl: details.imageurl,
               open: details.open,
               close: details.close,
+              cashbalance: portfoliodetails.totalPortfolio.totalAmount,
+              quantity: sumofcryptoquantity,
             };
 
             setIsLoading(false);
@@ -76,8 +100,19 @@ export default function Sell() {
           }
         } else {
           setIsLoading(false);
-          //seterr(data.message);
-          setcryptodetails(null);
+          toast.error(`${data.message}`, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            onClose: () => {
+              setcryptodetails(null);
+            },
+          });
         }
       }
     } catch (error) {
@@ -225,17 +260,44 @@ export default function Sell() {
     }
   };
   const handleIncreament = () => {
-    setcount(count * 1 + 1);
+    setcount((prevCount) => {
+      const newCount = prevCount + 1;
+      if (cryptodetails.quantity >= newCount) {
+        setdisable(false);
+      } else {
+        setdisable(true);
+      }
+
+      return newCount;
+    });
   };
   const handleDecreament = () => {
     if (count <= 1) {
-      setcount(count - 0.01);
+      setcount((prevCount) => {
+        const newCount = prevCount - 0.01;
+        if (cryptodetails.quantity >= newCount) {
+          setdisable(false);
+        } else {
+          setdisable(true);
+        }
+
+        return newCount;
+      });
     }
     if (count <= 0) {
       setcount(0);
     }
     if (count > 1) {
-      setcount(count - 1);
+      setcount((prevCount) => {
+        const newCount = prevCount - 1;
+        if (cryptodetails.quantity >= newCount) {
+          setdisable(false);
+        } else {
+          setdisable(true);
+        }
+
+        return newCount;
+      });
     }
   };
   return (
@@ -243,13 +305,18 @@ export default function Sell() {
       {isLoading ? <Loader /> : ""}
       <img src={bg} alt="bg" className="sell-bg" />
       <Sidebars />
-      {cryptodetails ? (
-        <div className="sell-right-cover">
-          <div className="sell-right-container">
-            <div className="title-container">
-              <img src={logo11} alt="logo11" />
-              <p>Sell</p>
-            </div>
+
+      <div className="sell-right-cover">
+        <div className="sell-right-container">
+          <div className="title-container">
+            <img
+              src={logo11}
+              alt="logo11"
+              onClick={() => navigate("/Buy-Sell")}
+            />
+            <p onClick={() => navigate("/Buy-Sell")}>Buy/Sell</p>
+          </div>
+          {cryptodetails ? (
             <div className="sell-info-container">
               <div className="sell-heading-container">
                 <div className="sell-crypto">
@@ -345,20 +412,16 @@ export default function Sell() {
                       </div>
                       <div className="counter-value">
                         <input
-                          type="text"
+                          type="number"
                           value={count}
                           placeholder="Enter Units to Sell"
                           onChange={(e) => {
                             const inputValue = e.target.value;
-                            const validNumberRegex =
-                              /^[+-]?(\d+(\.\d*)?|\.\d+)$/;
-
-                            // Check if the input value is a valid number
-                            if (
-                              validNumberRegex.test(inputValue) ||
-                              inputValue === ""
-                            ) {
-                              setcount(inputValue);
+                            setcount(Number(inputValue));
+                            if (cryptodetails.quantity >= inputValue) {
+                              setdisable(false);
+                            } else {
+                              setdisable(true);
                             }
                           }}
                         />
@@ -380,20 +443,33 @@ export default function Sell() {
                         </svg>
                       </div>
                     </div>
-                    <p>Total Lots for sell</p>
+                    <div className="crypto-holdings">
+                      <p>
+                        Total Lots for sell: {cryptodetails.quantity.toFixed(5)}
+                      </p>
+                      <p>
+                        Cash Balance: ${cryptodetails.cashbalance.toFixed(2)}
+                      </p>
+                    </div>
                   </div>
-                  <button onClick={handleSelling}>
+                  <button
+                    onClick={handleSelling}
+                    disabled={disable}
+                    className={`${disable ? "disabled" : ""}`}
+                  >
                     $ {""}
-                    {count === "" ? 0 : cryptodetails.price.toFixed(2) * count}
+                    {count === "" || count === 0
+                      ? 0
+                      : (cryptodetails.price * count).toFixed(2)}
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </div>
   );
 }

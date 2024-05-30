@@ -119,8 +119,12 @@ export default function Buysell() {
       <div className="buysell-right-cover">
         <div className="buysell-right-container">
           <div className="title-container">
-            <img src={logo11} alt="logo11" />
-            <p>Stock Detail</p>
+            <img
+              src={logo11}
+              alt="logo11"
+              onClick={() => navigate("/TrendingStocks")}
+            />
+            <p onClick={() => navigate("/TrendingStocks")}>Stock Detail</p>
           </div>
           {cryptodatas ? (
             <div className="crypto-info-container">

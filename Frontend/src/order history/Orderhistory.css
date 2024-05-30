@@ -40,7 +40,8 @@
   color: white;
   text-decoration: underline;
   font-size: 1.5rem;
-  margin-left: 1rem;
+  text-underline-offset: 6px;
+  /*margin-left: 1rem;*/
 }
 .history-container {
   width: 100%;

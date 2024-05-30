@@ -158,7 +158,7 @@ export default function Trending() {
         <div className="Trend-container">
           <div className="search-container">
             <div className="left">
-              <img src={logo11} alt="logo11" className="Trending-logo11" />
+              {/*<img src={logo11} alt="logo11" className="Trending-logo11" />*/}
               <p>Stocks</p>
             </div>
             <div className="right">
@@ -191,9 +191,7 @@ export default function Trending() {
                         paddingRight: "0px",
                       }}
                       align="center"
-                    >
-                      Icon
-                    </TableCell>
+                    ></TableCell>
                     <TableCell
                       style={{
                         color: "white",
@@ -228,7 +226,7 @@ export default function Trending() {
                       }}
                       align="center"
                     >
-                      Percent
+                      24H Change
                     </TableCell>
                   </TableRow>
                 </TableHead>

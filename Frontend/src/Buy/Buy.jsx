@@ -8,14 +8,13 @@ import up from "../Images/up.png";
 import down from "../Images/down.png";
 import { datacontext } from "../Datacontext";
 import "./buy.css";
-//import { Toaster, toast } from "sonner";
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function Buy() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [cryptodetails, setcryptodetails] = useState(null);
+  const [disable, setdisable] = useState(false);
 
   const {
     tokenState,
@@ -24,7 +23,7 @@ export default function Buy() {
     setactivecolor,
     fetchCryptoDetails,
   } = useContext(datacontext);
-  const [count, setcount] = useState("");
+  const [count, setcount] = useState(0);
   useEffect(() => {
     if (tokenState.authtoken) {
       setactivecolor({
@@ -41,6 +40,7 @@ export default function Buy() {
       navigate("/forgetPassword");
     }
   }, [tokenState, navigate]);
+
   const getcryptodetail = async () => {
     try {
       setIsLoading(true);
@@ -58,6 +58,28 @@ export default function Buy() {
           ].find((coin) => coin.name === selectedcrypto.name);
           if (selectedCoinData) {
             const details = await fetchCryptoDetails(selectedCoinData.symbol);
+            const responsecash = await fetch(
+              "http://localhost:8000/api/portfolio",
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+              }
+            );
+            const portfoliodetails = await responsecash.json();
+
+            const responsecryptoquantity = await fetch(
+              "http://localhost:8000/api/dashboard",
+              {
+                credentials: "include",
+              }
+            );
+            const cryptoquantity = await responsecryptoquantity.json();
+            const sumofcryptoquantity = cryptoquantity.user.purchases
+              .filter((item) => item.cryptoname === selectedCoinData.name)
+              .reduce((acc, item) => acc + item.quantity, 0);
             const formattedData = {
               name: selectedCoinData.name,
               price: selectedCoinData.quote.USD.price,
@@ -66,6 +88,8 @@ export default function Buy() {
               imageurl: details.imageurl,
               open: details.open,
               close: details.close,
+              cashbalance: portfoliodetails.totalPortfolio.totalAmount,
+              quantity: sumofcryptoquantity,
             };
 
             setIsLoading(false);
@@ -73,13 +97,24 @@ export default function Buy() {
             setcryptodetails(formattedData);
           } else {
             setIsLoading(false);
-            //seterr(`No data found for crypto ${selectedcrypto.name}`);
             setcryptodetails(null);
+            //seterr(`No data found for crypto ${selectedcrypto.name}`);
           }
         } else {
           setIsLoading(false);
-          //seterr(data.message);
-          setcryptodetails(null);
+          toast.error(`${data.message}`, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            onClose: () => {
+              setcryptodetails(null);
+            },
+          });
         }
       }
     } catch (error) {
@@ -99,11 +134,12 @@ export default function Buy() {
   };
   useEffect(() => {
     if (selectedcrypto) {
+      console.log(selectedcrypto);
       getcryptodetail();
     } else {
       navigate("/TrendingStocks");
     }
-  }, [selectedcrypto, navigate]);
+  }, [navigate, selectedcrypto]);
   const handlePurchase = async () => {
     try {
       if (!count) {
@@ -182,13 +218,6 @@ export default function Buy() {
           onClose: () => {
             setselectedcrypto(null);
             setcount(0);
-            setactivecolor({
-              Dashboard: "#cec4c4",
-              Account: "#cec4c4",
-              Orderhistory: "white",
-              Portfolio: "#cec4c4",
-              Leaderboard: "#cec4c4",
-            });
             navigate("/OrderHistory");
           },
         });
@@ -200,7 +229,7 @@ export default function Buy() {
       if (!data.success) {
         setIsLoading(false);
 
-        toast.error(`${"Not enough crypto currencu to buy"}`, {
+        toast.error(`${"Not enough crypto currency to buy"}`, {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: false,
@@ -229,17 +258,45 @@ export default function Buy() {
     }
   };
   const handleIncreament = () => {
-    setcount(count * 1 + 1);
+    console.log("count", typeof count, count);
+    setcount((prevCount) => {
+      const newCount = prevCount + 1;
+      if (cryptodetails.price * newCount > cryptodetails.cashbalance) {
+        setdisable(true);
+      } else {
+        setdisable(false);
+      }
+
+      return newCount;
+    });
   };
   const handleDecreament = () => {
     if (count <= 1) {
-      setcount(count - 0.01);
+      setcount((prevCount) => {
+        const newCount = prevCount - 0.01;
+        if (cryptodetails.price * newCount > cryptodetails.cashbalance) {
+          setdisable(true);
+        } else {
+          setdisable(false);
+        }
+
+        return newCount;
+      });
     }
     if (count <= 0) {
       setcount(0);
     }
     if (count > 1) {
-      setcount(count - 1);
+      setcount((prevCount) => {
+        const newCount = prevCount - 1;
+        if (cryptodetails.price * newCount > cryptodetails.cashbalance) {
+          setdisable(true);
+        } else {
+          setdisable(false);
+        }
+
+        return newCount;
+      });
     }
   };
   return (
@@ -247,13 +304,17 @@ export default function Buy() {
       {isLoading ? <Loader /> : ""}
       <img src={bg} alt="bg" className="buy-bg" />
       <Sidebars />
-      {cryptodetails ? (
-        <div className="buy-right-cover">
-          <div className="buy-right-container">
-            <div className="title-container">
-              <img src={logo11} alt="logo11" />
-              <p>Buy</p>
-            </div>
+      <div className="buy-right-cover">
+        <div className="buy-right-container">
+          <div className="title-container">
+            <img
+              src={logo11}
+              alt="logo11"
+              onClick={() => navigate("/Buy-Sell")}
+            />
+            <p onClick={() => navigate("/Buy-Sell")}>Buy/Sell</p>
+          </div>
+          {cryptodetails ? (
             <div className="buy-info-container">
               <div className="buy-heading-container">
                 <div className="buy-crypto">
@@ -349,20 +410,19 @@ export default function Buy() {
                       </div>
                       <div className="counter-value">
                         <input
-                          type="text"
+                          type="number"
                           value={count}
                           placeholder="Enter Units to Buy"
                           onChange={(e) => {
                             const inputValue = e.target.value;
-                            const validNumberRegex =
-                              /^[+-]?(\d+(\.\d*)?|\.\d+)$/;
-
-                            // Check if the input value is a valid number
+                            setcount(Number(inputValue));
                             if (
-                              validNumberRegex.test(inputValue) ||
-                              inputValue === ""
+                              cryptodetails.price * inputValue >
+                              cryptodetails.cashbalance
                             ) {
-                              setcount(inputValue);
+                              setdisable(true);
+                            } else {
+                              setdisable(false);
                             }
                           }}
                         />
@@ -384,20 +444,33 @@ export default function Buy() {
                         </svg>
                       </div>
                     </div>
-                    <p>Total Lots for sell</p>
+                    <div className="crypto-holdings">
+                      <p>
+                        Total Lots for sell: {cryptodetails.quantity.toFixed(5)}
+                      </p>
+                      <p>
+                        Cash Balance: ${cryptodetails.cashbalance.toFixed(2)}
+                      </p>
+                    </div>
                   </div>
-                  <button onClick={handlePurchase}>
+                  <button
+                    onClick={handlePurchase}
+                    disabled={disable}
+                    className={`${disable ? "disabled" : ""}`}
+                  >
                     $ {""}
-                    {count === "" ? 0 : cryptodetails.price.toFixed(2) * count}
+                    {count === "" || count === 0
+                      ? 0
+                      : (cryptodetails.price * count).toFixed(2)}
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </div>
   );
 }

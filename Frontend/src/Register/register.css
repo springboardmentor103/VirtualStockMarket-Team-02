@@ -40,11 +40,13 @@
 }
 .signup-form-container h2 {
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 .signup-form-container form {
   margin-bottom: 0px;
 }
 .signup-form-container form .email,
+.signup-form-container form .otp,
 .signup-form-container form .password,
 .signup-form-container form .name,
 .signup-form-container form .check-link-container {
@@ -55,7 +57,8 @@
 }
 .signup-form-container form .email span,
 .signup-form-container form .name span,
-.signup-form-container form .password span {
+.signup-form-container form .password span,
+.signup-form-container form .otp span {
   display: block;
   text-align: center;
   color: red;
@@ -68,7 +71,8 @@
 
 .signup-form-container form .email input,
 .signup-form-container form .name input,
-.signup-form-container form .password input {
+.signup-form-container form .password input,
+.signup-form-container form .otp input {
   background-color: transparent;
   color: white;
   border: 1px solid white;
@@ -79,15 +83,18 @@
 }
 .signup-form-container form .email input.err,
 .signup-form-container form .name input.err,
-.signup-form-container form .password input.err {
+.signup-form-container form .password input.err,
+.signup-form-container form .otp input.err {
   border-color: red;
 }
 .signup-form-container form .email input::placeholder,
 .signup-form-container form .name input::placeholder,
-.signup-form-container form .password input::placeholder {
+.signup-form-container form .password input::placeholder,
+.signup-form-container form .otp input::placeholder {
   color: white;
 }
 .signup-form-container form .email input.err::placeholder,
+.signup-form-container form .otp input.err::placeholder,
 .signup-form-container form .name input.err::placeholder,
 .signup-form-container form .password input.err::placeholder {
   color: red;
@@ -119,6 +126,9 @@
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
+}
+.login-link-container {
+  text-align: center;
 }
 .login-link-container span {
   color: white;

@@ -78,23 +78,35 @@
   left: 10px;
   font-size: 12px;
 }
+.profile-info-container .fields-cover .field-container p {
+  color: red;
+  margin-top: 0.3rem;
+}
 .profile-info-container .fields-cover .field-container div {
-  color: white;
   width: 100%;
-  padding: 1rem;
-  border: 1px solid #908fec;
-  border-radius: 5px;
   overflow: hidden;
 }
+.profile-info-container .fields-cover .field-container div input {
+  color: white;
+  width: 100%;
+  border: 1px solid #908fec;
+  border-radius: 5px;
+  padding: 1rem;
+  overflow: hidden;
+  background-color: transparent;
+  outline: none;
+}
 .profile-info-container button {
+  cursor: pointer;
   color: white;
   outline: none;
   border: none;
   background-color: #3500d4;
-  width: 60%;
-  padding: 0.5rem 1rem;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1rem 1rem;
   border-radius: 5px;
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
 }
 @media screen and (max-width: 786px) {
   .profile-info-container {

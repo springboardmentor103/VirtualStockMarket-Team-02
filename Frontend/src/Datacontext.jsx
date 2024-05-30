@@ -37,6 +37,7 @@ export default function Datacontext({ children }) {
     }
   };
   const [confirmshow, setconfirmshow] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     const storedSymbol = localStorage.getItem("symbol");

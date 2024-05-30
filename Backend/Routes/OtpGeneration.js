@@ -73,7 +73,7 @@ router.post(
       }
       // const otpValue = otpgenerate();
       // const encryptedotp = encryptOTP(otpValue);
-      const otpValue = otpgenerate().toString(); 
+      const otpValue = otpgenerate().toString();
       const encryptedotp = encryptOTP(otpValue);
 
       encryptedotp.expiry = new Date(Date.now() + 600000);
@@ -97,12 +97,10 @@ router.post(
           message: { result: ["OTP sent successfully."] },
         });
       } else {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message: { error: ["Failed to send OTP."] },
-          });
+        return res.status(400).json({
+          success: false,
+          message: { error: ["Failed to send OTP."] },
+        });
       }
     } catch (error) {
       res.status(500).json({

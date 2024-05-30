@@ -51,7 +51,7 @@
   color: white;
   text-decoration: underline;
   font-size: 1.5rem;
-  margin-left: 1rem;
+  /*margin-left: 1rem;*/
 }
 
 .Trending-container .Trending-stocks-container .search-container .right {
@@ -61,7 +61,7 @@
 .Trending-container .Trending-stocks-container .search-container .right input {
   outline: none;
   background-color: transparent;
-  border: 1px solid rgb(75, 12, 156);
+  border: 1px solid white;
   padding: 1rem 0.5rem;
   border-radius: 5px;
   width: 100%;

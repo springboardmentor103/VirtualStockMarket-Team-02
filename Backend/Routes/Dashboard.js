@@ -30,6 +30,7 @@ router.get("/dashboard", verifyauthtoken, async (req, res) => {
             purchaseType: purchase.purchasetype,
             status: purchase.status,
             volume: volume,
+            quantity: purchase.quantity,
             info: purchase.info || "NIL",
             percent: purchase.purchasepercent,
             timestamp: purchase.timestamp,

@@ -74,9 +74,6 @@ const purchase = require("../Models/Purchase");
 const { getCoinData } = require("../Middleware/getCoinData");
 
 router.get("/portfolio", verifyauthtoken, async (req, res) => {
-  //console.log("Headers:", req.headers); // Log request headers
-  //console.log("Payload:", req.payload); // Log payload from token
-
   try {
     const userPurchases = await purchase.find({ UserId: req.payload._id });
 
@@ -93,24 +90,41 @@ router.get("/portfolio", verifyauthtoken, async (req, res) => {
       });
     });
 
-    const symbolArray = Array.from(symbols);
-    const data = await getCoinData(symbolArray);
+    if (symbols.size === 0) {
+      return res.status(200).json({
+        success: true,
+        totalPortfolio: {
+          totalProfit,
+          totalLoss,
+          todayProfit,
+          todayLoss,
+          totalAmount: 10000,
+        },
+      });
+    }
 
-    const symbolPrices = symbolArray.reduce((acc, symbol) => {
-      const priceData = data.data[symbol];
-      if (
-        priceData &&
-        priceData[0] &&
-        priceData[0].quote &&
-        priceData[0].quote.USD &&
-        priceData[0].quote.USD.price
-      ) {
-        acc[symbol] = priceData[0].quote.USD.price;
-      } else {
-        console.warn(`Price data for ${symbol} is not available`);
+    const symbolArray = Array.from(symbols);
+    const symbolPrices = {};
+
+    for (const symbol of symbolArray) {
+      try {
+        const data = await getCoinData(symbol);
+        const priceData = data.data[symbol];
+        if (
+          priceData &&
+          priceData[0] &&
+          priceData[0].quote &&
+          priceData[0].quote.USD &&
+          priceData[0].quote.USD.price
+        ) {
+          symbolPrices[symbol] = priceData[0].quote.USD.price;
+        } else {
+          console.warn(`Price data for ${symbol} is not available`);
+        }
+      } catch (error) {
+        console.warn(`Error fetching data for ${symbol}:`, error);
       }
-      return acc;
-    }, {});
+    }
 
     for (const purchase of userPurchases) {
       totalAmount += purchase.cashBalance;

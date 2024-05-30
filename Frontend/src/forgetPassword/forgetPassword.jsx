@@ -48,6 +48,7 @@ function ForgetPassword() {
         credentials: "include",
       });
       const data1 = await response1.json();
+      console.log(data1);
       if (response1.ok && data1.success) {
         setIsLoading(false);
         /*alert(
@@ -97,6 +98,7 @@ function ForgetPassword() {
         }
       }
     } catch (error) {
+      console.log(error);
       setIsLoading(false);
       toast.error("Internal Server Error.", {
         position: "top-center",
@@ -179,7 +181,7 @@ function ForgetPassword() {
           setIsLoading(false);
           seterr({
             email: "",
-            otp: "OTP expired. Please refresh the page.",
+            otp: "OTP expired.",
           });
           setTimeout(() => {
             navigate(0);
@@ -236,7 +238,7 @@ function ForgetPassword() {
     const { name, value } = e.target;
     setForgetData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "otp" ? value.slice(0, 6) : value,
     }));
   };
 
@@ -252,11 +254,11 @@ function ForgetPassword() {
           <h1>
             Empowering Your Trades: Where <br /> Opportunities Meet Expertise
           </h1>
-          <h2>FORGOT YOUR PASSWORD?</h2>
+          <h2>Forgot Your Password?</h2>
           <p>
             {tokenState.otptoken
-              ? "PLEASE ENTER THE OTP YOU RECEIVED IN EMAIL"
-              : "PLEASE ENTER THE EMAIL YOU USED TO SIGN IN"}
+              ? "Please Enter The OTP You Received In Email"
+              : "Please Enter The Email You Used To Sign In"}
           </p>
           <form
             onSubmit={
@@ -277,7 +279,7 @@ function ForgetPassword() {
             </div>
             <div className={`otp ${tokenState.otptoken ? "" : " hide"}`}>
               <input
-                type="text"
+                type="number"
                 name="otp"
                 id="otp"
                 className={`${err.otp ? "err" : ""}`}
@@ -289,7 +291,7 @@ function ForgetPassword() {
             </div>
             <div className="submit">
               <button type="submit">
-                {tokenState.otptoken ? "Match OTP" : "Request OTP"}
+                {tokenState.otptoken ? "Verify OTP" : "Request OTP"}
               </button>
             </div>
           </form>

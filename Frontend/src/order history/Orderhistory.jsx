@@ -21,11 +21,18 @@ export default function Orderhistory() {
   const [orderdata, setorderdata] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [err, seterr] = useState("");
-  const { setdispdata, tokenState, fetchCryptoDetails } =
+  const { setdispdata, tokenState, fetchCryptoDetails, setactivecolor } =
     useContext(datacontext);
 
   useEffect(() => {
     if (tokenState.authtoken) {
+      setactivecolor({
+        Dashboard: "#cec4c4",
+        Account: "#cec4c4",
+        Orderhistory: "white",
+        Portfolio: "#cec4c4",
+        Leaderboard: "#cec4c4",
+      });
       navigate("/OrderHistory");
     } else if (tokenState.otpmatchtoken) {
       navigate("/resetPass");
@@ -64,12 +71,14 @@ export default function Orderhistory() {
             "No Purchase or Selling record found. Try your first purchase to add a record to Order history."
           );
           setdispdata({ name: data.user.name, email: data.user.email });
-          setorderdata(formattedData);
+          const reverseFormattedData = formattedData.reverse();
+          setorderdata(reverseFormattedData);
         } else {
           setIsLoading(false);
           seterr("");
+          const reverseFormattedData = formattedData.reverse();
           setdispdata({ name: data.user.name, email: data.user.email });
-          setorderdata(formattedData);
+          setorderdata(reverseFormattedData);
         }
       } else {
         setIsLoading(false);
@@ -94,7 +103,7 @@ export default function Orderhistory() {
       <div className="orderhistory-stocks-container">
         <div className="history-title-container">
           <div className="title-container">
-            <img src={logo11} alt="logo11" className="orderhistory-logo11" />
+            {/*<img src={logo11} alt="logo11" className="orderhistory-logo11" />*/}
             <p>Order History</p>
           </div>
           <div className="history-container">
@@ -168,9 +177,7 @@ export default function Orderhistory() {
                         paddingRight: "0px",
                       }}
                       align="center"
-                    >
-                      Icon
-                    </TableCell>
+                    ></TableCell>
                     <TableCell
                       style={{
                         color: "white",
