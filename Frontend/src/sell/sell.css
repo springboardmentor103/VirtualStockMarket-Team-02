@@ -1,0 +1,266 @@
+.sell-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.sell-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.sell-right-cover {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.sell-right-container {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem;
+}
+.sell-right-container .title-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0rem 0.5rem;
+  margin-bottom: 0rem;
+}
+.sell-right-container .title-container img {
+  transform: rotate(-180deg);
+  cursor: pointer;
+}
+.sell-right-container .title-container p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  text-underline-offset: 6px;
+  cursor: pointer;
+}
+.sell-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+.sell-heading-container {
+  margin-bottom: 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sell-heading-container .sell-crypto .sell-crypto-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.sell-heading-container .sell-crypto-info img {
+  width: 100px;
+  margin-right: 1rem;
+}
+.sell-heading-container .sell-crypto .sell-crypto-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sell-heading-container .sell-crypto .sell-crypto-name p {
+  color: white;
+  font-size: 2rem;
+}
+.sell-heading-container .sell-crypto .sell-crypto-name span {
+  color: #ffffffa2;
+  font-size: 1rem;
+}
+
+.sell-heading-container .sell-price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.sell-heading-container .sell-price-container h3 {
+  color: white;
+  font-size: 2.3rem;
+}
+.sell-heading-container .sell-price-container span.down {
+  color: rgb(255, 0, 0);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+.sell-heading-container .sell-price-container span img {
+  width: 20px;
+  margin-right: 3px;
+}
+.sell-heading-container .sell-price-container span {
+  margin-top: 5px;
+}
+.sell-heading-container .sell-price-container span.up {
+  color: rgb(16, 138, 42);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+.sell-heading-container .sell-crypto-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+.sell-heading-container .sell-crypto-stats div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sell-heading-container .sell-crypto-stats div p {
+  font-size: 1rem;
+}
+.sell-heading-container .sell-crypto-stats div span {
+  font-size: 0.8rem;
+  color: #ffffffe1;
+}
+.sell-heading-container .sell-quantity-box {
+  background-color: #252430;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.sell-heading-container .sell-quantity p {
+  color: #f4f5f6;
+  text-align: center;
+}
+.sell-heading-container .sell-quantity .crypto-holdings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.sell-heading-container .sell-quantity .crypto-holdings p {
+  color: white;
+}
+.sell-heading-container .sell-quantity-counter {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0rem;
+}
+.sell-heading-container .sell-quantity-counter .plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.sell-heading-container .sell-quantity-counter .plus svg {
+  width: 100%;
+  height: 100%;
+}
+.sell-heading-container .sell-quantity-counter .minus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.sell-heading-container .sell-quantity-counter .counter-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #b8b7b9;
+  color: black;
+}
+.sell-heading-container .sell-quantity-counter .counter-value input {
+  outline: none;
+  border: none;
+  color: black;
+  background-color: #b8b7b9;
+  padding: 1rem 0.5rem;
+}
+.sell-heading-container
+  .sell-quantity-counter
+  .counter-value
+  input::placeholder {
+  color: black;
+}
+.sell-heading-container .sell-quantity-counter .minus svg {
+  width: 100%;
+  height: 100%;
+}
+.sell-heading-container .sell-quantity-box button {
+  width: 100%;
+  margin-top: 1.5rem;
+  outline: none;
+  border: none;
+  background-color: red;
+  padding: 1rem 0rem;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  cursor: pointer;
+}
+.sell-heading-container .sell-quantity-box button.disabled {
+  background-color: rgba(255, 0, 0, 0.397);
+}
+@media screen and (max-width: 530px) {
+  .sell-right-container {
+    padding: 1rem 0.5rem;
+  }
+  .sell-right-container .title-container p {
+    font-size: 1.3rem;
+  }
+  .sell-right-container .title-container img {
+    width: 12px;
+  }
+
+  .sell-heading-container .sell-crypto-info img {
+    width: 80px;
+  }
+  .sell-heading-container .sell-crypto .sell-crypto-name p {
+    font-size: 1.5rem;
+  }
+  .sell-heading-container .sell-crypto .sell-crypto-name span {
+    color: rgba(255, 255, 255, 0.637);
+    font-size: 0.9rem;
+  }
+  .sell-heading-container .sell-price-container h3 {
+    font-size: 2rem;
+  }
+  .sell-heading-container .sell-price-container span.down {
+    font-size: 1rem;
+  }
+  .sell-heading-container .sell-price-container span.up {
+    font-size: 1rem;
+  }
+  .sell-heading-container .sell-quantity-counter .plus {
+    width: 30px;
+  }
+
+  .sell-heading-container .sell-quantity-counter .minus {
+    width: 30px;
+  }
+  .sell-heading-container .sell-quantity-counter .counter-value input {
+    padding: 0.5rem 0rem;
+  }
+}

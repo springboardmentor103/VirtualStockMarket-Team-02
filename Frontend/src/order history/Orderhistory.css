@@ -1,0 +1,140 @@
+.orderhistory-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.orderhistory-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.orderhistory-container .orderhistory-stocks-container {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.orderhistory-container
+  .orderhistory-stocks-container
+  .history-title-container {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0rem;
+}
+.orderhistory-container .orderhistory-stocks-container .title-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0rem 0.5rem;
+  margin-bottom: 0rem;
+}
+.orderhistory-container .orderhistory-stocks-container .title-container p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  text-underline-offset: 6px;
+  /*margin-left: 1rem;*/
+}
+.history-container {
+  width: 100%;
+  padding: 1rem;
+  height: 80vh;
+  margin-top: 1rem;
+}
+
+.history-container .history-title p {
+  color: white;
+  font-size: 25px;
+}
+.history-container .order-content {
+  overflow-y: scroll;
+
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  background-color: #454140;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+.history-container .order-content .order {
+  margin-top: 2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+.history-container .order-content .order:hover {
+  background-color: gray;
+}
+.history-container .order-content .order h2 {
+  color: white;
+}
+.history-container .order-content .order i {
+  color: orange;
+  font-size: 40px;
+}
+.history-container .order-content .order .price-container {
+  display: flex;
+  flex-direction: column;
+}
+.history-container .order-content .order .price-container p {
+  color: white;
+}
+.history-container .order-content .order .price-container p:last-child.up {
+  color: green;
+}
+.history-container .order-content .order .price-container p:last-child.down {
+  color: red;
+}
+.history-container .order-content .error {
+  color: white;
+  text-align: center;
+}
+@media screen and (max-width: 530px) {
+  .historyorder-container .historyorder-stocks-container {
+    padding: 1rem;
+  }
+  .historyorder-container
+    .historyorder-stocks-container
+    .history-title-container {
+    max-width: 100%;
+    padding: 0rem 0rem;
+  }
+  .historyorder-container .historyorder-stocks-container .title-container {
+    padding: 0rem 0rem;
+    margin-bottom: 2rem;
+  }
+  .historyorder-container .historyorder-stocks-container .title-container img {
+    width: 10px;
+  }
+  .historyorder-container .historyorder-stocks-container .title-container p {
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+  }
+  .history-container .order-content .order {
+    margin-top: 1rem;
+  }
+  .history-container .order-content .order h2 {
+    font-size: 20px;
+  }
+  .history-container .order-content .order i {
+    font-size: 30px;
+  }
+  .history-container .order-content .order .price-container p {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 385px) {
+  .history-container .order-content .order h2 {
+    font-size: 15px;
+  }
+}

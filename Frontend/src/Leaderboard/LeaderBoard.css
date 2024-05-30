@@ -1,0 +1,175 @@
+.leader-board {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  position: relative;
+}
+
+.leaderboard-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.leaderboard-right-cover {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Darken the overlay */
+  backdrop-filter: blur(5px);
+  /* Add blur effect */
+}
+
+.leaderboard-right-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.leaderboard-right-container .title-container {
+  margin-bottom: 20px;
+}
+
+.leaderboard-right-container .title-container p {
+  font-size: 2rem;
+  margin: 0;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.profile-info-container {
+  width: 100%;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #555;
+  background-color: rgba(255, 255, 255, 0.1);
+  /* Lighten the row background */
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.user-row:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.user-row:last-child {
+  border-bottom: none;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: row;
+  /* Ensure horizontal layout */
+}
+
+.badge-parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 10px;
+}
+
+.badge {
+  height: 30px;
+  width: 30px;
+  background-color: #ffa500;
+  /* Change badge color to orange */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  /* Add a subtle shadow */
+}
+
+.badge-1 {
+  background-color: gold;
+}
+
+.badge-2 {
+  background-color: #c0c0c0;
+  /* Change silver to a lighter gray */
+}
+
+.badge-3 {
+  background-color: #cd7f32;
+  /* Use bronze color */
+}
+
+.user-icon {
+  height: 48px;
+  width: 48px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.user-text {
+  display: flex;
+  flex-direction: column;
+  /* Adjust the text container */
+  color: white;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-name {
+  font-size: 1.2rem;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.user-score {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.user-username {
+  font-size: 0.8rem;
+  color: #aaa;
+}
