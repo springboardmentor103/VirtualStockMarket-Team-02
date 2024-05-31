@@ -40,6 +40,10 @@ mongodb()
     app.use("/api", require("./Routes/leaderboard"));
     app.use("/api", require("./Routes/APICoinMarket"));
     app.use("/api", require("./Routes/loginAttempts"));
+    app.use("/api", require("./Routes/gmailVerification"));
+    app.use("/api", require("./Routes/verifyemail"));
+    app.use("/api", require("./Routes/updateuser"));
+
     app.listen(port, () => {
       console.log(`Virtual stock market Platform listening on port ${port}`);
     });

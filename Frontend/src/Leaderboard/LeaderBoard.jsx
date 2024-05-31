@@ -12,6 +12,7 @@ const LeaderBoard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [fillbg, setfillbg] = useState(null);
   const { tokenState, setselectedcrypto, setactivecolor } =
     useContext(datacontext);
   useEffect(() => {
@@ -32,6 +33,20 @@ const LeaderBoard = () => {
       navigate("/forgetPassword");
     }
   }, [tokenState, navigate]);
+  const generateRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  useEffect(() => {
+    const randomColors = Array.from({ length: 10 }, generateRandomColor);
+    const randomElement =
+      randomColors[Math.floor(Math.random() * randomColors.length)];
+    setfillbg(randomElement);
+  }, []);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -93,7 +108,16 @@ const LeaderBoard = () => {
                     <div className="initial">{}</div>
                   </div>
                   <div className="user-details">
-                    <div className="user-icon">{user.userName.charAt(0)}</div>
+                    <div
+                      className="user-icon"
+                      style={
+                        fillbg
+                          ? { backgroundColor: fillbg }
+                          : { backgroundColor: "transparent" }
+                      }
+                    >
+                      {user.userName.charAt(0).toLocaleUpperCase()}
+                    </div>
                     <div className="user-text">
                       <h3 className="user-name">{user.userName}</h3>
                       <div className="user-score">

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
-const bcrypt = require("bcrypt");
 const User = require("../Models/User");
 const { verifyauthtoken } = require("../Middleware/authtoken");
 const { validateupdateuser } = require("../Middleware/validate");
@@ -12,15 +11,6 @@ router.put(
   verifyauthtoken,
   [
     body("email").optional().isEmail().withMessage("Invalid Email format"),
-    body("password")
-      .optional()
-      .isLength({ min: 8 })
-      .withMessage("Password must be at least 8 characters long")
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/)
-      .withMessage(
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-      )
-      .trim(),
     body("name")
       .optional()
       .isLength({ min: 3 })
@@ -31,7 +21,7 @@ router.put(
   async (req, res) => {
     try {
       const updates = {};
-      const { name, email, password } = req.body;
+      const { name, email } = req.body;
 
       if (name) updates.name = name;
       if (email) {
@@ -43,11 +33,6 @@ router.put(
           });
         }
         updates.email = email;
-      }
-      if (password) {
-        const salt = await bcrypt.genSalt(10);
-        const secPassword = await bcrypt.hash(password, salt);
-        updates.password = secPassword;
       }
 
       const updatedUser = await User.findByIdAndUpdate(

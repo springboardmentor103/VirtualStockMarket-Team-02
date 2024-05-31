@@ -112,17 +112,6 @@ export default function Trending() {
   };
 
   const handleSelectedCrypto = async (symbol, index) => {
-    //setIsLoading(true);
-    //const details = await fetchCryptoDetails(symbol);
-    //setIsLoading(false);
-    //if (details) {
-    //console.log(filteredCryptoData[index]);
-    /*setselectedcrypto({
-      coin: filteredCryptoData[index].symbol,
-      name: filteredCryptoData[index].name,
-    });*/
-    //console.log(index, filteredCryptoData[index]);
-    //console.log(selectedcrypto);
     if (filteredCryptoData[index]) {
       localStorage.setItem(
         "symbol",
@@ -137,18 +126,8 @@ export default function Trending() {
       });
       navigate("/Buy-Sell");
     }
-    //navigate("/Buy-Sell");
-    /*} else {
-      seterr("Failed to fetch crypto details");
-    }*/
   };
-  /*useEffect(() => {
-    if (selectedcrypto) {
-      navigate("/Buy-Sell");
-    } else {
-      navigate("/TrendingStocks");
-    }
-  }, [selectedcrypto, navigate]);*/
+
   return (
     <div className="Trending-container">
       {isLoading ? <Loader /> : ""}

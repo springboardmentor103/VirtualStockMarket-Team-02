@@ -9,18 +9,21 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./Account.css";
+import Loader from "../Loader/Loader";
 export default function Account() {
   const navigate = useNavigate();
 
-  const { dispdata, tokenState, setactivecolor, setselectedcrypto } =
+  const { tokenState, setactivecolor, setselectedcrypto } =
     useContext(datacontext);
   const [changeData, setchangeData] = useState({
-    name: dispdata.name,
-    email: dispdata.email,
-    password: "*********",
+    name: "",
+    email: "",
+    otp: "",
   });
-  const [err, seterr] = useState({ name: "", email: "", password: "" });
+  const [err, seterr] = useState({ name: "", email: "", otp: "" });
   const [isLoading, setIsLoading] = useState(false);
+  const [showotpscreen, setshowotpscreen] = useState(false);
+  const [fillbg, setfillbg] = useState(null);
 
   useEffect(() => {
     setselectedcrypto(null);
@@ -67,33 +70,6 @@ export default function Account() {
         }
       }
     }
-    if (!data.password) {
-      errors.password = "Password required.";
-      isValid = false;
-    } else {
-      if (isValidPassword(data.password).length === 0) {
-        if (data.password.length < 8) {
-          errors.password = "Password must be min 8 characters";
-          isValid = false;
-        }
-      }
-      if (isValidPassword(data.password).length > 0) {
-        if (data.password.length < 8) {
-          errors.password = "Password must be min 8 characters";
-          const passerr = isValidPassword(data.password);
-          errors.password =
-            errors.password + " and must contain atleast " + passerr.join(" ");
-          isValid = false;
-        } else {
-          const passerr = isValidPassword(data.password);
-
-          errors.password =
-            "Password must atleast contain " + passerr.join(" ");
-          isValid = false;
-        }
-      }
-    }
-
     seterr(errors);
     return isValid;
   };
@@ -102,7 +78,20 @@ export default function Account() {
       /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
     return emailRegex.test(email);
   };
-
+  const generateRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  useEffect(() => {
+    const randomColors = Array.from({ length: 10 }, generateRandomColor);
+    const randomElement =
+      randomColors[Math.floor(Math.random() * randomColors.length)];
+    setfillbg(randomElement);
+  }, []);
   const isActiveEmail = async (email) => {
     const url = `https://ipqualityscore-ipq-proxy-detection-v1.p.rapidapi.com/json/email/JPvN22bzJRDtHVsameBKGVqN6w0fJhf6/${email}`;
     const options = {
@@ -135,22 +124,43 @@ export default function Account() {
       return;
     }
   };
-  const isValidPassword = (password) => {
-    let errors = [];
-    if (!/(?=.*[A-Z])/.test(password)) {
-      errors.push("one uppercase letter");
-    }
-    if (!/(?=.*[a-z])/.test(password)) {
-      errors.push("one lowercase letter");
-    }
-    if (!/(?=.*\d)/.test(password)) {
-      errors.push("one number");
-    }
-    if (!/(?=.*[@$!%*?&])/.test(password)) {
-      errors.push("one special character");
-    }
-    return errors;
-  };
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("http://localhost:8000/api/dashboard", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setIsLoading(false);
+          setchangeData({
+            name: data.user.name,
+            email: data.user.email,
+            otp: "",
+          });
+        }
+      } catch (error) {
+        setIsLoading(false);
+        toast.error("Internal Server Error.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
   const handleChange = async (e) => {
     console.log("clicked");
     e.preventDefault();
@@ -164,16 +174,208 @@ export default function Account() {
         setIsLoading(false);
         return;
       }
-      const response = await fetch("http://localhost:8000/api/updateuser", {
-        method: "POST",
+      const response = await fetch("http://localhost:8000/api/dashboard", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(changeData),
+        credentials: "include",
       });
       const data = await response.json();
+      if (response.ok) {
+        if (
+          data.user.email === changeData.email &&
+          data.user.name === changeData.name
+        ) {
+          setIsLoading(false);
+          toast.error("Full Name and Email already exist.", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+        if (data.user.email !== changeData.email) {
+          const responsesendtoken = await fetch(
+            "http://localhost:8000/api/sendverificationemail",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email: data.user.email }),
+              credentials: "include",
+            }
+          );
+          const datatoken = await responsesendtoken.json();
+          console.log(datatoken);
+          if (responsesendtoken.ok) {
+            setIsLoading(false);
+            setshowotpscreen(true);
+            toast.success(
+              `Your OTP has been successfully sent to email ${data.user.email}`,
+              {
+                position: "top-center",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              }
+            );
+          }
+        }
+        if (data.user.name !== changeData.name) {
+          const updateuser = await fetch(
+            "http://localhost:8000/api/updateuser",
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: changeData.name,
+              }),
+              credentials: "include",
+            }
+          );
+          const updateinfo = await updateuser.json();
+          console.log(updateinfo);
+          if (updateuser.ok) {
+            setIsLoading(false);
+            toast.success(`Your Details have been successfully updated.`, {
+              position: "top-center",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
+        }
+      }
     } catch (error) {
+      console.log(error);
+      setIsLoading(false);
       toast.error("Internal Server Error.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+  const handleotpverify = async (e) => {
+    try {
+      e.preventDefault();
+      setIsLoading(true);
+      if (!changeData.otp) {
+        setIsLoading(false);
+        seterr({ name: "", email: "", otp: "OTP is Required" });
+        return;
+      }
+      const response = await fetch("http://localhost:8000/api/dashboard", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (response.ok) {
+        const verifytoken = await fetch(
+          "http://localhost:8000/api/verifyemail",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: data.user.email,
+              verificationToken: changeData.otp,
+            }),
+            credentials: "include",
+          }
+        );
+        const verify = await verifytoken.json();
+        console.log(verify);
+        if (verifytoken.ok) {
+          setIsLoading(false);
+          seterr({ name: "", email: "", otp: "" });
+          toast.success(`Your OTP has been successfully verified`, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+
+          const updateuser = await fetch(
+            "http://localhost:8000/api/updateuser",
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: changeData.name,
+                email: changeData.email,
+              }),
+              credentials: "include",
+            }
+          );
+          const userinfo = await updateuser.json();
+          console.log(userinfo);
+          if (updateuser.ok) {
+            setIsLoading(false);
+            toast.success(`Your Details have been successfully updated.`, {
+              position: "top-center",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              onClose: () => {
+                setshowotpscreen(false);
+              },
+            });
+          }
+        }
+        if (!verify.success) {
+          setIsLoading(false);
+          toast.error(`${verify.message}`, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      toast.error(`Internal server error`, {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
@@ -189,11 +391,12 @@ export default function Account() {
     const { name, value } = e.target;
     setchangeData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "otp" ? value.slice(0, 6) : value,
     }));
   };
   return (
     <div className="account-container">
+      {isLoading ? <Loader /> : ""}
       <img src={bg} alt="bg" className="account-bg" />
       <Sidebars />
       <div className="account-right-cover">
@@ -203,11 +406,25 @@ export default function Account() {
             <p>Account</p>
           </div>
           <div className="profile-info-container">
-            <div className="profile-pic">
-              <img src={profile} alt="pic" />
+            <div
+              className="profile-pic"
+              style={
+                fillbg
+                  ? { backgroundColor: fillbg }
+                  : { backgroundColor: "transparent" }
+              }
+            >
+              <p>{changeData.name.charAt(0).toLocaleUpperCase()}</p>
             </div>
-            <form onSubmit={handleChange} className="fields-cover">
-              <div className="field-container">
+            <form
+              onSubmit={showotpscreen ? handleotpverify : handleChange}
+              className="fields-cover"
+            >
+              <div
+                className={`field-container name-field ${
+                  showotpscreen ? "show" : ""
+                }`}
+              >
                 <span>Full name</span>
                 <div className="field">
                   <input
@@ -220,7 +437,11 @@ export default function Account() {
                   <p>{err.name}</p>
                 </div>
               </div>
-              <div className="field-container">
+              <div
+                className={`field-container email-field ${
+                  showotpscreen ? "show" : ""
+                }`}
+              >
                 <span>Email</span>
                 <div className="field">
                   <input
@@ -233,20 +454,24 @@ export default function Account() {
                   <p>{err.email}</p>
                 </div>
               </div>
-              <div className="field-container">
-                <span>Password</span>
+              <div
+                className={`field-container otp-field ${
+                  showotpscreen ? "show" : ""
+                }`}
+              >
+                <span>OTP</span>
                 <div className="field">
                   <input
-                    type="text"
-                    name="password"
-                    placeholder="Enter Password"
-                    value={changeData.password}
+                    type="number"
+                    placeholder="Enter OTP"
+                    name="otp"
+                    value={changeData.otp}
                     onChange={handleInputChange}
                   />
-                  <p>{err.password}</p>
+                  <p>{err.otp}</p>
                 </div>
               </div>
-              <button type="submit">Save</button>
+              <button type="submit">{showotpscreen ? "Verify" : "Save"}</button>
             </form>
           </div>
         </div>
