@@ -200,6 +200,17 @@
 .sell-heading-container
   .sell-quantity-counter
   .counter-value
+  input::-webkit-outer-spin-button,
+.sell-heading-container
+  .sell-quantity-counter
+  .counter-value
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sell-heading-container
+  .sell-quantity-counter
+  .counter-value
   input::placeholder {
   color: black;
 }

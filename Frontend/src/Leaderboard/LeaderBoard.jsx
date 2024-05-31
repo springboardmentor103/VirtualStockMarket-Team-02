@@ -74,9 +74,9 @@ const LeaderBoard = () => {
 
   return (
     <div className="leader-board">
+      <Sidebars />
       {loading ? <Loader /> : ""}
       <img src={bg} alt="Background" className="leaderboard-bg" />
-      <Sidebars />
       <main className="leaderboard-right-cover">
         <div className="leaderboard-right-container">
           <div className="title-container">
@@ -96,7 +96,9 @@ const LeaderBoard = () => {
                     <div className="user-icon">{user.userName.charAt(0)}</div>
                     <div className="user-text">
                       <h3 className="user-name">{user.userName}</h3>
-                      <div className="user-score">{user.totalProfit}</div>
+                      <div className="user-score">
+                        {Number(user.totalProfit).toFixed(2)}
+                      </div>
                       <div className="user-username">{user.userEmail}</div>
                     </div>
                   </div>

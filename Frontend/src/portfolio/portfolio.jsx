@@ -114,11 +114,12 @@ export default function Portfolio() {
 
   return (
     <div className="portfolio-container">
+      {isLoading && <Loader />}
       <div className="portfolio-bg"></div>
       <Sidebars />
       <div className="portfolio-content">
         <div className="portfolio-header">
-          <h1>Portfolio</h1>
+          <p>Portfolio</p>
           {tokenState.user && (
             <div className="user-email-box">
               <button className="logout">Logout</button>
@@ -126,7 +127,6 @@ export default function Portfolio() {
             </div>
           )}
         </div>
-        {isLoading && <Loader />}
         {portfolioData && (
           <div className="portfolio-details">
             {portfolioSummary}

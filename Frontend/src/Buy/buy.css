@@ -188,6 +188,17 @@
   background-color: #b8b7b9;
   padding: 1rem 0.5rem;
 }
+.buy-heading-container
+  .buy-quantity-counter
+  .counter-value
+  input::-webkit-outer-spin-button,
+.buy-heading-container
+  .buy-quantity-counter
+  .counter-value
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .buy-heading-container .buy-quantity-counter .counter-value input::placeholder {
   color: black;
 }

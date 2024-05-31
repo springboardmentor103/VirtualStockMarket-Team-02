@@ -15,6 +15,7 @@ export default function Sell() {
   const [isLoading, setIsLoading] = useState(false);
   const [cryptodetails, setcryptodetails] = useState(null);
   const [disable, setdisable] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const {
     tokenState,
@@ -137,6 +138,22 @@ export default function Sell() {
       navigate("/TrendingStocks");
     }
   }, [selectedcrypto, navigate]);
+  useEffect(() => {
+    if (showToast) {
+      toast.error(`Don't have enough ${selectedcrypto.name} Crypto`, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setShowToast(false);
+    }
+  }, [showToast]);
+
   const handleSelling = async () => {
     try {
       if (!count) {
@@ -266,6 +283,7 @@ export default function Sell() {
         setdisable(false);
       } else {
         setdisable(true);
+        setShowToast(true);
       }
 
       return newCount;
@@ -279,6 +297,7 @@ export default function Sell() {
           setdisable(false);
         } else {
           setdisable(true);
+          setShowToast(true);
         }
 
         return newCount;
@@ -294,6 +313,7 @@ export default function Sell() {
           setdisable(false);
         } else {
           setdisable(true);
+          setShowToast(true);
         }
 
         return newCount;
@@ -422,6 +442,7 @@ export default function Sell() {
                               setdisable(false);
                             } else {
                               setdisable(true);
+                              setShowToast(true);
                             }
                           }}
                         />

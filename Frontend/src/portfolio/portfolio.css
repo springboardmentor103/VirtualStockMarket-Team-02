@@ -5,7 +5,6 @@
   color: white;
   background-color: rgba(18, 18, 18, 0.8);
   position: relative;
-  overflow: hidden;
 }
 
 .portfolio-bg {
@@ -27,9 +26,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding: 1rem 0rem;
+  padding-right: 0.5rem;
   z-index: 1;
-  overflow-y: auto;
+  /*overflow-y: auto;
+  overflow-x: hidden;*/
 }
 
 .portfolio-header {
@@ -37,26 +38,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0;
+  box-sizing: border-box; /* Ensure padding is included in the element's total width */
 }
 
-.portfolio-header h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0;
+.portfolio-header p {
+  font-size: 1.5rem;
   color: white;
-  position: relative;
-}
-
-.portfolio-header h1::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 2px;
-  background-color: #ddd;
-  position: absolute;
-  bottom: -5px;
-  left: 0;
 }
 
 .portfolio-header .user-email-box {
@@ -77,47 +64,55 @@
 }
 
 .portfolio-details {
+  margin-top: 2rem;
   width: 100%;
-  max-width: 1200px;
+  max-width: 80%;
+  /*max-width: 1200px;*/
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 0rem; /* Ensure there's padding to handle overflow on smaller screens */
+  box-sizing: border-box;
 }
 
 .portfolio-summary {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 4rem; /* Increased gap for better spacing */
+  gap: 1.5rem;
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-top: 4rem; /* Added margin-top for spacing from the header */
+  /*margin-top: 2rem;*/
+  box-sizing: border-box;
+  /*margin-left: 30%;*/
 }
 
 .summary-item {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centered the summary items */
-  flex-direction: row;
+  justify-content: center;
+  width: 100%; /* Ensure it scales with the container */
+  box-sizing: border-box;
 }
 
 .summary-circle {
-  width: 70px;
-  height: 70px;
+  width: 60px; /* Smaller width for better fit */
+  height: 60px; /* Smaller height for better fit */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem; /* Adjusted font-size */
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-right: 1rem;
+  box-sizing: border-box;
 }
 
 .summary-text {
-  text-align: left;
   color: white;
+  box-sizing: border-box;
 }
 
 .summary-text p {
@@ -127,7 +122,7 @@
 }
 
 .summary-text h2 {
-  font-size: 1.5rem;
+  font-size: 1.2rem; /* Adjusted font-size */
   margin: 0.5rem 0;
 }
 
@@ -140,13 +135,14 @@
 }
 
 .balance-container {
+  border: 1px solid purple;
   width: 100%;
-  max-width: 1400px;
+  max-width: 100%;
   background: rgba(44, 44, 84, 0.8);
   border-radius: 10px;
   padding: 2rem;
   text-align: center;
-  margin-top: 6rem; /* Increased margin-top for better spacing */
+  margin-top: 4rem;
   color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -172,4 +168,98 @@
   color: red;
   font-size: 1.2rem;
   margin-top: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .portfolio-details {
+    max-width: 90%;
+  }
+  .summary-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .summary-circle {
+    margin: 0 0 0.2rem 0;
+  }
+  .balance-container {
+    margin-top: 2rem;
+  }
+  .summary-text {
+    text-align: center;
+  }
+  .portfolio-content {
+    padding: 0.5rem 0rem;
+    padding-top: 1.5rem;
+  }
+
+  /*.portfolio-header {
+    padding: 1rem 0.5rem;
+  }
+
+  .portfolio-header p {
+    font-size: 1.5rem;
+  }
+
+  .portfolio-header .user-email-box {
+    margin-left: 0.5rem;
+  }
+
+  .summary-item {
+    margin-bottom: 2rem;
+    flex-direction: column; 
+  }
+
+  .summary-circle {
+    margin: 0 0 1rem 0; 
+  }
+  .summary-text p {
+    margin-left: 15%;
+  }
+  .summary-text h2 {
+    margin-left: 20%;
+  }
+  .balance-container {
+    margin-top: 4rem;
+    padding: 1rem;
+  }
+  .portfolio-summary {
+    margin-left: 8%;
+    gap: 1.5rem;
+  }*/
+}
+@media only screen and (max-width: 500px) {
+  .portfolio-details {
+    max-width: 100%;
+    padding: 0rem 0rem;
+  }
+  .portfolio-content {
+    padding-right: 0.5rem;
+  }
+  /*.portfolio-header {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .portfolio-header p {
+    font-size: 2rem;
+  }
+
+  .portfolio-header h1::after {
+    bottom: -5px;
+  }
+
+  .portfolio-header .user-email-box {
+    margin-left: 1rem;
+    align-items: flex-end;
+  }
+
+  .portfolio-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .balance-container {
+    margin-top: 6rem;
+  }*/
 }

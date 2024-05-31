@@ -15,7 +15,7 @@ export default function Buy() {
   const [isLoading, setIsLoading] = useState(false);
   const [cryptodetails, setcryptodetails] = useState(null);
   const [disable, setdisable] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const {
     tokenState,
     selectedcrypto,
@@ -140,6 +140,21 @@ export default function Buy() {
       navigate("/TrendingStocks");
     }
   }, [navigate, selectedcrypto]);
+  useEffect(() => {
+    if (showToast) {
+      toast.error("Don't have enough Cash Balance", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setShowToast(false);
+    }
+  }, [showToast]);
   const handlePurchase = async () => {
     try {
       if (!count) {
@@ -263,6 +278,7 @@ export default function Buy() {
       const newCount = prevCount + 1;
       if (cryptodetails.price * newCount > cryptodetails.cashbalance) {
         setdisable(true);
+        setShowToast(true);
       } else {
         setdisable(false);
       }
@@ -276,6 +292,7 @@ export default function Buy() {
         const newCount = prevCount - 0.01;
         if (cryptodetails.price * newCount > cryptodetails.cashbalance) {
           setdisable(true);
+          setShowToast(true);
         } else {
           setdisable(false);
         }
@@ -291,6 +308,7 @@ export default function Buy() {
         const newCount = prevCount - 1;
         if (cryptodetails.price * newCount > cryptodetails.cashbalance) {
           setdisable(true);
+          setShowToast(true);
         } else {
           setdisable(false);
         }
@@ -421,6 +439,7 @@ export default function Buy() {
                               cryptodetails.cashbalance
                             ) {
                               setdisable(true);
+                              setShowToast(true);
                             } else {
                               setdisable(false);
                             }
