@@ -1,8 +1,10 @@
+
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const User = require("../Models/User");
+const EmailVerification = require("../Models/EmailVerification");
 
 // Create a transporter for sending emails
 const transporter = nodemailer.createTransport({
@@ -27,13 +29,13 @@ router.post(
       .withMessage("Invalid Email format"),
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: errors.array()[0].msg });
+    }
+
     try {
       const { email } = req.body;
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        return res.status(404).json({ success: false, message: "User not found" });
-      }
 
       // Generate a 6-digit numeric verification token
       const verificationToken = generateVerificationToken();
@@ -41,10 +43,23 @@ router.post(
       // Send verification email
       await sendVerificationEmail(email, verificationToken);
 
-      // Save verification token and expiry to user document
-      user.verificationToken = verificationToken;
-      user.verificationTokenExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
-      await user.save();
+      // Try to find the email verification entry in the database
+      let emailVerification = await EmailVerification.findOne({ email });
+
+      // If the entry exists, update the verification token and expiry
+      if (emailVerification) {
+        emailVerification.verificationToken = verificationToken;
+        emailVerification.verificationTokenExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+      } else {
+        // If the entry does not exist, create a new one
+        emailVerification = new EmailVerification({
+          email,
+          verificationToken,
+          verificationTokenExpiry: new Date(Date.now() + 10 * 60 * 1000),
+        });
+      }
+
+      await emailVerification.save();
 
       res.status(200).json({ success: true, message: "Verification email sent successfully" });
     } catch (error) {
