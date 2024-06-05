@@ -70,12 +70,22 @@ module.exports = router;*/
 const express = require("express");
 const router = express.Router();
 const { verifyauthtoken } = require("../Middleware/authtoken");
+const user = require("../Models/User"); // Import the user model
 const purchase = require("../Models/Purchase");
-const { getCoinData } = require("../Middleware/getCoinData");
 
 router.get("/portfolio", verifyauthtoken, async (req, res) => {
   try {
     const userPurchases = await purchase.find({ UserId: req.payload._id });
+    const userinfo = await user.findOne({ _id: req.payload._id });
+
+    if (!userinfo) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const name = userinfo.name;
+    const email = userinfo.email;
 
     let totalProfit = 0;
     let totalLoss = 0;
@@ -83,79 +93,76 @@ router.get("/portfolio", verifyauthtoken, async (req, res) => {
     let todayLoss = 0;
     let totalAmount = 0;
 
-    const symbols = new Set();
-    userPurchases.forEach((purchase) => {
-      purchase.purchases.forEach((item) => {
-        symbols.add(item.cryptoSymbol);
+    const cryptoTransactions = {};
+
+    // Process each purchase record
+    userPurchases.forEach((purchaseRecord) => {
+      totalAmount += purchaseRecord.cashBalance;
+
+      purchaseRecord.purchases.forEach((item) => {
+        const {
+          cryptoSymbol,
+          quantity,
+          purchasePrice,
+          timestamp,
+          purchasetype,
+        } = item;
+
+        if (!cryptoTransactions[cryptoSymbol]) {
+          cryptoTransactions[cryptoSymbol] = [];
+        }
+
+        cryptoTransactions[cryptoSymbol].push({
+          quantity,
+          purchasePrice,
+          timestamp,
+          purchasetype,
+        });
       });
     });
 
-    if (symbols.size === 0) {
-      return res.status(200).json({
-        success: true,
-        totalPortfolio: {
-          totalProfit,
-          totalLoss,
-          todayProfit,
-          todayLoss,
-          totalAmount: 10000,
-        },
+    // Calculate profit and loss based on transaction history
+    for (const symbol in cryptoTransactions) {
+      const transactions = cryptoTransactions[symbol];
+
+      transactions.forEach((transaction, index) => {
+        const { quantity, purchasePrice, timestamp, purchasetype } =
+          transaction;
+
+        if (purchasetype === "SELL") {
+          const matchingBuys = transactions
+            .slice(0, index)
+            .filter((t) => t.purchasetype === "BUY" && t.quantity > 0);
+          let remainingQuantity = quantity;
+
+          matchingBuys.forEach((buyTransaction) => {
+            if (remainingQuantity <= 0) return;
+
+            const soldQuantity = Math.min(
+              remainingQuantity,
+              buyTransaction.quantity
+            );
+            const profitLoss =
+              (purchasePrice - buyTransaction.purchasePrice) * soldQuantity;
+
+            if (profitLoss > 0) {
+              totalProfit += profitLoss;
+              if (isToday(timestamp)) {
+                todayProfit += profitLoss;
+              }
+            } else {
+              totalLoss += Math.abs(profitLoss);
+              if (isToday(timestamp)) {
+                todayLoss += Math.abs(profitLoss);
+              }
+            }
+
+            buyTransaction.quantity -= soldQuantity;
+            remainingQuantity -= soldQuantity;
+          });
+        }
       });
     }
-
-    const symbolArray = Array.from(symbols);
-    const symbolPrices = {};
-
-    for (const symbol of symbolArray) {
-      try {
-        const data = await getCoinData(symbol);
-        const priceData = data.data[symbol];
-        if (
-          priceData &&
-          priceData[0] &&
-          priceData[0].quote &&
-          priceData[0].quote.USD &&
-          priceData[0].quote.USD.price
-        ) {
-          symbolPrices[symbol] = priceData[0].quote.USD.price;
-        } else {
-          console.warn(`Price data for ${symbol} is not available`);
-        }
-      } catch (error) {
-        console.warn(`Error fetching data for ${symbol}:`, error);
-      }
-    }
-
-    for (const purchase of userPurchases) {
-      totalAmount += purchase.cashBalance;
-
-      for (const item of purchase.purchases) {
-        const currentPrice = symbolPrices[item.cryptoSymbol];
-
-        if (!currentPrice) {
-          continue;
-        }
-
-        const transactionAmount = item.quantity * currentPrice;
-        const transactionProfitLoss =
-          (currentPrice - item.purchasePrice) * item.quantity;
-
-        if (transactionProfitLoss > 0) {
-          totalProfit += transactionProfitLoss;
-          if (isToday(item.timestamp)) {
-            todayProfit += transactionProfitLoss;
-          }
-        } else {
-          totalLoss += Math.abs(transactionProfitLoss); // Use absolute value for losses
-          if (isToday(item.timestamp)) {
-            todayLoss += Math.abs(transactionProfitLoss); // Use absolute value for losses
-          }
-        }
-      }
-    }
-
-    console.log("Symbols and Current Prices:");
-    console.log(symbolPrices);
 
     res.status(200).json({
       success: true,
@@ -165,6 +172,10 @@ router.get("/portfolio", verifyauthtoken, async (req, res) => {
         todayProfit,
         todayLoss,
         totalAmount,
+      },
+      user: {
+        name,
+        email,
       },
     });
   } catch (error) {

@@ -118,18 +118,6 @@ function Login() {
         if (attemptdata.message === "Password Invalid") {
           setIsLoading(false);
           seterr({ email: "", password: "Enter correct password." });
-        } else {
-          setIsLoading(false);
-          toast.error(`${attemptdata.message}`, {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
         }
       }
     } catch (error) {
@@ -236,8 +224,6 @@ function Login() {
           <h2>Login</h2>
           <form onSubmit={handleLoginSubmit}>
             <div className="email">
-              <label htmlFor="email">Email</label>
-              <br />
               <input
                 type="text"
                 name="email"
@@ -250,8 +236,6 @@ function Login() {
               <span>{err.email}</span>
             </div>
             <div className="password">
-              <label htmlFor="password">Password</label>
-              <br />
               <input
                 type="password"
                 name="password"

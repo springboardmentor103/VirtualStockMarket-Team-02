@@ -33,7 +33,6 @@
 
 .Trending-container .Trending-stocks-container .search-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 0rem 0rem;
@@ -55,7 +54,7 @@
 }
 
 .Trending-container .Trending-stocks-container .search-container .right {
-  width: 100%;
+  width: 85%;
 }
 
 .Trending-container .Trending-stocks-container .search-container .right input {

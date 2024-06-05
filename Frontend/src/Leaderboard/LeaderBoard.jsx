@@ -33,20 +33,6 @@ const LeaderBoard = () => {
       navigate("/forgetPassword");
     }
   }, [tokenState, navigate]);
-  const generateRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
-  useEffect(() => {
-    const randomColors = Array.from({ length: 10 }, generateRandomColor);
-    const randomElement =
-      randomColors[Math.floor(Math.random() * randomColors.length)];
-    setfillbg(randomElement);
-  }, []);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -110,11 +96,7 @@ const LeaderBoard = () => {
                   <div className="user-details">
                     <div
                       className="user-icon"
-                      style={
-                        fillbg
-                          ? { backgroundColor: fillbg }
-                          : { backgroundColor: "transparent" }
-                      }
+                      style={{ backgroundColor: user.userProfile }}
                     >
                       {user.userName.charAt(0).toLocaleUpperCase()}
                     </div>

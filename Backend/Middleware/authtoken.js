@@ -4,7 +4,8 @@ const verifyauthtoken = (req, res, next) => {
     if (
       req.url === "/otpgenerate" ||
       req.url === `/otpmatching` ||
-      req.url === `/newpassword`
+      req.url === `/newpassword` ||
+      req.url === "/verifyemail"
     ) {
       return next();
     }

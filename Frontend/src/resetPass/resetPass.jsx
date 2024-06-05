@@ -55,7 +55,7 @@ function ForgetPassword() {
           "You have successfully created new password, now proceed to login.",
           {
             position: "top-center",
-            autoClose: 1000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

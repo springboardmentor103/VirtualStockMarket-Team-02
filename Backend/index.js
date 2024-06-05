@@ -43,6 +43,8 @@ mongodb()
     app.use("/api", require("./Routes/gmailVerification"));
     app.use("/api", require("./Routes/verifyemail"));
     app.use("/api", require("./Routes/updateuser"));
+    app.use("/api", require("./Routes/SendOtpUserIdCheck"));
+    app.use("/api", require("./Routes/CrossCheckEmail"));
 
     app.listen(port, () => {
       console.log(`Virtual stock market Platform listening on port ${port}`);

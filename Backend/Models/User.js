@@ -140,8 +140,8 @@ const userschema = new Schema({
     type: String,
     required: true,
   },
-  phone: {
-    type: Number,
+  profilepiccolor: {
+    type: String,
   },
   password: {
     type: String,
@@ -182,6 +182,14 @@ const userschema = new Schema({
   verificationToken: {
     type: String,
     default: null,
+  },
+  registerToken: {
+    type: String,
+    default: null,
+  },
+  isRegisterVerified: {
+    type: Boolean,
+    default: false,
   },
   date: {
     type: Date,

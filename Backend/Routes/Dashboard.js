@@ -17,6 +17,7 @@ router.get("/dashboard", verifyauthtoken, async (req, res) => {
 
     const name = userinfo.name;
     const email = userinfo.email;
+    const color = userinfo.profilepiccolor;
 
     let purchases = [];
     if (purchaseUser) {
@@ -44,6 +45,7 @@ router.get("/dashboard", verifyauthtoken, async (req, res) => {
       user: {
         name,
         email,
+        color,
         purchases,
       },
     });

@@ -19,11 +19,12 @@ export default function Account() {
     name: "",
     email: "",
     otp: "",
+    color: "",
   });
   const [err, seterr] = useState({ name: "", email: "", otp: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [showotpscreen, setshowotpscreen] = useState(false);
-  const [fillbg, setfillbg] = useState(null);
+  const fillbg = localStorage.getItem("color");
 
   useEffect(() => {
     setselectedcrypto(null);
@@ -78,20 +79,6 @@ export default function Account() {
       /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
     return emailRegex.test(email);
   };
-  const generateRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
-  useEffect(() => {
-    const randomColors = Array.from({ length: 10 }, generateRandomColor);
-    const randomElement =
-      randomColors[Math.floor(Math.random() * randomColors.length)];
-    setfillbg(randomElement);
-  }, []);
   const isActiveEmail = async (email) => {
     const url = `https://ipqualityscore-ipq-proxy-detection-v1.p.rapidapi.com/json/email/JPvN22bzJRDtHVsameBKGVqN6w0fJhf6/${email}`;
     const options = {
@@ -142,6 +129,7 @@ export default function Account() {
             name: data.user.name,
             email: data.user.email,
             otp: "",
+            color: data.user.color,
           });
         }
       } catch (error) {
@@ -408,11 +396,7 @@ export default function Account() {
           <div className="profile-info-container">
             <div
               className="profile-pic"
-              style={
-                fillbg
-                  ? { backgroundColor: fillbg }
-                  : { backgroundColor: "transparent" }
-              }
+              style={{ backgroundColor: changeData.color }}
             >
               <p>{changeData.name.charAt(0).toLocaleUpperCase()}</p>
             </div>

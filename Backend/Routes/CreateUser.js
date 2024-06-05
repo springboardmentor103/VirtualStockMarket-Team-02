@@ -4,6 +4,14 @@ const user = require("../Models/User");
 const { body } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { validatecreateuser } = require("../Middleware/validate");
+const generateRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
 router.post(
   "/createuser",
   [
@@ -51,11 +59,15 @@ router.post(
         message: { email: ["Email already exists."] },
       });
     }
+    const randomColors = Array.from({ length: 10 }, generateRandomColor);
+    const randomElement =
+      randomColors[Math.floor(Math.random() * randomColors.length)];
     await user
       .create({
         name: req.body.name,
         email: req.body.email,
         password: secpassword,
+        profilepiccolor: randomElement,
       })
       .then(() => {
         res.status(201).json({

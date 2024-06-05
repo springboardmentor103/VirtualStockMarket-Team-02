@@ -31,66 +31,72 @@ function Register() {
     name: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showotp, setshowotp] = useState(false);
+
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Perform validation
-    const validate = await validation(signupData);
-    
+    const validate = await validation1(signupData);
+
     if (!validate) {
       // If validation fails, stop the signup process and set loading to false
       setIsLoading(false);
       return;
     }
-  
+
     try {
-      const response = await fetch("http://localhost:8000/api/createuser", {
+      const response = await fetch("http://localhost:8000/api/checkemail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(signupData),
+        body: JSON.stringify({ email: signupData.email }),
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
-        toast.success(
-          "You have successfully created the account, now proceed to login.",
-          {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            onClose: () => {
-              setSignupData({
-                email: "",
-                password: "",
-                name: "",
-              });
-              seterr({
-                name: "",
-                email: "",
-                password: "",
-              });
-              navigate("/login");
-            },
-          }
-        );
-      } else {
-        if (data.message.email) {
-          seterr((prevErr) => ({
-            ...prevErr,
-            email: data.message.email[0],
-          }));
-        }
+        toast.success(`${data.message}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          onClose: () => {
+            /*setSignupData({
+              email: "",
+              password: "",
+              name: "",
+            });
+            seterr({
+              name: "",
+              email: "",
+              password: "",
+            });
+            navigate("/login");*/
+            setshowotp(true);
+          },
+        });
       }
+      if (!data.success) {
+        seterr((prevErr) => ({
+          ...prevErr,
+          email: data.message,
+        }));
+      }
+      /*if (data.message.email) {
+        seterr((prevErr) => ({
+          ...prevErr,
+          email: data.message.email[0],
+        }));
+      }*/
     } catch (error) {
+      console.log(error);
       toast.error("Internal Server Error.", {
         position: "top-center",
         autoClose: 1000,
@@ -105,11 +111,11 @@ function Register() {
       setIsLoading(false);
     }
   };
-  
-  const validation = async (data) => {
+
+  const validation1 = async (data) => {
     let isValid = true;
-    const errors = { email: "", password: "", name: "" };
-    
+    const errors = { email: "", password: "", name: "", otp: "" };
+
     if (!data.name) {
       errors.name = "FullName required.";
       isValid = false;
@@ -123,7 +129,7 @@ function Register() {
         isValid = false;
       }
     }
-  
+
     if (!data.email) {
       errors.email = "Email required.";
       isValid = false;
@@ -139,22 +145,23 @@ function Register() {
         }
       }
     }
-  
+
     if (!data.password) {
       errors.password = "Password required.";
       isValid = false;
     } else {
       const passerr = isValidPassword(data.password);
       if (passerr.length > 0 || data.password.length < 8) {
-        errors.password = "Password must be at least 8 characters long and must contain at least " + passerr.join(", ");
+        errors.password =
+          "Password must be at least 8 characters long and must contain at least " +
+          passerr.join(", ");
         isValid = false;
       }
     }
-  
+
     seterr(errors);
     return isValid;
   };
-  
 
   const isValidEmail = (email) => {
     const emailRegex =
@@ -210,12 +217,106 @@ function Register() {
     }
     return errors;
   };
+  const handleotp = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
 
+    // Perform validation
+    const validate = await validation2(signupData);
+
+    if (!validate) {
+      // If validation fails, stop the signup process and set loading to false
+      setIsLoading(false);
+      return;
+    }
+    const response = await fetch("http://localhost:8000/api/crosscheckemail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: signupData.email,
+        verificationToken: signupData.otp,
+      }),
+      credentials: "include",
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      toast.success("OTP has been verified.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      const responsecreate = await fetch(
+        "http://localhost:8000/api/createuser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(signupData),
+        }
+      );
+
+      const createdata = await responsecreate.json();
+      if (responsecreate.ok) {
+        setIsLoading(false);
+        toast.success("You have successfully created account.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          onClose: () => {
+            setSignupData({
+              email: "",
+              password: "",
+              name: "",
+              otp: "",
+            });
+            seterr({
+              name: "",
+              email: "",
+              password: "",
+              otp: "",
+            });
+            setshowotp(false);
+            navigate("/login");
+          },
+        });
+      }
+    }
+    if (!data.success) {
+      setIsLoading(false);
+      seterr({ name: "", email: "", password: "", otp: `${data.message}` });
+    }
+  };
+  const validation2 = async (data) => {
+    let isValid = true;
+    const errors = { email: "", password: "", name: "", otp: "" };
+
+    if (!data.otp) {
+      errors.otp = "OTP required.";
+      isValid = false;
+    }
+
+    seterr(errors);
+    return isValid;
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setSignupData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "otp" ? value.slice(0, 6) : value,
     }));
   };
   return (
@@ -231,8 +332,8 @@ function Register() {
             Empowering Your Trades: Where <br /> Opportunities Meet Expertise
           </h1>
           <h2>Signup</h2>
-          <form onSubmit={handleSignupSubmit}>
-            <div className="name">
+          <form onSubmit={showotp ? handleotp : handleSignupSubmit}>
+            <div className={showotp ? "name" : "name show"}>
               <input
                 type="text"
                 name="name"
@@ -244,7 +345,7 @@ function Register() {
               />
               <span>{err.name}</span>
             </div>
-            <div className="email">
+            <div className={showotp ? "email" : "email show"}>
               <input
                 type="text"
                 name="email"
@@ -256,7 +357,7 @@ function Register() {
               />
               <span>{err.email}</span>
             </div>
-            <div className="password">
+            <div className={showotp ? "password" : "password show"}>
               <input
                 type="password"
                 name="password"
@@ -268,16 +369,39 @@ function Register() {
               />
               <span>{err.password}</span>
             </div>
-            <div className="check-link-container">
+            <div className={`${showotp ? "otp show" : "otp"}`}>
+              <input
+                type="number"
+                name="otp"
+                id="otp"
+                className={`${err.otp ? "err" : ""}`}
+                placeholder="OTP"
+                value={signupData.otp}
+                onChange={handleInputChange}
+              />
+              <span>{err.otp}</span>
+            </div>
+            <div
+              className={`${
+                showotp ? "check-link-container" : "check-link-container show"
+              }`}
+            >
               <div className="checkbox">
-                <input type="checkbox" name="checkbox" id="checkbox" required />
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  required={!showotp}
+                />
                 <label htmlFor="checkbox">
                   I agree to the Terms of Services and Privacy Policy
                 </label>
               </div>
             </div>
             <div className="submit">
-              <button type="submit">Create an account</button>
+              <button type="submit">
+                {!showotp ? "Create an Account" : "Verify OTP"}
+              </button>
             </div>
           </form>
           <div className="login-link-container">

@@ -52,6 +52,20 @@
 .signup-form-container form .check-link-container {
   margin-bottom: 1rem;
 }
+.signup-form-container form .email,
+.signup-form-container form .otp,
+.signup-form-container form .password,
+.signup-form-container form .name,
+.signup-form-container form .check-link-container {
+  display: none;
+}
+.signup-form-container form .email.show,
+.signup-form-container form .otp.show,
+.signup-form-container form .password.show,
+.signup-form-container form .name.show,
+.signup-form-container form .check-link-container.show {
+  display: block;
+}
 .signup-form-container form .password {
   margin-bottom: 0rem;
 }
@@ -73,6 +87,16 @@
 .signup-form-container form .name input,
 .signup-form-container form .password input,
 .signup-form-container form .otp input {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 1rem 0.5rem;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 0px;
+}
+.signup-form-container form .otp input::-webkit-outer-spin-button,
+.signup-form-container form .otp input::-webkit-inner-spin-button {
   background-color: transparent;
   color: white;
   border: 1px solid white;

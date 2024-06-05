@@ -47,6 +47,7 @@ function ForgetPassword() {
         body: JSON.stringify({ email: forgetData.email }),
         credentials: "include",
       });
+      console.log(response1);
       const data1 = await response1.json();
       console.log(data1);
       if (response1.ok && data1.success) {
