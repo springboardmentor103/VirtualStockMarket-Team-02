@@ -1,0 +1,274 @@
+.buy-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.buy-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.buy-right-cover {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.buy-right-container {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem;
+}
+.buy-right-container .title-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0rem 0.5rem;
+  margin-bottom: 0rem;
+}
+.buy-right-container .title-container img {
+  transform: rotate(-180deg);
+  cursor: pointer;
+}
+.buy-right-container .title-container p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  text-underline-offset: 6px;
+  cursor: pointer;
+}
+.buy-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+.buy-heading-container {
+  margin-bottom: 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.buy-heading-container .buy-crypto .buy-crypto-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.buy-heading-container .buy-crypto-info img {
+  width: 100px;
+  margin-right: 1rem;
+}
+.buy-heading-container .buy-crypto .buy-crypto-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.buy-heading-container .buy-crypto .buy-crypto-name p {
+  color: white;
+  font-size: 2rem;
+}
+.buy-heading-container .buy-crypto .buy-crypto-name span {
+  color: rgba(255, 255, 255, 0.637);
+  font-size: 1rem;
+}
+
+.buy-heading-container .buy-price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.buy-heading-container .buy-price-container h3 {
+  color: white;
+  font-size: 2.3rem;
+}
+.buy-heading-container .buy-price-container span.down {
+  color: rgb(255, 0, 0);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+.buy-heading-container .buy-price-container span img {
+  width: 20px;
+  margin-right: 3px;
+}
+.buy-heading-container .buy-price-container span {
+  margin-top: 5px;
+}
+.buy-heading-container .buy-price-container span.up {
+  color: rgb(16, 138, 42);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+.buy-heading-container .buy-crypto-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+.buy-heading-container .buy-crypto-stats div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.buy-heading-container .buy-crypto-stats div p {
+  font-size: 1rem;
+}
+.buy-heading-container .buy-crypto-stats div span {
+  font-size: 0.8rem;
+  color: #ffffffe1;
+}
+.buy-heading-container .buy-quantity-box {
+  background-color: #252430;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.buy-heading-container .buy-quantity p {
+  color: #f4f5f6;
+  text-align: center;
+}
+.buy-heading-container .buy-quantity-counter {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0rem;
+}
+.buy-heading-container .buy-quantity-counter .plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.buy-heading-container .buy-quantity-counter .plus svg {
+  width: 100%;
+  height: 100%;
+}
+.buy-heading-container .buy-quantity-counter .minus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.buy-heading-container .buy-quantity-counter .counter-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #b8b7b9;
+  color: black;
+}
+.buy-heading-container .buy-quantity-counter .counter-value input {
+  outline: none;
+  border: none;
+  color: black;
+  background-color: #b8b7b9;
+  padding: 1rem 0.5rem;
+}
+.buy-heading-container
+  .buy-quantity-counter
+  .counter-value
+  input::-webkit-outer-spin-button,
+.buy-heading-container
+  .buy-quantity-counter
+  .counter-value
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.buy-heading-container .buy-quantity-counter .counter-value input::placeholder {
+  color: black;
+}
+.buy-heading-container .buy-quantity-counter .minus svg {
+  width: 100%;
+  height: 100%;
+}
+.buy-heading-container .buy-quantity-box .crypto-holdings {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.buy-heading-container .buy-quantity-box .crypto-holdings p {
+  color: white;
+}
+
+.buy-heading-container .buy-quantity-box button {
+  width: 100%;
+  margin-top: 1.5rem;
+  outline: none;
+  border: none;
+  background-color: rgb(3, 90, 3);
+  padding: 1rem 0rem;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  cursor: pointer;
+}
+.buy-heading-container .buy-quantity-box button.disabled {
+  background-color: rgba(3, 90, 3, 0.541);
+}
+@media screen and (max-width: 530px) {
+  .buy-right-container {
+    padding: 1rem 0.5rem;
+  }
+  .buy-right-container .title-container p {
+    font-size: 1.3rem;
+  }
+  .buy-right-container .title-container img {
+    width: 12px;
+  }
+
+  .buy-heading-container .buy-crypto-info img {
+    width: 80px;
+  }
+  .buy-heading-container .buy-crypto .buy-crypto-name p {
+    font-size: 1.5rem;
+  }
+  .buy-heading-container .buy-crypto .buy-crypto-name span {
+    font-size: 0.9rem;
+  }
+  .buy-heading-container .buy-price-container h3 {
+    font-size: 2rem;
+  }
+  .buy-heading-container .buy-price-container span.down {
+    font-size: 1rem;
+  }
+  .buy-heading-container .buy-price-container span.up {
+    font-size: 1rem;
+  }
+  .buy-heading-container .buy-quantity-counter .plus {
+    width: 30px;
+  }
+
+  .buy-heading-container .buy-quantity-counter .minus {
+    width: 30px;
+  }
+  .buy-heading-container .buy-quantity-counter .counter-value input {
+    padding: 0.5rem 0rem;
+  }
+}

@@ -1,0 +1,158 @@
+.account-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.account-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.account-right-cover {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.account-right-container {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem;
+}
+.account-right-container .title-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0rem 0.5rem;
+  margin-bottom: 0rem;
+}
+.account-right-container .title-container p {
+  color: white;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+.account-right-container .profile-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60%;
+  width: 60%;
+  border-radius: 5px;
+  margin-top: 2rem;
+  padding: 1.2rem 1.5rem;
+  background-color: #131212;
+}
+.profile-info-container .profile-pic {
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+  padding: 1rem;
+  height: 100px;
+}
+.profile-info-container .profile-pic p {
+  color: white;
+  font-size: 5rem;
+}
+
+.profile-info-container .fields-cover {
+  width: 100%;
+}
+.profile-info-container .fields-cover .field-container {
+  margin-top: 2rem;
+  width: 100%;
+  position: relative;
+}
+.profile-info-container
+  .fields-cover
+  .field-container.otp-field
+  div
+  input::-webkit-outer-spin-button,
+.profile-info-container
+  .fields-cover
+  .field-container.otp-field
+  div
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.profile-info-container .fields-cover .field-container.otp-field {
+  display: none;
+}
+.profile-info-container .fields-cover .field-container.name-field {
+  display: flex;
+}
+.profile-info-container .fields-cover .field-container.email-field {
+  display: flex;
+}
+.profile-info-container .fields-cover .field-container.name-field.show {
+  display: none;
+}
+.profile-info-container .fields-cover .field-container.email-field.show {
+  display: none;
+}
+.profile-info-container .fields-cover .field-container.otp-field.show {
+  display: flex;
+}
+.profile-info-container .fields-cover .field-container span {
+  color: white;
+  background-color: #1d1958;
+  padding: 3px 7px;
+  position: absolute;
+  top: -15px;
+  left: 10px;
+  font-size: 12px;
+}
+.profile-info-container .fields-cover .field-container p {
+  color: red;
+  margin-top: 0.3rem;
+}
+.profile-info-container .fields-cover .field-container div {
+  width: 100%;
+  overflow: hidden;
+}
+.profile-info-container .fields-cover .field-container div input {
+  color: white;
+  width: 100%;
+  border: 1px solid #908fec;
+  border-radius: 5px;
+  padding: 1rem;
+  overflow: hidden;
+  background-color: transparent;
+  outline: none;
+}
+.profile-info-container button {
+  cursor: pointer;
+  color: white;
+  outline: none;
+  border: none;
+  background-color: #3500d4;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1rem 1rem;
+  border-radius: 5px;
+  margin-top: 2.5rem;
+}
+@media screen and (max-width: 786px) {
+  .account-right-container .profile-info-container {
+    min-width: 80%;
+    width: 80%;
+  }
+}
+@media screen and (max-width: 530px) {
+  .account-right-container .profile-info-container {
+    min-width: 100%;
+    width: 100%;
+  }
+}
