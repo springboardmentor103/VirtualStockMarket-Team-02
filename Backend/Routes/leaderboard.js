@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const router = express.Router();
 const Purchase = require("../Models/Purchase");
@@ -12,7 +14,7 @@ router.get("/leaderboard", async (req, res) => {
       const userPurchases = await Purchase.findOne({ UserId: currentUser._id });
 
       if (!userPurchases) {
-        continue; 
+        continue;
       }
 
       let totalBuyAmount = 0;
@@ -20,9 +22,9 @@ router.get("/leaderboard", async (req, res) => {
 
       if (userPurchases.purchases) {
         userPurchases.purchases.forEach((transaction) => {
-          if (transaction.purchasetype === 'BUY') {
+          if (transaction.purchasetype === "BUY") {
             totalBuyAmount += transaction.quantity * transaction.purchasePrice;
-          } else if (transaction.purchasetype === 'SELL') {
+          } else if (transaction.purchasetype === "SELL") {
             totalSellAmount += transaction.quantity * transaction.purchasePrice;
           }
         });
@@ -34,6 +36,7 @@ router.get("/leaderboard", async (req, res) => {
         userId: currentUser._id,
         userName: currentUser.name,
         userEmail: currentUser.email,
+        userProfile: currentUser.profilepiccolor,
         totalProfit: totalProfit.toFixed(6),
       });
     }
