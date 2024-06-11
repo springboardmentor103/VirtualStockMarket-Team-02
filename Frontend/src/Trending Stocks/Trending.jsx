@@ -138,7 +138,7 @@ export default function Trending() {
           <div className="search-container">
             <div className="left">
               {/*<img src={logo11} alt="logo11" className="Trending-logo11" />*/}
-              <p>Stocks</p>
+              <p>Crypto</p>
             </div>
             <div className="right">
               <input
@@ -152,7 +152,7 @@ export default function Trending() {
           </div>
           <div className="stocks-container">
             <div className="stocks-title">
-              <p>Top Cryptos</p>
+              <p>My Cryptos</p>
             </div>
             <TableContainer
               component={Paper}

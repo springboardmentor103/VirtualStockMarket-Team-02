@@ -85,7 +85,7 @@
 
 .user-row:hover {
   background-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.02);
+  transform: scale(1);
 }
 
 .user-row:last-child {
@@ -161,6 +161,7 @@
 .user-details {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .user-name {
