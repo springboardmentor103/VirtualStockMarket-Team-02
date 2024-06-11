@@ -7,6 +7,15 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebars from "../sidebar/Sidebars";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableHead,
+  Paper,
+} from "@mui/material";
 import Loader from "../Loader/Loader";
 import { datacontext } from "../Datacontext";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
@@ -17,7 +26,9 @@ export default function Portfolio() {
   const [isLoading, setIsLoading] = useState(false);
   const [portfolioData, setPortfolioData] = useState(null);
   const [err, setErr] = useState("");
-  const { setdispdata, tokenState } = useContext(datacontext);
+  const { setdispdata, tokenState, fetchCryptoDetails } =
+    useContext(datacontext);
+  const [cryptoquantitylist, setcryptoquantitylist] = useState(null);
 
   const getPortfolioDetails = useCallback(
     async (signal) => {
@@ -52,6 +63,83 @@ export default function Portfolio() {
     },
     [setdispdata]
   );
+  const getUserCryptoQuantity = useCallback(
+    async (signal) => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("http://localhost:8000/api/dashboard", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          signal,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          const sortedcrypto = data.user.purchases;
+
+          const cryptoQuantities = {};
+          const fetchedDetails = {};
+
+          const fetchAllDetails = async () => {
+            for (const purchase of sortedcrypto) {
+              const { cryptoname, quantity, purchaseType, cryptoSymbol } =
+                purchase;
+
+              // Fetch details only if not already fetched
+              if (!fetchedDetails[cryptoSymbol]) {
+                const details = await fetchCryptoDetails(cryptoSymbol);
+                fetchedDetails[cryptoSymbol] = details.imageurl;
+              }
+
+              if (!cryptoQuantities[cryptoname]) {
+                cryptoQuantities[cryptoname] = {
+                  quantity: 0,
+                  imageurl: fetchedDetails[cryptoSymbol],
+                  symbol: cryptoSymbol,
+                };
+              }
+
+              if (purchaseType === "BUY") {
+                cryptoQuantities[cryptoname].quantity += quantity;
+              } else {
+                cryptoQuantities[cryptoname].quantity -= quantity;
+              }
+            }
+
+            // Convert the aggregated quantities object into an array of objects
+            const sortedCrypto = Object.keys(cryptoQuantities).map(
+              (cryptoname) => ({
+                cryptoname,
+                quantity: cryptoQuantities[cryptoname].quantity,
+                imageurl: cryptoQuantities[cryptoname].imageurl,
+                symbol: cryptoQuantities[cryptoname].symbol,
+              })
+            );
+
+            setcryptoquantitylist(sortedCrypto);
+          };
+
+          fetchAllDetails();
+
+          setErr("");
+        } else {
+          const errorData = await response.json();
+          setErr(errorData.message);
+        }
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setErr("Internal server error");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [setdispdata]
+  );
 
   useEffect(() => {
     if (!tokenState.authtoken) {
@@ -61,6 +149,7 @@ export default function Portfolio() {
 
     const controller = new AbortController();
     getPortfolioDetails(controller.signal);
+    getUserCryptoQuantity(controller.signal);
 
     return () => {
       controller.abort();
@@ -138,6 +227,128 @@ export default function Portfolio() {
           </div>
         )}
         {err && <div className="error">{err}</div>}
+        <div className="crypto-list-container">
+          <p>Crypto Holdings</p>
+          {cryptoquantitylist && (
+            <TableContainer
+              component={Paper}
+              style={{ backgroundColor: "transparent", height: "100%" }}
+            >
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    <TableCell
+                      style={{
+                        color: "white",
+                        backgroundColor: "#454140",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    ></TableCell>
+                    <TableCell
+                      style={{
+                        color: "white",
+                        backgroundColor: "#454140",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
+                      Name
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        color: "white",
+                        backgroundColor: "#454140",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
+                      Quantity
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {!err ? (
+                    cryptoquantitylist.map((singlecoin, index) => (
+                      <TableRow
+                        key={index}
+                        style={{ cursor: "pointer" }}
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "gray",
+                          },
+                        }}
+                      >
+                        <TableCell
+                          align="center"
+                          style={{
+                            maxWidth: "50px",
+                            width: "50px",
+                            margin: "0px",
+                            paddingLeft: "0px",
+                            paddingRight: "0px",
+                          }}
+                        >
+                          <img
+                            src={singlecoin.imageurl}
+                            alt="crypt"
+                            style={{
+                              width: "100%",
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            color: "white",
+                            margin: "0px",
+                            paddingLeft: "0px",
+                            paddingRight: "0px",
+                          }}
+                          align="center"
+                        >
+                          {singlecoin.cryptoname}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            color: "white",
+                            margin: "0px",
+                            paddingLeft: "0px",
+                            paddingRight: "0px",
+                          }}
+                          align="center"
+                        >
+                          {singlecoin.quantity} {singlecoin.symbol}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={4}
+                        style={{
+                          color: "white",
+                          textAlign: "center",
+                          margin: "0px",
+                          paddingLeft: "0px",
+                          paddingRight: "0px",
+                          borderBottom: "0px",
+                        }}
+                      >
+                        {err}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </div>
       </div>
     </div>
   );

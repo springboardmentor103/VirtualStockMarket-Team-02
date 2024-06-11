@@ -49,6 +49,7 @@
 .Trending-container .Trending-stocks-container .search-container .left p {
   color: white;
   text-decoration: underline;
+  text-underline-offset: 5px;
   font-size: 1.5rem;
   /*margin-left: 1rem;*/
 }

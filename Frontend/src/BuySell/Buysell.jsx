@@ -124,7 +124,7 @@ export default function Buysell() {
               alt="logo11"
               onClick={() => navigate("/TrendingStocks")}
             />
-            <p onClick={() => navigate("/TrendingStocks")}>Stock Detail</p>
+            <p onClick={() => navigate("/TrendingStocks")}>Crypto Detail</p>
           </div>
           {cryptodatas ? (
             <div className="crypto-info-container">
@@ -241,7 +241,9 @@ export default function Buysell() {
                             }}
                             align="center"
                           >
-                            {cryptodatas ? cryptodatas.open.toFixed(2) : ""}
+                            {cryptodatas
+                              ? `$ ${cryptodatas.open.toFixed(2)}`
+                              : ""}
                           </TableCell>
                           <TableCell
                             style={{
@@ -252,7 +254,9 @@ export default function Buysell() {
                             }}
                             align="center"
                           >
-                            {cryptodatas ? cryptodatas.high.toFixed(2) : ""}
+                            {cryptodatas
+                              ? `$ ${cryptodatas.high.toFixed(2)}`
+                              : ""}
                           </TableCell>
                           <TableCell
                             style={{
@@ -263,7 +267,9 @@ export default function Buysell() {
                             }}
                             align="center"
                           >
-                            {cryptodatas ? cryptodatas.low.toFixed(2) : ""}
+                            {cryptodatas
+                              ? `$ ${cryptodatas.low.toFixed(2)}`
+                              : ""}
                           </TableCell>
                         </TableRow>
                       </TableBody>

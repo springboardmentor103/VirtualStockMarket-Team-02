@@ -253,7 +253,8 @@ function ForgetPassword() {
         </div>
         <div className="forgotpassword-form-container">
           <h1>
-            Empowering Your Trades: Where <br /> Opportunities Meet Expertise
+            Empowering Your Crypto Trades: Where <br /> Opportunities Meet
+            Expertise
           </h1>
           <h2>Forgot Your Password?</h2>
           <p>

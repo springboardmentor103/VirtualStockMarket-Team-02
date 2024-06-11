@@ -55,7 +55,7 @@ function ForgetPassword() {
           "You have successfully created new password, now proceed to login.",
           {
             position: "top-center",
-            autoClose: 3000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -230,7 +230,8 @@ function ForgetPassword() {
           </div>
           <div className="reset-form-container">
             <h1>
-              Empowering Your Trades: Where <br /> Opportunities Meet Expertise
+              Empowering Your Crypto Trades: Where <br /> Opportunities Meet
+              Expertise
             </h1>
             <h2>Reset Your Password?</h2>
             <p>Enter New Password</p>

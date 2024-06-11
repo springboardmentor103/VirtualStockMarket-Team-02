@@ -138,7 +138,7 @@ export default function Trending() {
           <div className="search-container">
             <div className="left">
               {/*<img src={logo11} alt="logo11" className="Trending-logo11" />*/}
-              <p>Crypto</p>
+              <p>Cryptos</p>
             </div>
             <div className="right">
               <input

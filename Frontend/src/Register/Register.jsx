@@ -329,7 +329,8 @@ function Register() {
         </div>
         <div className="signup-form-container">
           <h1>
-            Empowering Your Trades: Where <br /> Opportunities Meet Expertise
+            Empowering Your Crypto Trades: Where <br /> Opportunities Meet
+            Expertise
           </h1>
           <h2>Signup</h2>
           <form onSubmit={showotp ? handleotp : handleSignupSubmit}>
