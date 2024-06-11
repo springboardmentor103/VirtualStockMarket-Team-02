@@ -49,6 +49,7 @@ router.post("/buy", verifyauthtoken, async (req, res) => {
     purchaseUser.cashBalance -= totalAmount;
 
     purchaseUser.purchases.push({
+      remainingbalance: purchaseUser.cashBalance,
       cryptoSymbol,
       quantity,
       purchasePrice: currentPrice,
@@ -116,6 +117,7 @@ router.post("/sell", verifyauthtoken, async (req, res) => {
     purchaseUser.cashBalance += totalAmount;
 
     purchaseUser.purchases.push({
+      remainingbalance: purchaseUser.cashBalance,
       cryptoSymbol,
       quantity,
       purchasePrice: currentPrice,

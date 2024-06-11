@@ -16,6 +16,9 @@ const purchaseschema = new Schema({
         cryptoSymbol: {
           type: String,
         },
+        remainingbalance: {
+          type: String,
+        },
         assetId: {
           type: Number,
         },

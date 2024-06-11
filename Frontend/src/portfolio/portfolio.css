@@ -178,8 +178,7 @@
   max-width: 80%;
   display: block;
   padding: 1rem;
-  max-height: 50vh;
-  height: 50vh;
+  height: 70vh;
 }
 .portfolio-content .crypto-list-container p {
   color: white;

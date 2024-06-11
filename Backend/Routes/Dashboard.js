@@ -35,6 +35,7 @@ router.get("/dashboard", verifyauthtoken, async (req, res) => {
             info: purchase.info || "NIL",
             percent: purchase.purchasepercent,
             timestamp: purchase.timestamp,
+            cashbalance: purchase.remainingbalance,
           };
         })
       );

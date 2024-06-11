@@ -80,14 +80,23 @@ export default function Portfolio() {
           const data = await response.json();
           console.log(data);
           const sortedcrypto = data.user.purchases;
+          if (sortedcrypto.length === 0) {
+            setErr("You have no Crypto Holdings yet.");
+            return;
+          }
 
           const cryptoQuantities = {};
           const fetchedDetails = {};
 
           const fetchAllDetails = async () => {
             for (const purchase of sortedcrypto) {
-              const { cryptoname, quantity, purchaseType, cryptoSymbol } =
-                purchase;
+              const {
+                cryptoname,
+                quantity,
+                purchaseType,
+                cryptoSymbol,
+                cashbalance,
+              } = purchase;
 
               // Fetch details only if not already fetched
               if (!fetchedDetails[cryptoSymbol]) {
@@ -100,23 +109,32 @@ export default function Portfolio() {
                   quantity: 0,
                   imageurl: fetchedDetails[cryptoSymbol],
                   symbol: cryptoSymbol,
+                  order: purchaseType,
+                  cash: cashbalance,
                 };
               }
 
               if (purchaseType === "BUY") {
                 cryptoQuantities[cryptoname].quantity += quantity;
+                cryptoQuantities[cryptoname].order = purchaseType;
+                cryptoQuantities[cryptoname].cash = cashbalance;
               } else {
                 cryptoQuantities[cryptoname].quantity -= quantity;
+                cryptoQuantities[cryptoname].order = purchaseType;
+                cryptoQuantities[cryptoname].cash = cashbalance;
               }
             }
 
             // Convert the aggregated quantities object into an array of objects
+
             const sortedCrypto = Object.keys(cryptoQuantities).map(
               (cryptoname) => ({
                 cryptoname,
                 quantity: cryptoQuantities[cryptoname].quantity,
                 imageurl: cryptoQuantities[cryptoname].imageurl,
                 symbol: cryptoQuantities[cryptoname].symbol,
+                order: cryptoQuantities[cryptoname].order,
+                cash: cryptoQuantities[cryptoname].cash,
               })
             );
 
@@ -232,7 +250,12 @@ export default function Portfolio() {
           {cryptoquantitylist && (
             <TableContainer
               component={Paper}
-              style={{ backgroundColor: "transparent", height: "100%" }}
+              style={{
+                backgroundColor: "transparent",
+                height: "85%",
+                maxHeight: "100%",
+                overflowY: "scroll",
+              }}
             >
               <Table stickyHeader>
                 <TableHead>
@@ -269,7 +292,31 @@ export default function Portfolio() {
                       }}
                       align="center"
                     >
+                      Order Type
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        color: "white",
+                        backgroundColor: "#454140",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
                       Quantity
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        color: "white",
+                        backgroundColor: "#454140",
+                        margin: "0px",
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                      }}
+                      align="center"
+                    >
+                      Balance
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -316,6 +363,17 @@ export default function Portfolio() {
                         </TableCell>
                         <TableCell
                           style={{
+                            color: singlecoin.order === "BUY" ? "green" : "red",
+                            margin: "0px",
+                            paddingLeft: "0px",
+                            paddingRight: "0px",
+                          }}
+                          align="center"
+                        >
+                          {singlecoin.order}
+                        </TableCell>
+                        <TableCell
+                          style={{
                             color: "white",
                             margin: "0px",
                             paddingLeft: "0px",
@@ -324,6 +382,17 @@ export default function Portfolio() {
                           align="center"
                         >
                           {singlecoin.quantity} {singlecoin.symbol}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            color: "white",
+                            margin: "0px",
+                            paddingLeft: "0px",
+                            paddingRight: "0px",
+                          }}
+                          align="center"
+                        >
+                          $ {Number(singlecoin.cash).toFixed(2)}
                         </TableCell>
                       </TableRow>
                     ))
