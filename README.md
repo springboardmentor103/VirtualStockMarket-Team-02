@@ -3,6 +3,13 @@ Create a virtual stock trading game where users can simulate buying and selling 
 
  **Note:** We opted to use live cryptocurrency data instead of stock data due to the unavailability of free real-time stock data APIs on the internet.
 
+## Overview
+
+![overview](https://github.com/mayurlad/Virtual-stock-market-game/assets/83766571/bc2dd2cc-351e-4d65-a498-107da33bddef)
+
+
+
+
 ## Table of Contents
 
 - Introduction
